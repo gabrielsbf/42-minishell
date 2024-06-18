@@ -9,7 +9,8 @@ typedef struct utils_prompt
 	char	**actual_text;
 	char	*path;
 	int		count_args;
-	int		entered_time;
+	int		input_num;
+	int		number_of_inputs;
 
 } t_prompt;
 // srcs/prompt_set/pipe_utils
@@ -19,8 +20,9 @@ void    	simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
 // srcs/prompt_set/struct_set
 void		free_str_in_pointer(char **string);
 void	    free_struct(t_prompt **prompt);
-t_prompt	*prompt_init(void);
-int			count_prompt_input(t_prompt **prompt);
+t_prompt	*init_prompt_struct(void);
+int			count_prompt_args(t_prompt **prompt);
+
 // ----- debug functions ----- maybe remove
 void		print_text_input(t_prompt **prompt);
 
