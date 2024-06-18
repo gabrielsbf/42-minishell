@@ -22,10 +22,3 @@ void    echo(char *argv[])
     if (trailing == 1)
         printf("\n");
 }
-
-int main(int argc, char *argv[])
-{
-    (void)argc;
-    // printf("runing echo in main\n");
-    echo(argv);
-}
