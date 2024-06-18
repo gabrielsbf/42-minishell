@@ -24,6 +24,7 @@ void	free_prompt_el(char *prefix, char *line_read)
 
 void    server_loop(t_prompt **prompt_st)
 {
+	(void)prompt_st;
 	char    *line_read;
 	char	*prefix_element;
 	while (1)

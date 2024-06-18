@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int main(int argc, char *argv[])
+int main(void)
 {
 	t_prompt *prompt_in;
 	

@@ -17,7 +17,7 @@ OBJS = $(FILTER_SRCS:%.c=$(DIR_OBJS)/%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A) $(DIR_OBJS)
-	$(COMPILER) $(OBJS) $(LIBFT_A) -o $(NAME)
+	$(COMPILER) $(OBJS) $(LIBFT_A) -lreadline -o $(NAME)
 
 $(DIR_OBJS):
 	mkdir builds
