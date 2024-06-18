@@ -12,19 +12,21 @@ GET_SRCS = $(shell find $(DIR_SRCS))
 
 FILTER_SRCS = $(filter %.c, $(GET_SRCS))
 
-OBJS = $(FILTER_SRCS:.c=.o)
+OBJS = $(FILTER_SRCS:%.c=$(DIR_OBJS)/%.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A) $(DIR_OBJS)
-	$(COMPILER) $(OBJS) $(LIBFT_A) -o $(NAME) && find ./srcs -type f -name "*.o" -exec mv {} builds \;
+	$(COMPILER) $(OBJS) $(LIBFT_A) -o $(NAME)
+
 $(DIR_OBJS):
 	mkdir builds
 
 $(LIBFT_A):
 	cd includes/libft && make && cd ../..
 
-.c.o:
+$(DIR_OBJS)/%.o : %.c
+	mkdir -p $(dir $@)
 	$(COMPILER) -c $< -o $@
 
 clean:
