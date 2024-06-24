@@ -27,11 +27,14 @@ void    server_loop(t_prompt **prompt_st)
 	(void)prompt_st;
 	char    *line_read;
 	char	*prefix_element;
+	char	**splitted_instructions;
 	while (1)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
-		printf("%s", line_read);
+		splitted_instructions = ft_split(line_read, ' ');
+		function_listener(splitted_instructions);
+		//printf("%s", line_read);
 		free_prompt_el(prefix_element, line_read);
 	}
 }
