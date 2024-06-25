@@ -13,6 +13,14 @@ typedef struct utils_prompt
 	int		number_of_inputs;
 
 } t_prompt;
+
+/* typedef struct history_list
+{
+	struct	history_list *next;
+	struct	history_list *prev;
+	char *command_history;
+}	t_history; */
+
 // srcs/prompt_set/pipe_utils
 int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
 void    	simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
