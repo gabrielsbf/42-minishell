@@ -1,9 +1,9 @@
 #include "../../includes/minishell.h"
 
 //Function probrably deprecated - need to update with new parsing
-void    simple_prompt_handler(int argc, char *argv[], t_prompt **prompt)
+void	simple_prompt_handler(int argc, char *argv[], t_prompt **prompt)
 {
-	int     i;
+	int	i;
 
 	i = 0;
 	(* prompt)->actual_text = (char **)malloc(sizeof(char *) * argc);
@@ -17,13 +17,13 @@ void    simple_prompt_handler(int argc, char *argv[], t_prompt **prompt)
 	(* prompt)->count_args = count_prompt_args(prompt);
 }
 
-int pipe_exec(int argc, char *argv[], t_prompt **prompt)
+int	pipe_exec(int argc, char *argv[], t_prompt **prompt)
 {
 	char *envp[] = {NULL};
 
 	simple_prompt_handler(argc, argv, prompt);
 	if (execve((*prompt)->path, (*prompt)->actual_text, envp) == -1)
-	{    
+	{
 		perror("command could not be executed.");
 		free_struct(prompt);
 	}

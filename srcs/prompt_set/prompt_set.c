@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-t_prompt    *init_prompt_struct(void)
+t_prompt	*init_prompt_struct(void)
 {
 	t_prompt *prompt_cons;
 
@@ -9,7 +9,7 @@ t_prompt    *init_prompt_struct(void)
 	return (prompt_cons);
 }
 
-void    free_str_in_pointer(char **string)
+void	free_str_in_pointer(char **string)
 {
 	int i;
 
@@ -21,14 +21,14 @@ void    free_str_in_pointer(char **string)
 	}
 }
 
-void    free_struct(t_prompt **prompt)
+void	free_struct(t_prompt **prompt)
 {
 	free_str_in_pointer((*prompt)->actual_text);
 	free((*prompt)->path);
 	free(prompt);
 }
 
-int count_prompt_args(t_prompt **prompt)
+int	count_prompt_args(t_prompt **prompt)
 {
 	int i;
 
@@ -39,14 +39,14 @@ int count_prompt_args(t_prompt **prompt)
 }
 
 //debug func
-void print_text_input(t_prompt **prompt)
+void	print_text_input(char **splitted_instructions)
 {
 	int i;
 
 	i = 0;
-	while ((*prompt)->actual_text[i] != NULL)
+	while (splitted_instructions[i] != NULL)
 	{
-		printf("%s\n", (*prompt)->actual_text[i]);
+		printf("arg[%d]: %s\n", i,  splitted_instructions[i]);
 		i++;
 	}
 }
