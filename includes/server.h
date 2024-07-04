@@ -4,11 +4,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char    *prompt_prefix(void);
+char	*prompt_prefix(void);
 void	free_prompt_el(char *prefix, char *line_read);
 void	server_loop(t_prompt **prompt_st);
-void	function_listener(char **splitted_instructions);
-void	echo(char **splitted_instructions);
-void	ft_fork();
 
+// srcs/built_ins/
+void		echo(char **splitted_instructions);
+void		ft_fork(void);
+void		function_listener(char **splitted_instructions);
 #endif
