@@ -16,11 +16,6 @@ char	*prompt_prefix(void)
 	return (prompt_prefix);
 }
 
-void	free_prompt_el(char *prefix, char *line_read)
-{
-	free(line_read);
-	free(prefix);
-}
 
 void	server_loop(t_prompt **prompt_st)
 {
@@ -37,6 +32,6 @@ void	server_loop(t_prompt **prompt_st)
 		// print_text_input(splitted_instructions);
 		// function_listener(splitted_instructions);
 		//printf("%s", line_read);
-		free_prompt_el(prefix_element, line_read);
+		free(prefix_element);
 	}
 }
