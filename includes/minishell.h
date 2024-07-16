@@ -3,6 +3,7 @@
 
 #include "pipe.h"
 #include "server.h"
+#include "maybe_libft.h"
 #include <signal.h>
 #include "libft/includes/libft.h"
 #include <stdio.h>
