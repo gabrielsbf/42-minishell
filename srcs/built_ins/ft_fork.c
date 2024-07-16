@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void ft_fork()
+void ft_fork(void)
 {
 	int	pid;
 
