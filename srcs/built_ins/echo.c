@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	echo(char **splitted_instructions)
+void	ft_echo(char **splitted_instructions)
 {
 	int i;
 	int trailing;

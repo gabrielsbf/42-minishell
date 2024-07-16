@@ -19,9 +19,9 @@ typedef struct utils_prompt
 {
 	char	**actual_text;
 	char	*path;
-	int	count_args;
-	int	input_num;
-	int	number_of_inputs;
+	int		count_args;
+	int		input_num;
+	int		number_of_inputs;
 
 }	t_prompt;
 
@@ -44,7 +44,6 @@ int			count_prompt_args(t_prompt **prompt);
 
 // ----- debug functions ----- maybe remove
 void		print_text_input(char **splitted_instructions);
-
 //Parsing - srcs/parsing/parser_set
 int			get_next_match(char *line_read, int position, char c);
 int			first_command_is_valid(char *line_read);
@@ -62,5 +61,4 @@ void		main_line_process(char *line_read);
 t_parse		*init_parse(char *line_read);
 //------Debug Function------ To Print
 void	print_parser_struct(t_parse **parser);
-
 #endif

@@ -8,7 +8,7 @@ void	function_listener(char **splitted_instructions)
 	while (splitted_instructions[i] != NULL)
 	{
 		if (ft_strncmp(splitted_instructions[i], "echo", 4) == 0)
-			echo (splitted_instructions);
+			ft_echo (splitted_instructions);
 		else if (ft_strncmp(splitted_instructions[i], "fork", 4) == 0)
 			ft_fork ();
 		else if (ft_strncmp(splitted_instructions[i], "exit", 4) == 0)
@@ -16,3 +16,4 @@ void	function_listener(char **splitted_instructions)
 		i++;
 	}
 }
+
