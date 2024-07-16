@@ -85,8 +85,7 @@ char **ft_realloc_two_lists(char **str, char **str_new)
 	while (str_new[i_last] != NULL)
 	{
 		new_arr[i++] = ft_strdup(str_new[i_last]);
-		free(str_new[i_last]);
-		i_last++;
+		free(str_new[i_last++]);
 	}
 	free(str);
 	free(str_new);
@@ -111,7 +110,9 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 		free(str[i]);
 		i++;
 	}
-	new_arr[i] = str_new;
+	new_arr[i] = ft_strdup(str_new);
+	new_arr[i + 1] = NULL;
+	free(str_new);
 	free(str);
 	return new_arr;
 }
