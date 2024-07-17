@@ -292,4 +292,5 @@ void	print_parser_struct(t_parse **parser)
 		printf("parser argument number %d is: %s\n", i, (*parser)->arguments[i]);
 		i++;
 	}
+	function_listener(parser); //podemos alocar em um local mais adequado
 }
