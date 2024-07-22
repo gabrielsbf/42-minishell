@@ -9,5 +9,11 @@ void	function_listener(t_parse **parser)
 	}
 	else if(ft_strncmp((*parser)->main_command, "exit", 4) == 0)
 		exit(0);
+	else if(ft_strncmp((*parser)->main_command, "pwd", 3) == 0)
+		pwd();
+	else if(ft_strncmp((*parser)->main_command, "ls", 2) == 0)
+		list_directory(".");
+	else if (ft_strncmp((*parser)->main_command, "cd", 2) == 0)
+		printf("cd\n");
 }
 

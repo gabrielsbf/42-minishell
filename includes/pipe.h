@@ -8,12 +8,20 @@ typedef struct parsing
 {
 	char	*entire_text;
 	char	*main_command;
-	char	**flags;
+	char	**flags;//n
 	char	**arguments;
-	char	*special_char;
+	char	*special_char;//n
 	struct	parsing *next;
 
 }	t_parse;
+
+typedef struct s_env
+{
+	char	*key;
+	char 	*var;
+	struct	s_env *next;
+	struct	s_env *head;
+}	t_env;
 
 typedef struct utils_prompt
 {
@@ -24,13 +32,6 @@ typedef struct utils_prompt
 	int		number_of_inputs;
 
 }	t_prompt;
-
-/* typedef struct history_list
-{
-	struct	history_list *next;
-	struct	history_list *prev;
-	char *command_history;
-}	t_history; */
 
 // srcs/prompt_set/pipe_utils
 int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
