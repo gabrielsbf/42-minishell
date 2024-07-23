@@ -8,6 +8,9 @@
 #include "libft/includes/libft.h"
 #include <stdio.h>
 
+#include <sys/stat.h>
+#include <dirent.h>
+
 #define FOLDER_BIN "/bin/"
 #define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"
 #endif
