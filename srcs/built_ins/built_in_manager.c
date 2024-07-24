@@ -14,6 +14,8 @@ void	function_listener(t_parse **parser)
 	else if(ft_strncmp((*parser)->main_command, "ls", 2) == 0)
 		list_directory(".");
 	else if (ft_strncmp((*parser)->main_command, "cd", 2) == 0)
-		printf("cd\n");
+		cd_manager((*parser)->arguments[0]);
+	else if (ft_strncmp((*parser)->main_command, "env", 3) == 0)
+		get_env();
 }
 

@@ -30,7 +30,7 @@ void	server_loop(t_prompt **prompt_st)
 		line_read = readline(prefix_element);
 		add_history(line_read);
 		main_line_process(line_read);
-		free(line_read);
+		//free(line_read);
 		// print_text_input(splitted_instructions);
 		// function_listener(splitted_instructions);
 		//printf("%s", line_read);
