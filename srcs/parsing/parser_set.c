@@ -47,7 +47,7 @@ int	validate_line_read(char *line_read)
 			return (0);
 		i++;
 	}
-	printf("validate line read is OK\n");
+	//printf("validate line read is OK\n");
 	return (1);
 }
 
@@ -146,26 +146,26 @@ int	set_main_command(t_parse **parser, char *line_read)
 	int	i;
 
 	i = 0;
-	printf("i begin set main command\nstring is: %s\n", line_read);
+	//printf("i begin set main command\nstring is: %s\n", line_read);
 	while(line_read[i] != '\0' && !ft_isspace(line_read[i]))
 	{
-		printf("On 'set_main_command' -> line read c is:%c\n", line_read[i]);
+		//printf("On 'set_main_command' -> line read c is:%c\n", line_read[i]);
 		i++;
 	}
-	printf("i when found some space is: %d\n", i);
+	//printf("i when found some space is: %d\n", i);
 	(*parser)->main_command = ft_substr(line_read, 0, i);
-	printf("main command is : %s and i is: %d\n", (*parser)->main_command, i);
+	//printf("main command is : %s and i is: %d\n", (*parser)->main_command, i);
 	return (i);
 }
 
 int	is_between_quotes(char *line_read, int memory, char find)
 {
 	int	qt;
-	printf("testing in quotes\n");
+	//printf("testing in quotes\n");
 	qt = 0;
 	while (memory >= 0)
 	{
-		printf("reverse getting memory -> char is: %c\n",line_read[memory]);
+		//printf("reverse getting memory -> char is: %c\n",line_read[memory]);
 		if (line_read[memory] == find)
 			qt++;
 		memory--;
@@ -177,14 +177,14 @@ int	is_between_quotes(char *line_read, int memory, char find)
 
 int	is_blank_substr(char *line_read, int memory, int pos)
 {
-	printf("start function -> is blank substr\n");
+	//printf("start function -> is blank substr\n");
 	while (pos >= memory)
 	{
 		if (!ft_isspace(line_read[pos]))
 			return (0);
 		pos--;
 	}
-	printf("is blank substr\n");
+	//printf("is blank substr\n");
 	return (1);
 }
 
@@ -193,25 +193,25 @@ int	split_process(t_parse **parser, int memory, int pos, char c)
 	char	*text_to_parse;
 	char	*substr_text;
 
-	printf("entered in split proccess\nmemory:%d, pos:%d, char c:%d\n",memory, pos, c);
+	//printf("entered in split proccess\nmemory:%d, pos:%d, char c:%d\n",memory, pos, c);
 	text_to_parse = (*parser)->entire_text;
-	printf("text to parse variable is:%s\n", text_to_parse);
+	//printf("text to parse variable is:%s\n", text_to_parse);
 	if (!is_between_quotes(text_to_parse, memory, c))
 	{
-		printf("text is not between quotes\n");
+		//printf("text is not between quotes\n");
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
-		printf("position - memory is: %d\n", (pos - memory));
-		printf("it's not blank substr\ntext to parse is: %s\n", text_to_parse);
+		//printf("position - memory is: %d\n", (pos - memory));
+		//printf("it's not blank substr\ntext to parse is: %s\n", text_to_parse);
 		substr_text = ft_substr(text_to_parse, memory, (pos - memory));
-		printf("substr text: %s\n", substr_text);
+		//printf("substr text: %s\n", substr_text);
 		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, ft_split_and_free(substr_text, ' ' ));
 	}
 	else
 	{
-		printf("entered in else\n");
+		//printf("entered in else\n");
 		substr_text = ft_substr(text_to_parse, memory, pos - memory + 1);
-		printf("substr text is: %s\n", substr_text);
+		//printf("substr text is: %s\n", substr_text);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
 	return (1);
@@ -222,12 +222,12 @@ void	parsing_process(char *line_read, t_parse **parser)
 	int	i;
 	int	memory;
 
-	printf("initiating parsing process fun\n");
+	//printf("initiating parsing process fun\n");
 	i = set_main_command(parser, line_read);
 	memory = i;
 	while (line_read[i] != '\0')
 	{
-		printf("os parsing proccess - line read is: %c\n", line_read[i]);
+		//printf("os parsing proccess - line read is: %c\n", line_read[i]);
 		if(line_read[i] == 34 || line_read[i] == 39)
 		{
 			split_process(parser, memory, i, line_read[i]);
@@ -245,17 +245,17 @@ void	parsing_process(char *line_read, t_parse **parser)
 t_parse	*init_parse(char *line_read)
 {
 	t_parse	*parser_init;
-	printf("Iniciei o parser\n");
+	//printf("Iniciei o parser\n");
 	parser_init = malloc(sizeof(t_parse));
-	printf("Parser Malocado\n");
+	//printf("Parser Malocado\n");
 	parser_init->next = NULL;
-	printf("Parser em next é nulo\n");
+	//printf("Parser em next é nulo\n");
 	parser_init->entire_text = ft_strdup(line_read);
-	printf("entire text duplicado -> line read\n");
+	//printf("entire text duplicado -> line read\n");
 	parser_init->arguments = (char **)malloc(sizeof(char *));
-	printf("argumentos mallocados\n");
+	//printf("argumentos mallocados\n");
 	parser_init->arguments[0] = NULL;
-	printf("set de arguments pra nulo\n");
+	//printf("set de arguments pra nulo\n");
 	return (parser_init);
 }
 
@@ -268,12 +268,12 @@ void	main_line_process(char *line_read)
 
 	parser = init_parse(line_read);
 	get_line_treated = ft_strtrim(line_read, " ");
-	printf("Texto Trimado->%s\n", get_line_treated);
+	//printf("Texto Trimado->%s\n", get_line_treated);
 	free(line_read);
-	printf("Passei o free\n");
+	//printf("Passei o free\n");
 	if (!validate_line_read(get_line_treated))
 		return ;
-	printf("Passei o validate\n");
+	//printf("Passei o validate\n");
 	parsing_process(get_line_treated, &parser);
 	print_parser_struct(&parser);
 }
