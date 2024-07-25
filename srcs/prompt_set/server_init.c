@@ -4,13 +4,14 @@ char	*prompt_prefix(void)
 {
 	char	*prompt_prefix;
 	char	*temp;
+	char	cwd[4097];
 
 	prompt_prefix = ft_strjoin(getenv("LOGNAME"), "@");
 	temp = ft_strjoin(prompt_prefix, getenv("NAME"));
 	free(prompt_prefix);
 	prompt_prefix = ft_strjoin(temp, ":");
 	free(temp);
-	temp = ft_strjoin(prompt_prefix, getenv("PWD"));
+	temp = ft_strjoin(prompt_prefix, getcwd(cwd, sizeof(cwd)));
 	free(prompt_prefix);
 	prompt_prefix = ft_strjoin(temp, "$ ");
 	return (prompt_prefix);

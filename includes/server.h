@@ -11,8 +11,6 @@ void	ft_echo(char **splitted_instructions);
 void	ft_fork(void);
 void	list_directory(const char *path);
 void	pwd();
-void    cd_home();
-void    prev_path();
 void	cd_manager(char *argument);
 void	get_env();
 void	function_listener(t_parse **parser);

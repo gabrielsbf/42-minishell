@@ -1,43 +1,44 @@
 #include "../../includes/minishell.h"
 
-void    cd_home()
+char	*get_prev_dir(char *cwd)
 {
-    char    *home;
+	int	i;
 
-    home = getenv("HOME");
-    chdir(home);
+	i = 0;
+	while (cwd[i] != '\0')
+		i++;
+	while (cwd[i] != '/' && i != 0)
+	{
+		cwd[i] = '\0';
+		i--;
+	}
+	return (cwd);
 }
 
-char    *get_prev_dir(char *cwd)
+void	prev_path()
 {
-    int i;
+	char	*prev;
+	char	cwd[4097];
 
-    i = 0;
-    while (cwd[i] != '\0')
-        i++;
-    while (cwd[i] != '/' && i != 0)
-    {
-        cwd[i] = '\0';
-        i--;
-    }
-    printf("%c\n", cwd[i]);
-    return (cwd);
+	getcwd(cwd, sizeof(cwd));
+	prev = get_prev_dir(cwd);
+	chdir(prev);
 }
 
-void    prev_path()
+void	cd_path(char *path)
 {
-    char    *prev;
-    char    cwd[4097];
-
-    getcwd(cwd, sizeof(cwd));
-    prev = get_prev_dir(cwd);
-    chdir(prev);
+	if (chdir(path) == -1)
+		printf("ERROR\n");
+	else
+		return ;
 }
 
-void    cd_manager(char *argument)
+void	cd_manager(char *argument)
 {
-    if (ft_strncmp(argument, "", 1) == 0)
-        cd_home();
-    else if (ft_strncmp(argument, "..", 2) == 0)
-        prev_path();
+	if (ft_strncmp(argument, "", 1) == 0)
+		chdir(getenv("HOME"));//cd_home();
+	else if (ft_strncmp(argument, "..", 2) == 0)
+		prev_path();
+	else
+		cd_path(argument);
 }
