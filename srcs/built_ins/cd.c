@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-char	*get_prev_dir(char *cwd)
+/* char	*get_prev_dir(char *cwd)
 {
 	int	i;
 
@@ -23,7 +23,7 @@ void	prev_path()
 	getcwd(cwd, sizeof(cwd));
 	prev = get_prev_dir(cwd);
 	chdir(prev);
-}
+} */
 
 void	cd_path(char *path)
 {
@@ -37,8 +37,6 @@ void	cd_manager(char *argument)
 {
 	if (ft_strncmp(argument, "", 1) == 0)
 		chdir(getenv("HOME"));//cd_home();
-	else if (ft_strncmp(argument, "..", 2) == 0)
-		prev_path();
 	else
 		cd_path(argument);
 }
