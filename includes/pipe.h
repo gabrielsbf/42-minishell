@@ -17,8 +17,8 @@ typedef struct parsing
 
 typedef struct s_env
 {
-	char	*key;
-	char 	*var;
+	char	*value;
+	char	*var;
 	struct	s_env *next;
 	struct	s_env *head;
 }	t_env;
