@@ -60,6 +60,10 @@ int			split_process(t_parse **parser, int memory, int pos, char c);
 void		parsing_process(char *line_read, t_parse **parser);
 void		main_line_process(char *line_read);
 t_parse		*init_parse(char *line_read);
+// ENV EXPANSION FUNC.
+void	env_expansion(t_parse **parser);
+void	has_cipher(char *text);
+void	env_expansion(t_parse **parser);
 //------Debug Function------ To Print
 void	print_parser_struct(t_parse **parser);
 #endif
