@@ -1,0 +1,7 @@
+PARSER: PRECISO QUE QUANDO SE ABRA COM UM TIPO DE ASPAS ELE FECHE NO MESMO TIPO INDEPENDENTE SE TIVER O OUTRO TIPO NO MEIO
+EXEMPLO : echo "testando 'o texto'"
+echo testando 'o texto'
+
+- arg1: echo
+- arg2: testando 'o texto'
+
