@@ -64,8 +64,6 @@ void	parsing_process(char *line_read, t_parse **parser)
 
 	i = set_main_command(parser, line_read);
 	memory = i;
-	if (line_read[i] == '\0')
-		return ;
 	while (line_read[i] != '\0')
 	{
 		if(line_read[i] == 34 || line_read[i] == 39)
@@ -78,6 +76,8 @@ void	parsing_process(char *line_read, t_parse **parser)
 		}
 		i++;
 	}
+	if (memory == i)
+		return ;
 	split_process(parser, memory, i, line_read[i]);
 }
 
