@@ -14,7 +14,7 @@ void	validating_quotes(char *text, int memory)
 		printf("NOT BETWEEN QUOTES - EXPAND\n");
 }
 
-void	has_cipher(char *text)
+void	hand_cipher(char *text)
 {
 	int	i;
 
@@ -37,7 +37,7 @@ void	env_expansion(t_parse **parser)
 	{
 		// printf("PARSER ARGUMENT IS: %s\n", (*parser)->arguments[i]);
 		text = (*parser)->arguments[i];
-		has_cipher(text);
+		hand_cipher(text);
 		i++;
 	}
 
