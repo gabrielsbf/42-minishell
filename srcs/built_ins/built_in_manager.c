@@ -16,6 +16,6 @@ void	function_listener(t_parse **parser)
 	else if (ft_strncmp((*parser)->main_command, "cd", 2) == 0)
 		cd_manager((*parser)->arguments[0]);
 	else if (ft_strncmp((*parser)->main_command, "env", 3) == 0)
-		printf("Doing env\n");//get_env();
+		get_env();
 }
 

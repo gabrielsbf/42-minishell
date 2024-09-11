@@ -1,8 +1,5 @@
 #ifndef SERVER_H
-#define SERVER_H
-
-#include <readline/readline.h>
-#include <readline/history.h>
+# define SERVER_H
 
 char	*prompt_prefix(void);
 void	server_loop(t_prompt **prompt_st);
