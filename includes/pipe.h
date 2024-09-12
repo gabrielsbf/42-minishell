@@ -1,8 +1,6 @@
 #ifndef PIPE_H
 # define PIPE_H
 
-#include<unistd.h>
-#include<stdio.h>
 
 typedef struct parsing
 {
@@ -17,8 +15,8 @@ typedef struct parsing
 
 typedef struct s_env
 {
-	char	*key;
-	char 	*var;
+	char	*value;
+	char	*name;
 	struct	s_env *next;
 	struct	s_env *head;
 }	t_env;

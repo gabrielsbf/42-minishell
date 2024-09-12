@@ -7,7 +7,9 @@
 #include <signal.h>
 #include "libft/includes/libft.h"
 #include <stdio.h>
-
+#include <readline/readline.h>
+#include <readline/history.h>
+#include<unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
 
