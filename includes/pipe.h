@@ -56,7 +56,7 @@ int			is_between_quotes(char *line_read, int memory, char find);
 int			is_blank_substr(char *line_read, int memory, int pos);
 int			split_process(t_parse **parser, int memory, int pos, char c);
 void		parsing_process(char *line_read, t_parse **parser);
-void		main_line_process(char *line_read);
+void		main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read);
 // ENV EXPANSION FUNC.
 void	env_expansion(t_parse **parser);
@@ -64,4 +64,12 @@ void	hand_cipher(char *text);
 void	env_expansion(t_parse **parser);
 //------Debug Function------ To Print
 void	print_parser_struct(t_parse **parser);
+
+//------Env------
+char	*get_env_name(char **env);
+int	get_value_length(char **env);
+char	*get_env_value(char **env);
+t_env	*create_env_list();
+t_env	*add_env_node(char **env, t_env *head);
+void	get_env();
 #endif

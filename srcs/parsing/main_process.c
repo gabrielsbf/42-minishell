@@ -17,7 +17,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 /*Preciso validar parte da leitura em cima do texto da esquerda pra direita.*/
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
-void	main_line_process(char *line_read)
+void	main_line_process(char *line_read, t_env **env)
 {
 	char	*get_line_treated;
 	t_parse	*parser;
@@ -29,7 +29,7 @@ void	main_line_process(char *line_read)
 		return ;
 	parsing_process(get_line_treated, &parser);
 	print_parser_struct(&parser);
-	function_listener(&parser); //podemos alocar em um local mais adequado
+	function_listener(&parser, env); //podemos alocar em um local mais adequado
 
 }
 

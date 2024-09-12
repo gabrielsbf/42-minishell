@@ -1,7 +1,5 @@
 #include "../../includes/minishell.h"
 
-
-
 char	*get_env_name(char **env)
 {
 	int	i;
@@ -64,7 +62,6 @@ t_env	*add_env_node(char **env, t_env *head)
 	env_node = ft_calloc(sizeof(t_env), 1);
 	env_node->head = head;
 	env_node->name = get_env_name(env);
-
 	env_node->value = get_env_value(env);
 
 	return env_node;
@@ -90,15 +87,16 @@ t_env	*create_env_list()
 	return	head;
 }
 
-void get_env()
+void get_env(t_env **env)
 {
-	t_env	*env;
+	t_env *swap;
 
-
-	env = create_env_list();
-	while (env)
+	while ((*env))
 	{
-		printf("%s=%s\n", env->name, env->value);
-		env = env->next;
+		if ((*env)->next == NULL)
+			swap = (*env)->head;
+		printf("%s=%s\n", (*env)->name, (*env)->value);
+		(*env) = (*env)->next;
 	}
+	(*env) = swap;
 }

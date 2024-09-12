@@ -35,7 +35,7 @@ void	cd_path(char *path)
 
 void	cd_manager(char *argument)
 {
-	if (ft_strncmp(argument, "", 1) == 0)
+	if (!argument)
 		chdir(getenv("HOME"));//cd_home();
 	else
 		cd_path(argument);
