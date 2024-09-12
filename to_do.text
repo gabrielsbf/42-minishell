@@ -1,0 +1,18 @@
+PARSER: PRECISO QUE QUANDO SE ABRA COM UM TIPO DE ASPAS ELE FECHE NO MESMO TIPO INDEPENDENTE SE TIVER O OUTRO TIPO NO MEIO
+EXEMPLO : echo "testando 'o texto'"
+output >> testando 'o texto'
+
+- arg1: echo
+- arg2: testando 'o texto'
+
+PARSER: QUANDO UMA ASPAS SE FECHA, QUANDO OUTRA SE ABRE IMEDIATAMENTE A ELA, NÃO HÁ ESPAÇO ENTRE OS ARGUMENTOS, JÁ SE OUTRA SE ABRE COM UM OU MAIS ESPAÇOS, ELE SÓ CONTA UM ESPAÇO NOS ARGUMENTOS.
+EXEMPLO :
+1. echo "texto""e tals"
+output >> textoe tals
+- arg1: echo
+- arg2: "textoe tals" (trata mais ou menos como um(?))
+
+**obs - (depois incluir exemplo com 'ls')
+
+2. echo "texto"                         "e tals"
+output >> texto e tals (trata como dois)
