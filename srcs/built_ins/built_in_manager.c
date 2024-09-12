@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	function_listener(t_parse **parser)
+void	function_listener(t_parse **parser, t_env **env)
 {
 	env_expansion(parser);
 	if (ft_strncmp((*parser)->main_command, "echo", 4) == 0)
@@ -17,6 +17,5 @@ void	function_listener(t_parse **parser)
 	else if (ft_strncmp((*parser)->main_command, "cd", 2) == 0)
 		cd_manager((*parser)->arguments[0]);
 	else if (ft_strncmp((*parser)->main_command, "env", 3) == 0)
-		get_env();
+		get_env(env);
 }
-

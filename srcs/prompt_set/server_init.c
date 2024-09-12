@@ -18,7 +18,7 @@ char	*prompt_prefix(void)
 }
 
 
-void	server_loop(t_prompt **prompt_st)
+void	server_loop(t_prompt **prompt_st, t_env **env)
 {
 	(void)prompt_st;
 	char	*line_read;
@@ -30,11 +30,7 @@ void	server_loop(t_prompt **prompt_st)
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
 		add_history(line_read);
-		main_line_process(line_read);
-		//free(line_read);
-		// print_text_input(splitted_instructions);
-		// function_listener(splitted_instructions);
-		//printf("%s", line_read);
+		main_line_process(line_read, env);
 		free(prefix_element);
 	}
 }
