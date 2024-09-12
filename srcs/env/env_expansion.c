@@ -4,36 +4,25 @@ A ideia é fazer a expansão dentro do function listener
 Que deve tratar os argumentos antes de passar para as funções
 */
 
+
 void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs)
 {
-	char	*env_var;
+	char	*env_name;
+	char	*env_value;
 	char 	*sentence;
 	int		memory;
 
-	(void)envs;
 	memory = i_cipher + 1;
-	sentence = (*parser)->arguments[argument][memory];
+	sentence = (*parser)->arguments[argument];
 	while(sentence[memory] != '\0' && ft_isalnum(sentence[memory]))
 		memory++;
-	env_var = ft_substr(sentence, i_cipher + 1, memory - i_cipher);
-	printf("env var is: %s", env_var);
-}
-
-void	expand_prepare(t_parse **parser, int argument, t_env **envs)
-{
-	int	i;
-	char *text;
-	char *new_text;
-
-	i = 0;
-	text = (*parser)->arguments[argument][i];
-
-	while (text[i] != '\0')
-	{
-		if (text[i] == '$')
-			expand_variable(parser, argument, i, envs);
-		i++;
-	}
+	env_name = ft_substr(sentence, i_cipher + 1, memory - i_cipher);
+	env_value = check_name_in_env(envs, env_name);
+	printf("ENV VALUE AT THE END IS: %s\nAND ENV NAME IS: %s\n", env_value, env_name);
+	if (env_value == NULL)
+		return ;
+	replace_text(&sentence, env_name, env_value);
+	free(env_name);
 }
 
 int	validating_quotes(char *text, int memory)
@@ -52,13 +41,14 @@ void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs)
 	int expand_bool;
 
 	i = 0;
-	expand_bool = 0;
 	while (text[i] != '\0')
 	{
+		expand_bool = 0;
 		if (text[i] == '$')
 			expand_bool = validating_quotes(text, i);
 		if (expand_bool == 1)
-			expand_prepare(parser, argument, envs);
+			expand_variable(parser, argument, i, envs);
+
 		i++;
 	}
 }

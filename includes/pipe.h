@@ -59,13 +59,16 @@ void		parsing_process(char *line_read, t_parse **parser);
 void		main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read);
 // ENV EXPANSION FUNC.
-void	env_expansion(t_parse **parser);
-void	hand_cipher(char *text);
-void	env_expansion(t_parse **parser);
+void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
+void	env_expansion(t_parse **parser, t_env **envs);
+void	replace_text(char **entire_text, char *find, char *replace);
+void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
+char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print
 void	print_parser_struct(t_parse **parser);
 
 //------Env------
+char	*check_name_in_env(t_env **envs, char * name);
 char	*get_env_name(char **env);
 int	get_value_length(char **env);
 char	*get_env_value(char **env);
