@@ -61,7 +61,7 @@ t_parse		*init_parse(char *line_read);
 // ENV EXPANSION FUNC.
 void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
 void	env_expansion(t_parse **parser, t_env **envs);
-void	replace_text(char **entire_text, char *find, char *replace);
+void	replace_text(char *entire_text, char *find, char *replace);
 void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print

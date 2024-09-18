@@ -16,10 +16,11 @@ void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs)
 		memory++;
 	env_name = ft_substr(sentence, i_cipher + 1, memory - i_cipher);
 	env_value = check_name_in_env(envs, env_name);
-	printf("ENV VALUE AT THE END IS: %s\nAND ENV NAME IS: %s\n", env_value, env_name);
 	if (env_value == NULL)
 		return ;
-	replace_text(&sentence, env_name, env_value);
+	replace_text(sentence, env_name, env_value);
+	printf("logo após replace text:\n");
+	print_parser_struct(parser);
 	free(env_name);
 }
 
