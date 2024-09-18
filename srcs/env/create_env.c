@@ -44,6 +44,7 @@ char	*get_env_value(char **env)
 
 	i = 0;
 	value_i = -1;
+
 	while (env[0][i] != '\0' && env[0][i] != '=')
 		i++;
 	//printf("%i\n", value_length);
