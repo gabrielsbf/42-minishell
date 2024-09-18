@@ -30,6 +30,7 @@ int count_arr_nb(char **str)
 (finished) This function do a realloc between two arrays of char pointers
 It will be on the sequence -> the first char ** will be at the
 start and the second will be at the end.
+****PUT IN MAYBE LIBFT(???)
 */
 char **ft_realloc_two_lists(char **str, char **str_new)
 {
@@ -61,6 +62,7 @@ char **ft_realloc_two_lists(char **str, char **str_new)
 /*
 (finished) This function do a realloc of an array of char pointers and puts a new
 char pointer at the end of the array.
+****PUT IN MAYBE LIBFT(???)
 */
 char **ft_realloc_list_and_str(char **str, char *str_new)
 {
