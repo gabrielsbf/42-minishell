@@ -4,12 +4,10 @@ void get_env(t_env **env)
 {
 	t_env *swap;
 
-	while ((*env))
+	swap = (*env);
+	while (swap != NULL)
 	{
-		if ((*env)->next == NULL)
-			swap = (*env)->head;
-		printf("%s=%s\n", (*env)->name, (*env)->value);
-		(*env) = (*env)->next;
+		printf("%s=%s\n", swap->name, swap->value);
+		swap = swap->next;
 	}
-	(*env) = swap;
 }
