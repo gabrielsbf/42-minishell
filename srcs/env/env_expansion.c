@@ -3,8 +3,6 @@
 A ideia é fazer a expansão dentro do function listener
 Que deve tratar os argumentos antes de passar para as funções
 */
-
-
 void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs)
 {
 	char	*env_name;
