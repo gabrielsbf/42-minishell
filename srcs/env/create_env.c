@@ -50,7 +50,7 @@ char	*get_env_value(char **env)
 	value = ft_calloc (sizeof(char), (get_value_length(env) + 1));
 	if (!value)
 		return (NULL);
-	while (env[0][i] != '\0' && env[0][i] != '=')
+	while (env[0][i] != '\0')
 		value[++value_i] = env[0][++i];
 	//printf("%s\n", value);
 	return value;
