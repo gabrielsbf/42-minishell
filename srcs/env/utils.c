@@ -1,89 +1,45 @@
 #include "../../includes/minishell.h"
 
-char	*get_env_name(char **env)
+/*FUNCTION THAT MAYBE CAN GO TO LIBFT
+BASIC FIND AND REPLACE*/
+void	replace_text(char **entire_text, char *find, char *replace)
 {
-	int	i;
-	char	*name;
+	char *text;
+	int	new_alloc;
+	int	i_old;
+	int	i_new;
 
-	i = 0;
-	while (env[0][i] != '=')
-		i++;
-	//printf("%i\n", i);
-	name = ft_calloc(sizeof(char), (i + 1));
-	if (!name)
-		return (NULL);
-	while (i-- > 0)
-		name[i] = env[0][i];
-	//printf("%s\n", name);
-	return name;
-}
-
-int	get_value_length(char **env)
-{
-	int	i;
-	int	length;
-
-	i = 0;
-	length = 0;
-	while (env[0][i] != '=')
-		i++;
-	while (env[0][i++] != '\0')
+	i_old = 0;
+	i_new = 0;
+	new_alloc = ft_strlen((*entire_text)) - ft_strlen(find) + ft_strlen(replace) + 2;
+	text = ft_strdup((*entire_text));
+	free((*entire_text));
+	(*entire_text) = (char *)malloc(new_alloc * sizeof(char));
+	if ((*entire_text) == NULL)
+		return ;
+	while (text[i_old] != '\0')
 	{
-		//printf("%c", env[0][i]);
-		length++;
+		if (text[i_old] == '$')
+		{
+			if (ft_strncmp(&text[i_old + 1],find, ft_strlen(find)) == 0)
+			{
+				ft_strlcpy(&(*entire_text[i_new]), replace, ft_strlen(replace)+1);
+				i_new = i_new + ft_strlen(replace);
+				i_old = i_old + ft_strlen(find) + 1;
+			}
+		}
+		if (text[i_old] != '\0')
+		{
+			(*entire_text)[i_new] = text[i_old];
+			i_old++;
+			i_new++;
+		}
 	}
-	//printf("\n%i", length);
-	return (length);
+	(*entire_text)[i_new] = '\0';
+	printf("printing entire text: %s\n", (*entire_text));
 }
 
-char	*get_env_value(char **env)
-{
-	int	i;
-	int	value_i;
-	char	*value;
-
-	i = 0;
-	value_i = -1;
-	while (env[0][i] != '=')
-		i++;
-	//printf("%i\n", value_length);
-	value = ft_calloc (sizeof(char), (get_value_length(env) + 1));
-	if (!value)
-		return (NULL);
-	while (env[0][i] != '\0')
-		value[++value_i] = env[0][++i];
-	//printf("%s\n", value);
-	return value;
-}
-
-t_env	*add_env_node(char **env, t_env *head)
-{
-	t_env	*env_node;
-	env_node = ft_calloc(sizeof(t_env), 1);
-	env_node->head = head;
-	env_node->name = get_env_name(env);
-	env_node->value = get_env_value(env);
-
-	return env_node;
-}
-
-t_env	*create_env_list()
-{
-	char	**env;
-	t_env	*env_list;
-	t_env	*head;
-
-	env = __environ;
-	head = NULL;
-	env_list = add_env_node(env, head);
-	while(*++env)
-	{
-		if (!head)
-			head = env_list;
-		env_list->next = add_env_node(env, head);
-		env_list = env_list->next;
-	}
-	env_list->next = NULL;
-	return	head;
-}
+/*FUNCTION THAT MAYBE CAN GO TO LIBFT
+IT CONSIDER A NEW MEMORY BLOCK THAT NEED TO GET FREE AND CREATE ANOTHER.
+ALSO ALLOCS IN THE PAST VARIABLE*/
 
