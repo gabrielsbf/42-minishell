@@ -6,7 +6,7 @@ char	*get_env_name(char **env)
 	char	*name;
 
 	i = 0;
-	while (env[0][i] != '=')
+	while (env[0][i] != '\0' && env[0][i] != '=')
 		i++;
 	//printf("%i\n", i);
 	name = ft_calloc(sizeof(char), (i + 1));
@@ -25,7 +25,7 @@ int	get_value_length(char **env)
 
 	i = 0;
 	length = 0;
-	while (env[0][i] != '=')
+	while (env[0][i] != '\0' && env[0][i] != '=')
 		i++;
 	while (env[0][i++] != '\0')
 	{
@@ -44,7 +44,7 @@ char	*get_env_value(char **env)
 
 	i = 0;
 	value_i = -1;
-	while (env[0][i] != '=')
+	while (env[0][i] != '\0' && env[0][i] != '=')
 		i++;
 	//printf("%i\n", value_length);
 	value = ft_calloc (sizeof(char), (get_value_length(env) + 1));
@@ -91,12 +91,10 @@ void get_env(t_env **env)
 {
 	t_env *swap;
 
-	while ((*env))
+	swap = (*env);
+	while (swap != NULL)
 	{
-		if ((*env)->next == NULL)
-			swap = (*env)->head;
-		printf("%s=%s\n", (*env)->name, (*env)->value);
-		(*env) = (*env)->next;
+		printf("%s=%s\n", swap->name, swap->value);
+		swap = swap->next;
 	}
-	(*env) = swap;
 }
