@@ -1,7 +1,6 @@
 #ifndef PIPE_H
 # define PIPE_H
 
-
 typedef struct parsing
 {
 	char	*entire_text;
@@ -59,9 +58,9 @@ void		parsing_process(char *line_read, t_parse **parser);
 void		main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read);
 // ENV EXPANSION FUNC.
-void	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
+int		expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
 void	env_expansion(t_parse **parser, t_env **envs);
-void	replace_text(char *entire_text, char *find, char *replace);
+void	replace_text(t_parse **parser, int argument, char *find, char *replace);
 void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print
@@ -70,9 +69,10 @@ void	print_parser_struct(t_parse **parser);
 //------Env------
 char	*check_name_in_env(t_env **envs, char * name);
 char	*get_env_name(char **env);
-int	get_value_length(char **env);
+int		get_value_length(char **env);
 char	*get_env_value(char **env);
+int		is_env_available(char c);
 t_env	*create_env_list();
 t_env	*add_env_node(char **env, t_env *head);
-void	get_env();
+
 #endif

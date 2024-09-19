@@ -2,7 +2,7 @@
 
 /*FUNCTION THAT MAYBE CAN GO TO LIBFT
 BASIC FIND AND REPLACE*/
-void	replace_text(char *entire_text, char *find, char *replace)
+void	replace_text(t_parse **parser, int arg, char *find, char *replace)
 {
 	char *text;
 	int	new_alloc;
@@ -11,34 +11,36 @@ void	replace_text(char *entire_text, char *find, char *replace)
 
 	i_old = 0;
 	i_new = 0;
-	new_alloc = ft_strlen(entire_text) - ft_strlen(find) + ft_strlen(replace) + 2;
-	text = ft_strdup((entire_text));
-	free(entire_text);
-	(entire_text) = (char *)malloc(new_alloc * sizeof(char));
-	if (entire_text == NULL)
+	new_alloc = ft_strlen((*parser)->arguments[arg]) - ft_strlen(find) + ft_strlen(replace) + 2;
+	text = ft_strdup((*parser)->arguments[arg]);
+	free((*parser)->arguments[arg]);
+	(*parser)->arguments[arg] = (char *)malloc(new_alloc * sizeof(char));
+	if ((*parser)->arguments[arg] == NULL)
 		return ;
 	while (text[i_old] != '\0')
 	{
 		if (text[i_old] == '$')
 		{
-			if (ft_strncmp(text[i_old + 1], find, ft_strlen(find)) == 0)
+			if (ft_strncmp(&text[i_old + 1], find, ft_strlen(find)) == 0)
 			{
-				ft_strlcpy(entire_text, replace, ft_strlen(replace)+1);
+				ft_strlcpy(&(*parser)->arguments[arg][i_new], replace, ft_strlen(replace)+1);
 				i_new = i_new + ft_strlen(replace);
 				i_old = i_old + ft_strlen(find) + 1;
 			}
 		}
 		if (text[i_old] != '\0')
 		{
-			entire_text[i_new] = text[i_old];
+			(*parser)->arguments[arg][i_new] = text[i_old];
 			i_old++;
 			i_new++;
 		}
 	}
-	entire_text[i_new] = '\0';
+	(*parser)->arguments[arg][i_new] = '\0';
 }
 
-/*FUNCTION THAT MAYBE CAN GO TO LIBFT
-IT CONSIDER A NEW MEMORY BLOCK THAT NEED TO GET FREE AND CREATE ANOTHER.
-ALSO ALLOCS IN THE PAST VARIABLE*/
-
+int	is_env_available(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (1);
+	return (0);
+}
