@@ -17,7 +17,6 @@ char	*prompt_prefix(void)
 	return (prompt_prefix);
 }
 
-
 void	server_loop(t_prompt **prompt_st, t_env **env)
 {
 	(void)prompt_st;
