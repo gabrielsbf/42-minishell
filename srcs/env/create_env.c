@@ -38,6 +38,7 @@ char	*get_env_value(char **env)
 
 	i = 0;
 	value_i = -1;
+
 	while (env[0][i] != '\0' && env[0][i] != '=')
 		i++;
 	value = ft_calloc (sizeof(char), (get_value_length(env) + 1));
