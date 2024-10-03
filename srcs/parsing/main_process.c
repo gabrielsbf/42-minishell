@@ -90,5 +90,7 @@ t_parse	*init_parse(char *line_read)
 	parser_init->entire_text = ft_strdup(line_read);
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
+	parser_init->fd_in = 0;
+	parser_init->fd_out = 1;
 	return (parser_init);
 }
