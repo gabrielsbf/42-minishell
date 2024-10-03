@@ -5,9 +5,15 @@ typedef struct parsing
 {
 	char	*entire_text;
 	char	*main_command;
-	char	**flags;//n
+	char	**flags;
 	char	**arguments;
-	char	*special_char;//n
+	char	*special_char;
+	char	*response;
+	char	*write_file;
+	char	*read_file;
+	int		fd_in;
+	int		fd_out;
+	int		is_error;
 	struct	parsing *next;
 
 }	t_parse;
