@@ -60,20 +60,18 @@ t_env	*add_env_node(char **env, t_env *head)
 	return env_node;
 }
 
-t_env	*create_env_list()
+t_env	*create_env_list(char **envp)
 {
-	char	**env;
 	t_env	*env_list;
 	t_env	*head;
 
-	env = __environ;
 	head = NULL;
-	env_list = add_env_node(env, head);
-	while(*++env)
+	env_list = add_env_node(envp, head);
+	while(*++envp)
 	{
 		if (!head)
 			head = env_list;
-		env_list->next = add_env_node(env, head);
+		env_list->next = add_env_node(envp, head);
 		env_list = env_list->next;
 	}
 	env_list->next = NULL;
