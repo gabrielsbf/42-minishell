@@ -78,7 +78,7 @@ char	*get_env_name(char **env);
 int		get_value_length(char **env);
 char	*get_env_value(char **env);
 int		is_env_available(char c);
-t_env	*create_env_list();
+t_env	*create_env_list(char **envp);
 t_env	*add_env_node(char **env, t_env *head);
 
 #endif

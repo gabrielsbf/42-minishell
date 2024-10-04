@@ -10,12 +10,14 @@ void	sig_handler(int sig)
 	free(prefix);
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	t_prompt *prompt_in;
 	t_env	*env;
 
-	env = create_env_list();
+	(void)argv;
+	(void)argc;
+	env = create_env_list(envp);
 	prompt_in = init_prompt_struct();
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
