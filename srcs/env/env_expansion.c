@@ -24,11 +24,12 @@ int	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs)
 	return (1);
 }
 
-int	validating_quotes(char *text, int memory)
+int	is_valid_env_quote(char *text, int memory)
 {
-	if (is_between_quotes(text, memory, 39))
+	if (is_between_quotes(text, memory) == 39 ||
+	is_between_quotes(text, memory) == 78)
 		return (0);
-	else if (is_between_quotes(text, memory, 34))
+	else if (is_between_quotes(text, memory))
 		return (1);
 	else
 		return (1);
@@ -44,7 +45,7 @@ void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs)
 	{
 		expand_bool = 0;
 		if (text[i] == '$')
-			expand_bool = validating_quotes(text, i);
+			expand_bool = is_valid_env_quote(text, i);
 		if (expand_bool == 1)
 		{
 			if (expand_variable(parser, argument, i, envs))

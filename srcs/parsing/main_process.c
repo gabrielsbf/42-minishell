@@ -19,21 +19,19 @@ int	set_main_command(t_parse **parser, char *line_read)
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
 void	main_line_process(char *line_read, t_env **env)
 {
-	char	*get_line_treated;
 	t_parse	*parser;
 
 	parser = init_parse(line_read);
-	get_line_treated = ft_strtrim(line_read, " ");
-	free(line_read);
-	if (!validate_line_read(get_line_treated))
+	if (!validate_line_read(line_read))
 		return ;
-	parsing_process(get_line_treated, &parser);
+	parsing_process(line_read, &parser);
+	free(line_read);
 	print_parser_struct(&parser);
 	function_listener(&parser, env); //podemos alocar em um local mais adequado
 
 }
 
-int	split_process(t_parse **parser, int memory, int pos, char c)
+int	split_process(t_parse **parser, int memory, int pos)
 {
 	char	*text_to_parse;
 	char	*substr_text;
@@ -41,7 +39,7 @@ int	split_process(t_parse **parser, int memory, int pos, char c)
 	//printf("entered in split proccess\nmemory:%d, pos:%d, char c:%d\n",memory, pos, c);
 	text_to_parse = (*parser)->entire_text;
 	//printf("text to parse variable is:%s\n", text_to_parse);
-	if (!is_between_quotes(text_to_parse, memory, c))
+	if (is_between_quotes(text_to_parse, memory) == 0)
 	{
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
@@ -68,8 +66,16 @@ void	parsing_process(char *line_read, t_parse **parser)
 	{
 		if(line_read[i] == 34 || line_read[i] == 39)
 		{
-			split_process(parser, memory, i, line_read[i]);
-			if (is_between_quotes(line_read, i, line_read[i]))
+			if (is_between_quotes(line_read, i) == line_read[i] ||
+			is_between_quotes(line_read, i) == line_read[i] * 2)
+				split_process(parser, memory, i);
+			else
+			{
+				i++;
+				continue;
+			}
+			// printf("is between quotes result: %d\n----------------------------\n", is_between_quotes(line_read, i));
+			if (is_between_quotes(line_read, i) >= 34 && is_between_quotes(line_read, i) <= 39)
 				memory = i;
 			else
 				memory = i + 1;
@@ -78,7 +84,7 @@ void	parsing_process(char *line_read, t_parse **parser)
 	}
 	if (memory == i)
 		return ;
-	split_process(parser, memory, i, line_read[i]);
+	split_process(parser, memory, i);
 }
 
 /*(incomplete) This function needs to set all the attributes of the parser struct.*/
