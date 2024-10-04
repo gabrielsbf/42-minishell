@@ -16,7 +16,7 @@ void	function_listener(t_parse **parser, t_env **env)
 	else if(ft_strncmp((*parser)->main_command, "ls", 3) == 0)
 		list_directory(".");
 	else if (ft_strncmp((*parser)->main_command, "cd", 3) == 0)
-		cd_manager((*parser)->arguments[0]);
+		cd_manager((*parser)->arguments[0], env);
 	else if (ft_strncmp((*parser)->main_command, "env", 4) == 0)
 		get_env(env);
 	else if (ft_strncmp((*parser)->main_command, "export", 7) == 0)

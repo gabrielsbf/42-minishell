@@ -8,9 +8,8 @@ void	ft_echo(char **splitted_instructions);
 void	ft_fork(void);
 void	list_directory(const char *path);
 void	pwd();
-void	cd_manager(char *argument);
+void	cd_manager(char *argument, t_env **env);
 void	export_to_env(t_env **env, char **splitted_instructions);
 void	unset_from_env(t_env **env, char **splitted_instructions);
 void	function_listener(t_parse **parser, t_env **env);
-void	get_signal();
 #endif

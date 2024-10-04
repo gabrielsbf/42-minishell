@@ -21,7 +21,7 @@ void	export_to_env(t_env **env, char **splitted_instructions)
 	swap = (*env);
 	if (!*splitted_instructions || export_error(splitted_instructions) == 0)
 	{
-		perror("tá errado isso ai menor");
+		ft_putstr_fd("EXPORT ERROR", 2);
 		return ;
 	}
 	while (swap->next != NULL)

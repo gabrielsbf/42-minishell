@@ -60,7 +60,7 @@ void	unset_from_env(t_env **env, char **splitted_instructions)
 
 	swap = (*env);
 	if (!*splitted_instructions || !(*env))
-		perror("ta erro isso ai menor");
+		ft_putstr_fd("UNSET ERROR", 2);
 	else if (ft_strcmp(swap->name, get_env_name(splitted_instructions)) == 0)
 		define_new_head(env);
 	else

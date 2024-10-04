@@ -1,42 +1,35 @@
 #include "../../includes/minishell.h"
 
-/* char	*get_prev_dir(char *cwd)
+void	oldpwd_update(t_env **env)
 {
-	int	i;
+	t_env	*temp;
+	char	cwd[4097];
+	int		i;
 
 	i = 0;
-	while (cwd[i] != '\0')
-		i++;
-	while (cwd[i] != '/' && i != 0)
-	{
-		cwd[i] = '\0';
-		i--;
-	}
-	return (cwd);
-}
-
-void	prev_path()
-{
-	char	*prev;
-	char	cwd[4097];
-
 	getcwd(cwd, sizeof(cwd));
-	prev = get_prev_dir(cwd);
-	chdir(prev);
-} */
-
-void	cd_path(char *path)
-{
-	if (chdir(path) == -1)
-		printf("ERROR\n");
-	else
-		return ;
+	temp = (*env);
+	while (temp != NULL)
+	{
+		if (ft_strcmp(temp->name, "OLDPWD") == 0)
+		{
+			free(temp->value);
+			temp->value = ft_calloc(sizeof(char), ft_strlen(cwd) + 1);
+			while (cwd[i] != '\0')
+			{
+				temp->value[i] = cwd[i];
+				i++;
+			}
+			return ;
+		}
+		temp = temp->next;
+	}
 }
-
-void	cd_manager(char *argument)
+void	cd_manager(char *argument, t_env **env)
 {
+	oldpwd_update(env);
 	if (!argument)
-		chdir(getenv("HOME"));//cd_home();
-	else
-		cd_path(argument);
+		chdir(getenv("HOME"));
+	else if (chdir(argument) == -1)
+		ft_putstr_fd("CD ERROR\n", 2);
 }
