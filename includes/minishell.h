@@ -12,6 +12,7 @@
 #include<unistd.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <sys/ioctl.h>
 
 #define FOLDER_BIN "/bin/"
 #define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"

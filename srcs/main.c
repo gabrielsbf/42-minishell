@@ -1,13 +1,15 @@
 #include "../includes/minishell.h"
 
-void	sig_handler(int sig)
+void	sig_handler()
 {
-	char *prefix = prompt_prefix();
-	if (sig == SIGINT)
-		printf("\n%s", prefix);
-	else if (sig == SIGQUIT)
-		printf("%s", prefix);
-	free(prefix);
+	if (RL_ISSTATE(RL_STATE_READCMD))
+	{
+		rl_replace_line("", 1);
+		ioctl(1, TIOCSTI, "\n");
+	}
+	else
+		ft_putendl_fd("", 1);
+	rl_on_new_line();
 }
 
 int main(int argc, char **argv, char **envp)
@@ -20,7 +22,7 @@ int main(int argc, char **argv, char **envp)
 	env = create_env_list(envp);
 	prompt_in = init_prompt_struct();
 	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 	server_loop(&prompt_in, &env);
 	return (0);
 }
