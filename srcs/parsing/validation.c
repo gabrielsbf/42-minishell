@@ -36,27 +36,75 @@ int	validate_line_read(char *line_read)
 	return (1);
 }
 
+/*
+If
+RETURNS:
+* either 34 or 39 which means what quote the char is between
+* either 68(34 * 2) or 78(39 * 2) which means that the char is
+* 0 if it's not between quotes
+*/
+// static int	determine_cases(int d_open, int s_open, int last, char *ptr_to_mem)
+// {
+// 	int	i;
+// 	int res;
+// 	i = 0;
+// 	if (*ptr_to_mem == 34 || *ptr_to_mem == 39)
+// 	{
+// 		if (*ptr_to_mem == 34 && d_open)
+// 	}
 
-int	is_between_quotes(char *line_read, int memory, char find)
+// 	if (d_open == 1 && s_open == 1)
+// 	{
+// 		if (last == 34 && *ptr_to_mem == 34)
+// 			return (68);
+// 		else if (last == 34)
+// 			return (34);
+// 		else if (last == 39 && *ptr_to_mem == 39)
+// 			return (78);
+// 		else if (last == 39)
+// 			return (39);
+// 	}
+// 	if (d_open == 1)
+
+// 	return (0);
+// }
+
+int	is_between_quotes(char *line_read, int mem)
 {
-	int	qt;
-	//printf("testing in quotes\n");
-	qt = 0;
-	while (memory >= 0)
+	int iter;
+	int prior;
+	int lock;
+
+	iter = 0;
+	prior = 0;
+	lock = 0;
+	// printf("testing in quotes\nline read: %s, mem: %d, line read em mem: %d\n", line_read, mem, line_read[mem]);
+	while (iter <= mem)
 	{
-		//printf("reverse getting memory -> char is: %c\n",line_read[memory]);
-		if (line_read[memory] == find)
-			qt++;
-		memory--;
+		// printf("char is: %d\n", line_read[iter]);
+		if ((line_read[iter] == 39 || line_read[iter] == 34) && lock == 0)
+		{
+			prior = line_read[iter];
+			lock = 1;
+		}
+		else if (line_read[iter] == prior)
+		{
+			// printf("prior returned to zero\n");
+			lock = 0;
+			prior = 0;
+		}
+		iter++;
 	}
-	if (qt == 0 || qt % 2 == 0)
-		return (0);
-	return (1);
+	// printf("prior in this situation is: %d\n", prior);
+	if (prior == 0 && (line_read[mem] == 34 || line_read[mem] == 39))
+		return (line_read[mem] * 2);
+	else
+		return (prior);
 }
 
 int	is_blank_substr(char *line_read, int memory, int pos)
 {
-	//printf("start function -> is blank substr\n");
+	// printf("start function -> is blank substr\n");
 	while (pos >= memory)
 	{
 		if (!ft_isspace(line_read[pos]) && line_read[pos] != '\0')

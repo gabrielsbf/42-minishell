@@ -10,7 +10,9 @@ LIBFT_A = includes/libft/libft.a
 
 GET_SRCS = $(shell find $(DIR_SRCS))
 
-FILTER_SRCS = $(filter %.c, $(GET_SRCS))
+PRE-FILTER_SRCS = $(filter %.c, $(GET_SRCS))
+
+FILTER_SRCS = $(filter-out %testing.c, $(PRE-FILTER_SRCS))
 
 OBJS = $(FILTER_SRCS:%.c=$(DIR_OBJS)/%.o)
 
