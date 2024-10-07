@@ -4,15 +4,20 @@
 #include "pipe.h"
 #include "server.h"
 #include "maybe_libft.h"
-#include <signal.h>
 #include "libft/includes/libft.h"
-#include <stdio.h>
+//readline lib
 #include <readline/readline.h>
 #include <readline/history.h>
-#include<unistd.h>
-#include <sys/stat.h>
+//common libs
+#include <signal.h>
+#include <stdio.h>
+#include <unistd.h>
 #include <dirent.h>
+#include <fcntl.h>
+//system libs
+#include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/wait.h>
 
 #define FOLDER_BIN "/bin/"
 #define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"
