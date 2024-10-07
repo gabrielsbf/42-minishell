@@ -12,4 +12,6 @@ void	cd_manager(char *argument, t_env **env);
 void	export_to_env(t_env **env, char **splitted_instructions);
 void	unset_from_env(t_env **env, char **splitted_instructions);
 void	function_listener(t_parse **parser, t_env **env);
+// redirect
+void	redirect(t_parse **parser);
 #endif

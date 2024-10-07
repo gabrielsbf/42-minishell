@@ -31,6 +31,36 @@ void	main_line_process(char *line_read, t_env **env)
 
 }
 
+char	*check_sp_char(char **arguments)//checar special char durante o processo de parsing
+{
+	int		i;
+	char	*special_char;
+
+	i = 0;
+	if (!arguments)
+		return NULL;
+	special_char = NULL;
+	while(arguments[i] != NULL)
+	{
+		if (ft_strcmp(arguments[i], ">>") == 0 || ft_strcmp(arguments[i], "<<") == 0)
+		{
+			special_char = ft_calloc(sizeof(char), 3);
+			if (arguments[i][0] == '>')
+				special_char = ">>";
+			else
+				special_char = "<<";
+		}
+		else if (ft_strcmp(arguments[i], "<") == 0 || ft_strcmp(arguments[i], ">") == 0
+			|| ft_strcmp(arguments[i], "|") == 0)
+		{
+			special_char = ft_calloc(sizeof(char), 2);
+			special_char = arguments[i];
+		}
+		i++;
+	}
+	return (special_char);
+}
+
 int	split_process(t_parse **parser, int memory, int pos)
 {
 	char	*text_to_parse;
@@ -52,6 +82,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 		substr_text = ft_substr(text_to_parse, memory, pos - memory + 1);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
+	(*parser)->special_char = check_sp_char((*parser)->arguments);//chamada da função do secial_char
 	return (1);
 }
 
@@ -96,6 +127,7 @@ t_parse	*init_parse(char *line_read)
 	parser_init->entire_text = ft_strdup(line_read);
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
+	parser_init->special_char = NULL;
 	parser_init->fd_in = 0;
 	parser_init->fd_out = 1;
 	return (parser_init);

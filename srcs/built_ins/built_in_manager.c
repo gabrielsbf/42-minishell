@@ -4,6 +4,9 @@ void	function_listener(t_parse **parser, t_env **env)
 {
 
 	env_expansion(parser, env);
+	/* redirect(parser); */
+	if ((*parser)->special_char != NULL)
+		printf("%s\n", (*parser)->special_char);
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 	{
 		ft_echo((*parser)->arguments);

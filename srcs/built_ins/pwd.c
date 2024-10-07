@@ -5,7 +5,7 @@ void	pwd()
 	char	cwd[4097];
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		ft_putstr_fd("PWD ERROR", 2);
+		ft_putendl_fd("PWD ERROR", 2);
 	else
 		printf("%s\n", cwd);
 }
