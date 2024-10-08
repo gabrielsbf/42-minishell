@@ -45,10 +45,7 @@ char	*check_sp_char(char **arguments)//checar special char durante o processo de
 		if (ft_strcmp(arguments[i], ">>") == 0 || ft_strcmp(arguments[i], "<<") == 0)
 		{
 			special_char = ft_calloc(sizeof(char), 3);
-			if (arguments[i][0] == '>')
-				special_char = ">>";
-			else
-				special_char = "<<";
+			special_char = arguments[i];
 		}
 		else if (ft_strcmp(arguments[i], "<") == 0 || ft_strcmp(arguments[i], ">") == 0
 			|| ft_strcmp(arguments[i], "|") == 0)
@@ -82,7 +79,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 		substr_text = ft_substr(text_to_parse, memory, pos - memory + 1);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
-	(*parser)->special_char = check_sp_char((*parser)->arguments);//chamada da função do secial_char
+	(*parser)->special_char = check_sp_char((*parser)->arguments);//chamada da função do special_char
 	return (1);
 }
 
