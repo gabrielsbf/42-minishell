@@ -2,15 +2,24 @@
 
 void	print_parser_struct(t_parse **parser)
 {
+	t_parse *temp;
 	int	i;
 
-	i = 0;
-	printf("Main Command -> %s\n", (*parser)->main_command);
-	if ((*parser)->arguments == NULL)
-		return ;
-	while((*parser)->arguments[i] != NULL)
+	temp = (*parser);
+	while (temp != NULL)
 	{
-		printf("parser argument number %d is: %s\n", i, (*parser)->arguments[i]);
-		i++;
+		i = 0;
+		printf("Main Command -> %s\n", temp->main_command);
+		printf("Cmd Text is: %s\n", temp->command_text);
+		if ((*parser)->special_char != NULL)
+			printf("special char is: %s\n",(*parser)->special_char);
+		if (temp->arguments == NULL)
+			return ;
+		while(temp->arguments[i] != NULL)
+		{
+			printf("temp argument number %d is: %s\n\n", i, temp->arguments[i]);
+			i++;
+		}
+		temp = temp->next;
 	}
 }

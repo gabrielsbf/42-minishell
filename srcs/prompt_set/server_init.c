@@ -22,7 +22,6 @@ void	server_loop(t_prompt **prompt_st, t_env **env)
 	(void)prompt_st;
 	char	*line_read;
 	char	*prefix_element;
-
 	while
 	(1)
 	{

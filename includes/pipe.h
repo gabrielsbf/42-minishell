@@ -4,18 +4,18 @@
 typedef struct parsing
 {
 	char	*entire_text;
+	char	*command_text;
 	char	*main_command;
 	char	**flags;
 	char	**arguments;
 	char	*special_char;
-	char	*response;
 	char	*write_file;
 	char	*read_file;
 	int		fd_in;
 	int		fd_out;
 	int		is_error;
 	struct	parsing *next;
-
+	struct	parsing *head;
 }	t_parse;
 
 typedef struct s_env
@@ -46,8 +46,6 @@ void		free_struct(t_prompt **prompt);
 t_prompt	*init_prompt_struct(void);
 int			count_prompt_args(t_prompt **prompt);
 
-// ----- debug functions ----- maybe remove
-void		print_text_input(char **splitted_instructions);
 //Parsing - srcs/parsing/parser_set
 int			get_next_match(char *line_read, int position, char c);
 int			first_command_is_valid(char *line_read);
@@ -57,12 +55,17 @@ char		**ft_realloc_two_lists(char **str, char **str_new);
 char		**ft_realloc_list_and_str(char **str, char *str_new);
 int			count_args(char *line_read);
 int			set_main_command(t_parse **parser, char *line_read);
+int			jump_special_char(char *line_read);
 int			is_between_quotes(char *line_read, int memory);
 int			is_blank_substr(char *line_read, int memory, int pos);
+int			is_special_char(char *stretch);
 int			split_process(t_parse **parser, int memory, int pos);
 void		parsing_process(char *line_read, t_parse **parser);
 void		main_line_process(char *line_read, t_env **env);
-t_parse		*init_parse(char *line_read);
+t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head);
+char		*st_put_specialch(char **arguments);
+int			special_char_pos(char *line_sub);
+char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
 int		expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
 void	env_expansion(t_parse **parser, t_env **envs);
