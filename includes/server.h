@@ -4,7 +4,7 @@
 char	*prompt_prefix(void);
 void	server_loop(t_prompt **prompt_st, t_env **env);
 // srcs/prompt_set/built_ins/
-void	ft_echo(char **splitted_instructions);
+void	ft_echo(t_parse **parser);
 void	ft_fork(void);
 void	list_directory(const char *path);
 void	pwd();
