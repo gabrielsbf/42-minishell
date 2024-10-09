@@ -59,7 +59,6 @@ void	env_expansion(t_parse **parser, t_env **envs)
 {
 	int		i;
 	char	*text;
-
 	i = 0;
 	while ((*parser)->arguments[i] != NULL)
 	{

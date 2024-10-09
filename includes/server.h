@@ -13,5 +13,8 @@ void	export_to_env(t_env **env, char **splitted_instructions);
 void	unset_from_env(t_env **env, char **splitted_instructions);
 void	function_listener(t_parse **parser, t_env **env);
 // redirect
-void	redirect(t_parse **parser);
+int	redirect(t_parse **parser);
+int	append(t_parse **parser);
+int	pipe_handler(t_parse **parser);
+void sp_char_validation(t_parse **parser, t_env **env);
 #endif

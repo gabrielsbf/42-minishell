@@ -38,15 +38,3 @@ int	count_prompt_args(t_prompt **prompt)
 	return (i);
 }
 
-//debug func
-void	print_text_input(char **splitted_instructions)
-{
-	int i;
-
-	i = 0;
-	while (splitted_instructions[i] != NULL)
-	{
-		printf("arg[%d]: %s\n", i,  splitted_instructions[i]);
-		i++;
-	}
-}
