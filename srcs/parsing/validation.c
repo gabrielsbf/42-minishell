@@ -24,15 +24,12 @@ int	validate_line_read(char *line_read)
 	i = 0;
 	while (line_read[i] != '\0')
 	{
-		if (line_read[i] == 34 || line_read[i] == 39)
-		{
+		if ((line_read[i] == 34 || line_read[i] == 39))
 			i = get_next_match(line_read, i, line_read[i]);
-		}
 		if (i == -1)
 			return (0);
 		i++;
 	}
-	//printf("validate line read is OK\n");
 	return (1);
 }
 
@@ -43,32 +40,6 @@ RETURNS:
 * either 68(34 * 2) or 78(39 * 2) which means that the char is
 * 0 if it's not between quotes
 */
-// static int	determine_cases(int d_open, int s_open, int last, char *ptr_to_mem)
-// {
-// 	int	i;
-// 	int res;
-// 	i = 0;
-// 	if (*ptr_to_mem == 34 || *ptr_to_mem == 39)
-// 	{
-// 		if (*ptr_to_mem == 34 && d_open)
-// 	}
-
-// 	if (d_open == 1 && s_open == 1)
-// 	{
-// 		if (last == 34 && *ptr_to_mem == 34)
-// 			return (68);
-// 		else if (last == 34)
-// 			return (34);
-// 		else if (last == 39 && *ptr_to_mem == 39)
-// 			return (78);
-// 		else if (last == 39)
-// 			return (39);
-// 	}
-// 	if (d_open == 1)
-
-// 	return (0);
-// }
-
 int	is_between_quotes(char *line_read, int mem)
 {
 	int iter;
@@ -113,4 +84,31 @@ int	is_blank_substr(char *line_read, int memory, int pos)
 	}
 	//printf("is blank substr\n");
 	return (1);
+}
+
+char	*st_put_specialch(char **arguments)//checar special char durante o processo de parsing
+{
+	int		i;
+	char	*special_char;
+
+	i = 0;
+	if (!arguments)
+		return NULL;
+	special_char = NULL;
+	while(arguments[i] != NULL)
+	{
+		if (ft_strcmp(arguments[i], ">>") == 0 || ft_strcmp(arguments[i], "<<") == 0)
+		{
+			special_char = ft_calloc(sizeof(char), 3);
+			special_char = arguments[i];
+		}
+		else if (ft_strcmp(arguments[i], "<") == 0 || ft_strcmp(arguments[i], ">") == 0
+			|| ft_strcmp(arguments[i], "|") == 0)
+		{
+			special_char = ft_calloc(sizeof(char), 2);
+			special_char = arguments[i];
+		}
+		i++;
+	}
+	return (special_char);
 }
