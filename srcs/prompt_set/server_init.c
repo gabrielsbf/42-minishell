@@ -27,6 +27,12 @@ void	server_loop(t_prompt **prompt_st, t_env **env)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
+		if (ft_strcmp(line_read, "") == 0)
+		{
+			free(prefix_element);
+			free(line_read);
+			continue;
+		}
 		add_history(line_read);
 		main_line_process(line_read, env);
 		free(prefix_element);
