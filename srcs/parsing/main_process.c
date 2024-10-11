@@ -33,7 +33,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 /*Preciso validar parte da leitura em cima do texto da esquerda pra direita.*/
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
-t_parse	*main_line_process(char *line_read)
+t_parse	*main_line_process(char *line_read, t_env **env)
 {
 	t_parse	*parser;
 	t_parse	*head;
@@ -51,12 +51,12 @@ t_parse	*main_line_process(char *line_read)
 		cmd_line = separate_line_read(line_read);
 		if (i == 0)
 		{
-			parser = init_parse(line_read, cmd_line, head);
+			parser = init_parse(line_read, cmd_line, head, env);
 			head = parser;
 		}
 		else if (i > 0)
 		{
-			parser->next = init_parse(line_read, cmd_line, head);
+			parser->next = init_parse(line_read, cmd_line, head, env);
 			parser = parser->next;
 		}
 		parsing_process(cmd_line, &parser);
@@ -155,8 +155,23 @@ void	parsing_process(char *line_read, t_parse **parser)
 	split_process(parser, memory, i);
 }
 
+char	**get_env_path(t_env **env)
+{
+	t_env *temp;
+
+
+	temp = (*env);
+	while(temp != NULL)
+	{
+		if (ft_strcmp(temp->name, "PATH") == 0)
+			return (ft_split(temp->value, ':'));
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 /*(incomplete) This function needs to set all the attributes of the parser struct.*/
-t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head)
+t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 {
 	t_parse	*parser_init;
 	parser_init = malloc(sizeof(t_parse));
@@ -165,9 +180,11 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head)
 	parser_init->command_text = ft_strdup(cmd_str);
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
-	parser_init->special_char = NULL;
+	parser_init->env_path = get_env_path(env);
 	parser_init->fd_in = 0;
 	parser_init->fd_out = 1;
+	parser_init->special_char = NULL;
 	parser_init->head = head;
+	parser_init->pid = 0;
 	return (parser_init);
 }

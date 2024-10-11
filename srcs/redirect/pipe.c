@@ -2,16 +2,14 @@
 
 int	pipe_handler(t_parse **parser)
 {
-	t_parse *temp;
-	int		fd;/*
-	int		pip[2];
-	int		pip_i;
+	t_parse	*temp;
+	int		fd[2];
 
-	pip_i = pipe(pip); */
-	fd = 2;
 	temp = (*parser);
 	while (temp != NULL)
 	{
+		if(pipe(fd) == -1)
+			return (ft_putendl_fd("PIPE_ERROR", 2), 0);
 		if (temp->next == NULL)
 		{
 			free(temp->special_char);
@@ -19,10 +17,8 @@ int	pipe_handler(t_parse **parser)
 		}
 		else
 		{
-			temp->fd_in = ++fd;
-			temp->fd_out = ++fd;
-			//ft_putstr_fd("fd_int\n",temp->fd_in);
-			//ft_putstr_fd("fd_out\n",temp->fd_out);
+			temp->fd_in = fd[0];
+			temp->fd_out = fd[1];
 		}
 		temp = temp->next;
 	}

@@ -17,7 +17,7 @@ char	*prompt_prefix(void)
 	return (prompt_prefix);
 }
 
-void	server_loop(t_prompt **prompt_st, t_env **env)
+void	server_loop(t_prompt **prompt_st, t_env **env, char **envp)
 {
 	(void)prompt_st;
 	char	*line_read;
@@ -29,9 +29,9 @@ void	server_loop(t_prompt **prompt_st, t_env **env)
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
 		add_history(line_read);
-		parser = main_line_process(line_read);
+		parser = main_line_process(line_read, env);
 		sp_char_validation(&parser, env);
-		/* function_listener(&parser, env); */
+		function_listener(&parser, env, envp);
 		free(parser);
 		free(prefix_element);
 	}

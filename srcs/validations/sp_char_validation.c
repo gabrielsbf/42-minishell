@@ -4,6 +4,7 @@ void	sp_char_validation(t_parse **parser, t_env **env)
 {
 	int	std_o;
 
+	(void)env;
 	std_o = 1;
 	if ((*parser)->special_char != NULL
 		&& ft_strcmp((*parser)->special_char, ">") == 0)
@@ -14,6 +15,5 @@ void	sp_char_validation(t_parse **parser, t_env **env)
 	if ((*parser)->special_char != NULL
 		&& ft_strcmp((*parser)->special_char, "|") == 0)
 			std_o = pipe_handler(parser);
-	function_listener(parser, env);
 	dup2(std_o, STDOUT_FILENO);
 }

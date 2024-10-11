@@ -15,6 +15,7 @@
 #include <dirent.h>
 #include <fcntl.h>
 //system libs
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
