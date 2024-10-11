@@ -33,7 +33,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 /*Preciso validar parte da leitura em cima do texto da esquerda pra direita.*/
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
-void	main_line_process(char *line_read, t_env **env)
+t_parse	*main_line_process(char *line_read, t_env **env)
 {
 	t_parse	*parser;
 	t_parse	*head;
@@ -44,19 +44,19 @@ void	main_line_process(char *line_read, t_env **env)
 	i = 0;
 	go_back = 0;
 	if (!validate_line_read(line_read))
-		return ;
+		return NULL;
 	while (special_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{
 		go_back += special_char_pos(line_read);
 		cmd_line = separate_line_read(line_read);
 		if (i == 0)
 		{
-			parser = init_parse(line_read, cmd_line, head);
+			parser = init_parse(line_read, cmd_line, head, env);
 			head = parser;
 		}
 		else if (i > 0)
 		{
-			parser->next = init_parse(line_read, cmd_line, head);
+			parser->next = init_parse(line_read, cmd_line, head, env);
 			parser = parser->next;
 		}
 		parsing_process(cmd_line, &parser);
@@ -67,7 +67,7 @@ void	main_line_process(char *line_read, t_env **env)
 	parser = head;
 	free(line_read - go_back);
 	print_parser_struct(&parser);
-	function_listener(&parser, env); //podemos alocar em um local mais adequado
+	return (parser);
 }
 
 int	split_process(t_parse **parser, int memory, int pos)
@@ -116,7 +116,6 @@ int		def_parse_lim(t_parse **parser)
 	if (mem == i)
 		return ft_strlen((*parser)->command_text);
 	(*parser)->special_char = ft_substr(cmd_txt, mem, i - mem);
-	
 	if (cmd_txt[i] == '\0')
 		return (mem) - (i - mem) - 1;
 	else
@@ -154,8 +153,22 @@ void	parsing_process(char *line_read, t_parse **parser)
 	split_process(parser, memory, i);
 }
 
-/*(incomplete) This function needs to set all the attributes of the parser struct.*/
-t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head)
+char	**get_env_path(t_env **env)
+{
+	t_env *temp;
+
+
+	temp = (*env);
+	while(temp != NULL)
+	{
+		if (ft_strcmp(temp->name, "PATH") == 0)
+			return (ft_split(temp->value, ':'));
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
+t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 {
 	t_parse	*parser_init;
 	parser_init = malloc(sizeof(t_parse));
@@ -164,9 +177,11 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head)
 	parser_init->command_text = ft_strdup(cmd_str);
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
-	parser_init->special_char = NULL;
+	parser_init->env_path = get_env_path(env);
 	parser_init->fd_in = 0;
 	parser_init->fd_out = 1;
+	parser_init->special_char = NULL;
 	parser_init->head = head;
+	parser_init->pid = 0;
 	return (parser_init);
 }

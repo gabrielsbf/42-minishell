@@ -17,11 +17,12 @@ char	*prompt_prefix(void)
 	return (prompt_prefix);
 }
 
-void	server_loop(t_prompt **prompt_st, t_env **env)
+void	server_loop(t_prompt **prompt_st, t_env **env, char **envp)
 {
 	(void)prompt_st;
 	char	*line_read;
 	char	*prefix_element;
+	t_parse	*parser;
 	while
 	(1)
 	{
@@ -34,7 +35,10 @@ void	server_loop(t_prompt **prompt_st, t_env **env)
 			continue;
 		}
 		add_history(line_read);
-		main_line_process(line_read, env);
+		parser = main_line_process(line_read, env);
+		sp_char_validation(&parser, env);
+		function_listener(&parser, env, envp);
+		free(parser);
 		free(prefix_element);
 	}
 }
