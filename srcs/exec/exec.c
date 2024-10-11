@@ -1,21 +1,4 @@
 #include "../../includes/minishell.h"
-/*
-char	*path_name(char **envp)
-{
-	char	*path_name;
-	char ***temp;
-
-	if(!envp)
-		return (NULL);
-	(*temp) = envp;
-	while ((*temp))
-	{
-		if (ft_strcmp((*temp), "PATH") == 0)
-			return (get_env_value(*temp));
-		(*temp)++;
-	}
-	return (path_name);
-}*/
 
 int execution(t_parse **parser, char **envp)
 {
@@ -25,22 +8,30 @@ int execution(t_parse **parser, char **envp)
 	char	*s;
 
 	i = 0;
-	s = NULL;
 	s = ft_strjoin("/", (*parser)->main_command);
 	while ((*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);
 		if(access(path, F_OK & X_OK) != 0)
+		{
 			free(path);
+			path = NULL;
+		}
 		else
 			break;
 		i++;
 	}
-	if (!path)
+	if (access((*parser)->main_command, R_OK & X_OK) != 0 && !path)
 		return (2);
 	pid = fork();
 	if (pid == 0)
-		execve(path, (*parser)->arguments, envp);
+	{
+		if (!path)
+			execve((*parser)->main_command, (*parser)->arguments, envp);//must include exec_arguments in parser
+		else
+			execve(path, (*parser)->arguments, envp);
+	}
+
 	waitpid(pid, NULL, 0);
 	return (0);
 }
