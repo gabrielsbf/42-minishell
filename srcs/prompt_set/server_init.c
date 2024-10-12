@@ -28,6 +28,12 @@ void	server_loop(t_prompt **prompt_st, t_env **env, char **envp)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
+		if (ft_strcmp(line_read, "") == 0)
+		{
+			free(prefix_element);
+			free(line_read);
+			continue;
+		}
 		add_history(line_read);
 		parser = main_line_process(line_read, env);
 		sp_char_validation(&parser, env);

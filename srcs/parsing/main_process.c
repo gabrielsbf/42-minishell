@@ -68,7 +68,6 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	free(line_read - go_back);
 	print_parser_struct(&parser);
 	return (parser);
-	/* function_listener(&parser, env); //podemos alocar em um local mais adequado */
 }
 
 int	split_process(t_parse **parser, int memory, int pos)
@@ -117,7 +116,6 @@ int		def_parse_lim(t_parse **parser)
 	if (mem == i)
 		return ft_strlen((*parser)->command_text);
 	(*parser)->special_char = ft_substr(cmd_txt, mem, i - mem);
-
 	if (cmd_txt[i] == '\0')
 		return (mem) - (i - mem) - 1;
 	else
@@ -170,7 +168,6 @@ char	**get_env_path(t_env **env)
 	return (NULL);
 }
 
-/*(incomplete) This function needs to set all the attributes of the parser struct.*/
 t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 {
 	t_parse	*parser_init;

@@ -2,6 +2,7 @@
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
+
 	while ((*parser) != NULL)
 	{
 		if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)

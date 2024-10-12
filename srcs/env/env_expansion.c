@@ -19,7 +19,6 @@ int	expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs)
 	if (env_value == NULL)
 		return 0;
 	replace_text(parser, argument, env_name, env_value);
-	print_parser_struct(parser);
 	free(env_name);
 	return (1);
 }
@@ -39,7 +38,6 @@ void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs)
 {
 	int	i;
 	int expand_bool;
-
 	i = 0;
 	while (text[i] != '\0')
 	{
