@@ -182,6 +182,6 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->fd_out = 1;
 	parser_init->special_char = NULL;
 	parser_init->head = head;
-	parser_init->pid = 0;
+	parser_init->pid = getpid();
 	return (parser_init);
 }
