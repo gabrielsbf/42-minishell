@@ -101,24 +101,25 @@ int		def_parse_lim(t_parse **parser)
 	int		mem;
 
 	i = 0;
+	mem = 0;
 	cmd_txt = (*parser)->command_text;
-	while (cmd_txt[i] != '\0' && is_special_char(cmd_txt + i) == 0)
-		i++;
-	mem = i;
-	if (is_special_char(cmd_txt + i) == 2 && is_between_quotes(cmd_txt, i) == 0)
-		i++;
-	else
+	while (cmd_txt[i] != '\0')
 	{
-		while (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
-			i++;
+		if (is_special_char(cmd_txt + i) == 2 && is_between_quotes(cmd_txt, i) == 0)
+		{
+			(*parser)->special_char = ft_substr(cmd_txt, i, 1);
+			return (i - 1);
+		}
+		else if (is_special_char(cmd_txt + i) != 0  && is_between_quotes(cmd_txt, i) == 0)
+		{
+			while (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
+				mem++;
+			(*parser)->special_char = ft_substr(cmd_txt, i, mem);
+			return (i - 1);
+		}
+		i++;
 	}
-	if (mem == i)
-		return ft_strlen((*parser)->command_text);
-	(*parser)->special_char = ft_substr(cmd_txt, mem, i - mem);
-	if (cmd_txt[i] == '\0')
-		return (mem) - (i - mem) - 1;
-	else
-		return ft_strlen((*parser)->command_text);
+	return ft_strlen((*parser)->command_text);
 }
 /*Implantar funções para acoplar 25 linhas - Dpeois do while.*/
 void	parsing_process(char *line_read, t_parse **parser)
