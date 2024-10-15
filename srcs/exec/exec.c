@@ -9,7 +9,6 @@ int	get_arg_len(t_parse *parser)
 	temp = parser;
 	while(temp->arguments[i] != NULL)
 		i++;
-	printf("get arg len -> %d arguments\n", i);
 	return (i);
 }
 
@@ -29,23 +28,19 @@ void	create_execargs(t_parse **parser)
 {
 	int		arg_len;
 	int		i;
-	printf("exec args is being made\n");
+
 	i = 0;
 	arg_len = get_arg_len((*parser)) + 1;
-	printf("arg_len is: %d\n", arg_len);
 	(*parser)->exec_txt = ft_calloc(sizeof(char *), arg_len + 1);
-	printf("callocqued\n");
 	while (arg_len > i)
 	{
 		if (i == 0)
 			(*parser)->exec_txt[i] = ft_strdup((*parser)->main_command);
 		else
 			(*parser)->exec_txt[i] = ft_strdup((*parser)->arguments[i - 1]);
-		printf("argument number %d, was correctly alloqued, text is: %s\n", i,(*parser)->exec_txt[i]);
 		i++;
 	}
 	(*parser)->exec_txt[i] = NULL;
-	printf("execution ended\n");
 }
 
 int execution(t_parse **parser, char **envp)

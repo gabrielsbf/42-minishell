@@ -66,7 +66,6 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	}
 	parser = head;
 	free(line_read - go_back);
-	print_parser_struct(&parser);
 	return (parser);
 }
 
