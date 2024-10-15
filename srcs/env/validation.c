@@ -7,7 +7,7 @@ char *	check_name_in_env(t_env **envs, char * name)
 	swap = (*envs);
 	while (swap != NULL)
 	{
-		if (ft_strncmp(swap->name, name, ft_strlen(name) +1) == 0)
+		if (ft_strncmp(swap->name, name, ft_strlen(name) + 1) == 0)
 			break;
 		swap = swap->next;
 	}

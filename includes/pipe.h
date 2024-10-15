@@ -76,7 +76,7 @@ void	replace_text(t_parse **parser, int argument, char *find, char *replace);
 void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print
-void	print_parser_struct(t_parse **parser);
+void	print_parser_struct(t_parse *parser);
 
 //------Env------
 char	*check_name_in_env(t_env **envs, char * name);
