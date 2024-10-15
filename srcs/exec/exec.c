@@ -1,14 +1,15 @@
 #include "../../includes/minishell.h"
 
-int	get_arg_len(t_parse **parser)
+int	get_arg_len(t_parse *parser)
 {
 	t_parse	*temp;
 	int	i;
 
 	i = 0;
-	temp = (*parser);
-	while(temp->arguments[i])
+	temp = parser;
+	while(temp->arguments[i] != NULL)
 		i++;
+	printf("get arg len -> %d arguments\n", i);
 	return (i);
 }
 
@@ -24,40 +25,36 @@ void	get_execargs(char	*args, char **exec_arg, int	arr_i)
 	}
 }
 
-char	**create_execargs(t_parse **parser)
+void	create_execargs(t_parse **parser)
 {
-	char	**exec_args;
 	int		arg_len;
 	int		i;
-
+	printf("exec args is being made\n");
 	i = 0;
-	arg_len = get_arg_len(parser) + 1;
-	exec_args = ft_calloc(sizeof(char *), arg_len + 1);
+	arg_len = get_arg_len((*parser)) + 1;
+	printf("arg_len is: %d\n", arg_len);
+	(*parser)->exec_txt = ft_calloc(sizeof(char *), arg_len + 1);
+	printf("callocqued\n");
 	while (arg_len > i)
 	{
 		if (i == 0)
-		{
-			exec_args[i] = ft_calloc(sizeof(char), ft_strlen((*parser)->main_command) + 1);
-			get_execargs((*parser)->main_command, exec_args, i);
-		}
+			(*parser)->exec_txt[i] = ft_strdup((*parser)->main_command);
 		else
-		{
-			exec_args[i] = ft_calloc(sizeof(char), ft_strlen((*parser)->arguments[i - 1]) + 1);
-			get_execargs((*parser)->arguments[i - 1], exec_args, i);
-		}
+			(*parser)->exec_txt[i] = ft_strdup((*parser)->arguments[i - 1]);
+		printf("argument number %d, was correctly alloqued, text is: %s\n", i,(*parser)->exec_txt[i]);
 		i++;
 	}
-	return (exec_args);
+	(*parser)->exec_txt[i] = NULL;
+	printf("execution ended\n");
 }
 
 int execution(t_parse **parser, char **envp)
 {
 	int		i;
 	char	*path;
-	char	**exec_args;
 	char	*s;
 
-	exec_args = create_execargs(parser);
+	create_execargs(parser);
 	i = 0;
 	s = ft_strjoin("/", (*parser)->main_command);
 	while ((*parser)->env_path[i] != NULL)
@@ -77,9 +74,9 @@ int execution(t_parse **parser, char **envp)
 	if ((*parser)->pid == 0)
 	{
 		if (!path)
-			execve((*parser)->main_command, exec_args, envp);//must include exec_arguments in parser
+			execve((*parser)->main_command, (*parser)->exec_txt, envp);//must include exec_arguments in parser
 		else
-			execve(path, exec_args, envp);
+			execve(path, (*parser)->exec_txt, envp);
 	}
 	return (0);
 }
