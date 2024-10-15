@@ -27,7 +27,7 @@ int		special_char_pos(char *line_sub)
 				break;
 		}
 		if (got_in == 1)
-			return (i - 1);
+			return (i);
 		i++;
 	}
 	return (i);

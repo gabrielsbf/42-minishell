@@ -97,7 +97,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 /*A CRIAR*/
 int		def_parse_lim(t_parse **parser)
 {
-	char 	*cmd_txt;
+	char	*cmd_txt;
 	int		i;
 	int		mem;
 
