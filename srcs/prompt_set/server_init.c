@@ -36,6 +36,7 @@ void	server_loop(t_prompt **prompt_st, t_env **env, char **envp)
 		}
 		add_history(line_read);
 		parser = main_line_process(line_read, env);
+		env_expansion(&parser, env);
 		sp_char_validation(&parser, env);
 		function_listener(&parser, env, envp);
 		free(parser);

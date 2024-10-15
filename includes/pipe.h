@@ -6,6 +6,7 @@ typedef struct parsing
 	char	*entire_text;
 	char	*command_text;
 	char	*main_command;
+	char	**exec_txt;
 	char	*special_char;
 	char	*write_file;
 	char	*read_file;
