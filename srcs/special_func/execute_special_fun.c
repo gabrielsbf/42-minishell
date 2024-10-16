@@ -5,7 +5,7 @@ int	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 	(void)env;
 	if ((*parser)->special_char != NULL)
 	{
-		printf("--------------------- SPECIAL CHAR TEST ---------------------");
+		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
 		{
@@ -22,7 +22,7 @@ int	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 			function_listener(parser, env, envp);
 			return (0);
 		}
-		printf("--------------------- SPECIAL CHAR TEST ---------------------");
+		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
 	}
 	return(-1);
 }
