@@ -17,29 +17,51 @@ char	*prompt_prefix(void)
 	return (prompt_prefix);
 }
 
-void	server_loop(t_prompt **prompt_st, t_env **env, char **envp)
+/*Still need to do
+free the parser struct being used.*/
+void	free_parser_st(t_parse **parser)
 {
-	(void)prompt_st;
+	free((*parser));
+	return ;
+}
+void	free_onloop(t_parse **parser, char *prefix_elem, char *line_read, int free_parse)
+{
+	if (parser != NULL && free_parse == 1)
+	{
+		free_parser_st(parser);
+	}
+	if (prefix_elem != NULL)
+		free(prefix_elem);
+	if (line_read != NULL)
+		free(line_read);
+
+}
+
+void	server_loop(t_env **env, char **envp)
+{
 	char	*line_read;
 	char	*prefix_element;
 	t_parse	*parser;
+
 	while
 	(1)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
-		if (ft_strcmp(line_read, "") == 0)
-		{
-			free(prefix_element);
-			free(line_read);
-			continue;
-		}
-		add_history(line_read);
+		if (ft_strcmp(line_read, "") != 0)
+			add_history(line_read);
 		parser = main_line_process(line_read, env);
+		if (parser == NULL)
+		{
+			free_onloop(&parser, prefix_element, line_read, 0);
+			continue;
+			//include a free process here
+		}
 		print_parser_struct(parser);
 		env_expansion(&parser, env);
-		sp_char_validation(&parser, env);
+		sp_char_exec(&parser, env);
 		function_listener(&parser, env, envp);
+		//include a free process here
 		free(parser);
 		free(prefix_element);
 	}

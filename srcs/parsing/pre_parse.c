@@ -1,7 +1,25 @@
 #include "../../includes/minishell.h"
 
+/*make a validation on a stretch of a string to se if have validation special chars
+special chars are:
+* <
+* >
+* |
+
+the '>' chars can be proceeded by one more char of the same:
+* >>
+* <<
+return codes:
+1. > or <
+2. |
+3. >> or <<
+
+if results to 0 it means it's not a special char
+*/
 int		is_special_char(char *stretch)
 {
+	if ((stretch[0] == '>' || stretch[0] == '<') && stretch[0] == stretch[1])
+		return (3);
 	if (stretch[0] == '>' || stretch[0] == '<')
 		return (1);
 	if (stretch[0] == '|')
