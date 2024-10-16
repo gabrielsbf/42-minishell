@@ -112,7 +112,7 @@ int		def_parse_lim(t_parse **parser)
 		}
 		else if (is_special_char(cmd_txt + i) != 0  && is_between_quotes(cmd_txt, i) == 0)
 		{
-			while (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
+			while (is_special_char(cmd_txt + i + mem) == 1 && is_between_quotes(cmd_txt, i + mem) == 0)
 				mem++;
 			(*parser)->special_char = ft_substr(cmd_txt, i, mem);
 			return (i - 1);

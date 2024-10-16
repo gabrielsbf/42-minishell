@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 
+/*FILE DEPRECATED - NEED TO THINK ABOUT
 //Function probrably deprecated - need to update with new parsing
 void	simple_prompt_handler(int argc, char *argv[], t_prompt **prompt)
 {
@@ -30,3 +31,4 @@ int	pipe_exec(int argc, char *argv[], t_prompt **prompt)
 	return (1);
 }
 
+*/

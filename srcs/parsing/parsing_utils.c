@@ -1,20 +1,5 @@
 #include "../../includes/minishell.h"
 
-/*(finished) Function is called when a char that normally the user wants to
-target is incountered, it then get the index of the char c encountered at the string(line_read)
-the position argument set where is the index of the string that you want to begin.
-The return is the absolute index of the position of the encountered char*/
-int	get_next_match(char  *line_read, int position, char c)
-{
-	position++;
-	while (line_read[position] != '\0' && line_read[position] != c)
-		position++;
-	if (line_read[position] != c)
-		return -1;
-	return position;
-
-}
-
 /*(finished) Count the number of char * present on the vector.*/
 int count_arr_nb(char **str)
 {
@@ -108,3 +93,4 @@ int	count_args(char *line_read)
 	/*Just to work - return will change*/
 	return (i);
 }
+

@@ -1,5 +1,6 @@
 #include "../../includes/minishell.h"
 
+/*FILE DEPRECATED - NEED TO THINK ABOUT
 t_prompt	*init_prompt_struct(void)
 {
 	t_prompt *prompt_cons;
@@ -38,3 +39,4 @@ int	count_prompt_args(t_prompt **prompt)
 	return (i);
 }
 
+*/

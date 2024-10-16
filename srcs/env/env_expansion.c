@@ -57,12 +57,19 @@ void	env_expansion(t_parse **parser, t_env **envs)
 {
 	int		i;
 	char	*text;
-	i = 0;
-	while ((*parser)->arguments[i] != NULL)
-	{
-		text = (*parser)->arguments[i];
-		hand_cipher(parser, text, i, envs);
-		i++;
-	}
+	t_parse **head;
 
+	head = parser;
+	i = 0;
+	while ((*parser) != NULL)
+	{
+		while ((*parser)->arguments[i] != NULL)
+		{
+			text = (*parser)->arguments[i];
+			hand_cipher(parser, text, i, envs);
+			i++;
+		}
+		(parser) = &(*parser)->next;
+	}
+	(parser) = head;
 }

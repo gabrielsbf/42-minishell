@@ -2,6 +2,7 @@
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
+	printf("EXECUTION PRINT\n-------------------------------------------------\n");
 	while ((*parser) != NULL)
 	{
 		if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
@@ -33,5 +34,6 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		if ((*parser)->pid == 0)
 			exit(0);
 		(*parser) = (*parser)->next;
+		printf("-------------------------------------------------\n");
 	}
 }

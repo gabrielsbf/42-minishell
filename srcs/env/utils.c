@@ -14,6 +14,7 @@ void	replace_text(t_parse **parser, int arg, char *find, char *replace)
 	new_alloc = ft_strlen((*parser)->arguments[arg]) - ft_strlen(find) + ft_strlen(replace) + 2;
 	text = ft_strdup((*parser)->arguments[arg]);
 	free((*parser)->arguments[arg]);
+	(*parser)->arguments[arg] = NULL;
 	(*parser)->arguments[arg] = (char *)malloc(new_alloc * sizeof(char));
 	if ((*parser)->arguments[arg] == NULL)
 		return ;

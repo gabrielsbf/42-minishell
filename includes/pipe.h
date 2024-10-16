@@ -40,18 +40,22 @@ typedef struct utils_prompt
 }	t_prompt;
 
 // srcs/prompt_set/pipe_utils
-int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
-void		simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
+//DEPRECATED - int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
+//DEPRECATED - void		simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
 
 // srcs/prompt_set/prompt_set
-void		free_str_in_pointer(char **string);
-void		free_struct(t_prompt **prompt);
-t_prompt	*init_prompt_struct(void);
-int			count_prompt_args(t_prompt **prompt);
 
-//Parsing - srcs/parsing/parser_set
+//DEPRECATED -  void		free_str_in_pointer(char **string);
+//DEPRECATED -  void		free_struct(t_prompt **prompt);
+//DEPRECATED -  t_prompt	*init_prompt_struct(void);
+//DEPRECATED -  int			count_prompt_args(t_prompt **prompt);
+
+//Parsing - srcs/parsing/
+// DEPRECATED - > char		*st_put_specialch(char **arguments);
+
+//Parsing - srcs/parsing/
+
 int			get_next_match(char *line_read, int position, char c);
-int			first_command_is_valid(char *line_read);
 int			validate_line_read(char *line_read);
 int			count_arr_nb(char **str);
 char		**ft_realloc_two_lists(char **str, char **str_new);
@@ -66,19 +70,23 @@ int			split_process(t_parse **parser, int memory, int pos);
 void		parsing_process(char *line_read, t_parse **parser);
 t_parse		*main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
-char		*st_put_specialch(char **arguments);
+
+
 int			special_char_pos(char *line_sub);
 char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
+
 int		expand_variable(t_parse **parser, int argument, int i_cipher, t_env **envs);
 void	env_expansion(t_parse **parser, t_env **envs);
 void	replace_text(t_parse **parser, int argument, char *find, char *replace);
 void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print
+
 void	print_parser_struct(t_parse *parser);
 
 //------Env------
+
 char	*check_name_in_env(t_env **envs, char * name);
 char	*get_env_name(char **env);
 int		get_value_length(char **env);
