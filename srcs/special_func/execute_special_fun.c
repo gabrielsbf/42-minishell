@@ -1,11 +1,11 @@
 #include "../../includes/minishell.h"
 
-int	sp_char_validation(t_parse **parser, t_env **env, char **envp)
+int	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 {
-	printf("--------------------- SPECIAL CHAR TEST ---------------------");
 	(void)env;
 	if ((*parser)->special_char != NULL)
 	{
+		printf("--------------------- SPECIAL CHAR TEST ---------------------");
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
 		{
@@ -22,7 +22,7 @@ int	sp_char_validation(t_parse **parser, t_env **env, char **envp)
 			function_listener(parser, env, envp);
 			return (0);
 		}
-	printf("--------------------- SPECIAL CHAR TEST ---------------------");
+		printf("--------------------- SPECIAL CHAR TEST ---------------------");
 	}
 	return(-1);
 }

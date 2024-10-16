@@ -36,7 +36,6 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
-	printf("---------------- FUNCTION LISTENER ----------------");
 	while ((*parser) != NULL)
 	{
 		if (built_ins_manager(parser, env) == 0 && !(*parser)->special_char)
@@ -60,5 +59,4 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 			exit(0);
 		(*parser) = (*parser)->next;
 	}
-	printf("---------------- FUNCTION LISTENER ----------------");
 }
