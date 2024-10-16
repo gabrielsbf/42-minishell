@@ -1,25 +1,28 @@
 #include "../../includes/minishell.h"
 
-void	sp_char_exec(t_parse **parser, t_env **env)
+int	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 {
-	printf("SPECIAL CHAR TEST\n");
-	printf("-------------------------------------------------\n");
 	(void)env;
-	if ((*parser)->special_char == NULL)
-		printf("Doesn't have any special char\n");
-	if ((*parser)->special_char != NULL
-		&& ft_strcmp((*parser)->special_char, ">") == 0)
+	if ((*parser)->special_char != NULL)
 	{
+		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
-			redirect(parser);
-		printf("entered in >\n");
+		{
+			if (ft_strcmp((*parser)->special_char, ">") == 0)
+				redirect(parser);
+			if (ft_strcmp((*parser)->special_char, ">>") == 0)
+				append(parser);
+			if (ft_strcmp((*parser)->special_char, "|") == 0)
+				pipe_handler(parser);
+			if (ft_strcmp((*parser)->special_char, "<") == 0)
+				printf("input redirect\n");
+			if (ft_strcmp((*parser)->special_char, "<<") == 0)
+				printf("heredoc");
+			function_listener(parser, env, envp);
+			return (0);
+		}
+		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
 	}
-	if ((*parser)->special_char != NULL
-		&& ft_strcmp((*parser)->special_char, ">>") == 0)
-		printf("entered in >>\n");
-	if ((*parser)->special_char != NULL
-		&& ft_strcmp((*parser)->special_char, "|") == 0)
-		printf("entered in |\n");
-	printf("-------------------------------------------------\n\n");
+	return(-1);
 }

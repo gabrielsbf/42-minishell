@@ -10,11 +10,6 @@ int	pipe_handler(t_parse **parser)
 	{
 		if(pipe(fd) == -1)
 			return (ft_putendl_fd("PIPE_ERROR", 2), 0);
-		if (temp->next == NULL)
-		{
-			free(temp->special_char);
-			temp->special_char = NULL;
-		}
 		else
 		{
 			temp->fd_in = fd[0];

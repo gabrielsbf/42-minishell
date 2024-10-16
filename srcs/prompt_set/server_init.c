@@ -59,7 +59,7 @@ void	server_loop(t_env **env, char **envp)
 		}
 		print_parser_struct(parser);
 		env_expansion(&parser, env);
-		sp_char_exec(&parser, env);
+		sp_char_exec(&parser, env, envp);
 		function_listener(&parser, env, envp);
 		//include a free process here
 		free(parser);
