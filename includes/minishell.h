@@ -1,7 +1,7 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-
+extern int g_status;
 #include "pipe.h"
 #include "server.h"
 #include "maybe_libft.h"
