@@ -7,7 +7,7 @@ void	server_loop(t_env **env, char **envp);
 void	ft_echo(t_parse **parser);
 void	ft_fork(void);
 void	list_directory(const char *path);
-void	pwd();
+void	pwd(t_parse **parser);
 void	cd_manager(char *argument, t_env **env);
 void	export_to_env(t_env **env, char **splitted_instructions);
 void	unset_from_env(t_env **env, char **splitted_instructions);

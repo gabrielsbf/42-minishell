@@ -20,7 +20,7 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 	else if(ft_strncmp((*parser)->main_command, "exit", 5) == 0)
 		exit(0);
 	else if(ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
-		pwd();
+		pwd(parser);
 	else if (ft_strncmp((*parser)->main_command, "cd", 3) == 0)
 		cd_manager((*parser)->arguments[0], env);
 	else if (ft_strncmp((*parser)->main_command, "env", 4) == 0)
@@ -36,25 +36,19 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
+	int exec_builtin;
+
 	while ((*parser) != NULL)
 	{
-		if (built_ins_manager(parser, env) == 0 && !(*parser)->special_char)
-			return ;
-		else
+		exec_builtin = built_ins_manager(parser, env);
+		if (exec_builtin == 1)
 		{
 			if ((*parser)->pid != 0)
 				(*parser)->pid = fork();
 			execution(parser, envp);
+			waitpid((*parser)->pid, NULL, 0);
 		}
-		if ((*parser)->fd_out != 1)
-		{
-			close((*parser)->fd_out);
-		}
-		if ((*parser)->fd_in != 0)
-		{
-			dup2(STDIN_FILENO, (*parser)->fd_in);
-			close((*parser)->fd_in);
-		}
+
 		if ((*parser)->pid == 0)
 			exit(0);
 		(*parser) = (*parser)->next;
