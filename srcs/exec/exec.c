@@ -49,6 +49,8 @@ int execution(t_parse **parser, char **envp)
 	char	*path;
 	char	*s;
 
+	if ((*parser)->pid != 0)
+		return (0);
 	create_execargs(parser);
 	i = 0;
 	s = ft_strjoin("/", (*parser)->main_command);

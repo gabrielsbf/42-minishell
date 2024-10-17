@@ -2,11 +2,15 @@
 
 void	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 {
+	(void)envp;
 	(void)env;
 	(void)envp;
 	if ((*parser)->special_char != NULL)
 	{
 		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
+		printf("special char of the node is: %s\n", (*parser)->special_char);
+		printf("---------------------------------------------------------------\n");
+    //Verificar se esse fork não irá dar problema.
 		if ((*parser)->pid != 0)
 			(*parser)->pid = fork();
 		waitpid((*parser)->pid, NULL, 0);

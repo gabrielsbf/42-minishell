@@ -24,9 +24,12 @@ void	print_parser_struct(t_parse *parser)
 			printf("temp argument number %d is: %s\n", i, temp->arguments[i]);
 			i++;
 		}
-		temp = temp->next;
+		printf("fd_in on node is: %d\n", temp->fd_in);
+		printf("fd_out on node is: %d\n", temp->fd_out);
 		printf("*************************************\n");
 		index_node++;
+		temp = temp->next;
+
 	}
 	printf("\n");
 }
