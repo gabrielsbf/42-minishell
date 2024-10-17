@@ -178,8 +178,8 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
 	parser_init->env_path = get_env_path(env);
-	parser_init->fd_in = 0;
-	parser_init->fd_out = 1;
+	parser_init->fd_in = STDOUT_FILENO;
+	parser_init->fd_out = STDIN_FILENO;
 	parser_init->special_char = NULL;
 	parser_init->head = head;
 	parser_init->pid = getpid();

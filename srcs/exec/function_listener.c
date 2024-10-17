@@ -42,9 +42,9 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 	while ((*parser) != NULL)
 	{
 		built_ins_manager(parser, env);
-	  if ((*parser)->pid != 0 && g_status == 0)
+	  if ((*parser)->pid != 0)
 		{
-      printf("%d\n", (*parser)->pid);
+			printf("%d\n", (*parser)->pid);
 			(*parser)->pid = fork();
 			execution(parser, envp);
 			waitpid((*parser)->pid, NULL, 0);
