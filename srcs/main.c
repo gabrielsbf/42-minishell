@@ -1,5 +1,7 @@
 #include "../includes/minishell.h"
 
+int	g_status = -1;
+
 void	sig_handler()
 {
 	if (RL_ISSTATE(RL_STATE_READCMD))

@@ -13,7 +13,7 @@ void	closing_fd(t_parse **parser)
 	}
 }
 
-int	built_ins_manager(t_parse **parser, t_env **env)
+void	built_ins_manager(t_parse **parser, t_env **env)
 {
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		ft_echo(parser);
@@ -29,23 +29,27 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 		export_to_env(env, (*parser)->arguments);
 	else if (ft_strncmp((*parser)->main_command, "unset", 6) == 0)
 		unset_from_env(env, (*parser)->arguments);
-	else
-		return (1);
-	return (0);
+	g_status = 1;
 }
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
+	if (g_status == -1)
+	{
+		g_status = 0;
+		return ;
+	}
 	while ((*parser) != NULL)
 	{
-		if (built_ins_manager(parser, env) == 0 && !(*parser)->special_char)
-			return ;
-		else
+		built_ins_manager(parser, env);
+		if ((*parser)->pid != 0 && g_status == 0)
 		{
-			if ((*parser)->pid != 0)
-				(*parser)->pid = fork();
-			execution(parser, envp);
+			printf("%d\n", (*parser)->pid);
+			(*parser)->pid = fork();
 		}
+			waitpid((*parser)->pid, NULL, 0);
+			execution(parser, envp);
+		/*
 		if ((*parser)->fd_out != 1)
 		{
 			close((*parser)->fd_out);
@@ -54,7 +58,7 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		{
 			dup2(STDIN_FILENO, (*parser)->fd_in);
 			close((*parser)->fd_in);
-		}
+		} */
 		if ((*parser)->pid == 0)
 			exit(0);
 		(*parser) = (*parser)->next;

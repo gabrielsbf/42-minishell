@@ -16,7 +16,7 @@ void	function_listener(t_parse **parser, t_env **env, char **envp);
 void	redirect(t_parse **parser);
 int	append(t_parse **parser);
 int	pipe_handler(t_parse **parser);
-int sp_char_exec(t_parse **parser, t_env **env, char **envp);
+void sp_char_exec(t_parse **parser, t_env **env, char **envp);
 // exec
 int execution(t_parse **parser, char **envp);
 #endif

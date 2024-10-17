@@ -2,20 +2,20 @@
 
 int	pipe_handler(t_parse **parser)
 {
-	t_parse	*temp;
+	t_parse	**head = parser;
 	int		fd[2];
 
-	temp = (*parser);
-	while (temp != NULL)
+	while ((*head)->next != NULL)
 	{
 		if(pipe(fd) == -1)
 			return (ft_putendl_fd("PIPE_ERROR", 2), 0);
 		else
 		{
-			temp->fd_in = fd[0];
-			temp->fd_out = fd[1];
+			(*head)->fd_in = fd[0];
+			(*head)->fd_out = fd[1];
+			dup2((*head)->fd_out, STDOUT_FILENO);
 		}
-		temp = temp->next;
+		(*head) = (*head)->next;
 	}
 	return 0;
 }
