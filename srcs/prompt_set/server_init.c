@@ -7,7 +7,7 @@ char	*prompt_prefix(void)
 	char	cwd[4097];
 
 	prompt_prefix = ft_strjoin(getenv("LOGNAME"), "@");
-	temp = ft_strjoin(prompt_prefix, getenv("NAME"));
+	temp = ft_strjoin(prompt_prefix, getenv("USER"));
 	free(prompt_prefix);
 	prompt_prefix = ft_strjoin(temp, ":");
 	free(temp);
@@ -48,6 +48,7 @@ void	server_loop(t_env **env, char **envp)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
+		free(prefix_element);
 		if (ft_strcmp(line_read, "") != 0)
 			add_history(line_read);
 		parser = main_line_process(line_read, env);
@@ -63,6 +64,5 @@ void	server_loop(t_env **env, char **envp)
 		function_listener(&parser, env, envp);
 		//include a free process here
 		free(parser);
-		free(prefix_element);
 	}
 }

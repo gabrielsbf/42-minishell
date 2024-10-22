@@ -4,6 +4,7 @@
 char	*prompt_prefix(void);
 void	server_loop(t_env **env, char **envp);
 // srcs/prompt_set/built_ins/
+void	ft_exit(t_parse **parser, t_env **env);
 void	ft_echo(t_parse **parser);
 void	ft_fork(void);
 void	list_directory(const char *path);
@@ -18,5 +19,6 @@ int	append(t_parse **parser);
 int	pipe_handler(t_parse **parser);
 void sp_char_exec(t_parse **parser, t_env **env, char **envp);
 // exec
+int	get_arg_len(t_parse *parser);
 int execution(t_parse **parser, char **envp);
 #endif

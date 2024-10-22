@@ -18,7 +18,7 @@ void	built_ins_manager(t_parse **parser, t_env **env)
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		ft_echo(parser);
 	else if(ft_strncmp((*parser)->main_command, "exit", 5) == 0)
-		exit(0);
+		ft_exit(parser, env);
 	else if(ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
 		pwd(parser);
 	else if (ft_strncmp((*parser)->main_command, "cd", 3) == 0)
