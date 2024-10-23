@@ -72,7 +72,7 @@ t_parse		*main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
 
 
-int			special_char_pos(char *line_sub);
+int			pipe_char_pos(char *line_sub);
 char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
 
