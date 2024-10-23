@@ -48,7 +48,6 @@ void	server_loop(t_env **env, char **envp)
 	{
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
-		free(prefix_element);
 		if (ft_strcmp(line_read, "") != 0)
 			add_history(line_read);
 		parser = main_line_process(line_read, env);
@@ -58,11 +57,11 @@ void	server_loop(t_env **env, char **envp)
 			continue;
 			//include a free process here
 		}
+		free(prefix_element);
 		env_expansion(&parser, env);
 		sp_char_exec(&parser, env, envp);
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
-		//include a free process here
 		free(parser);
 	}
 }
