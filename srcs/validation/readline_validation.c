@@ -29,8 +29,18 @@ int	test_quote (char *line_read)
 	return (1);
 }
 
-int	check_after_sp (char *line_read, int i)
+int	check_along (char *line_read, int i)
 {
+	int back;
+
+	back = i - 1;
+
+	while (is_special_char(&line_read[back]) > 0 && back >= 0)
+		back--;
+	while (back >= 0 && ft_isspace(line_read[back]))
+		back--;
+	if (back < 0)
+		return (is_special_char(&line_read[i - 1]));
 	while (ft_isspace(line_read[i]) == 1)
 		i++;
 	if (line_read[i] == '\0')
@@ -46,21 +56,22 @@ int	test_sp_char (char *line_read)
 
 	valchar = 0;
 	i = 0;
-	while (line_read[i++] != '\0')
+	while (line_read[i] != '\0')
 	{
 		if (is_between_quotes(line_read, i) != 0)
 			continue;
 		if (is_special_char(&line_read[i]) >= 1 &&
 		is_special_char(&line_read[i]) <= 2)
 		{
-			valchar = check_after_sp(line_read, i + 1);
+			valchar = check_along(line_read, i + 1);
 		}
 		else if (is_special_char(&line_read[i]) == 3)
 		{
-			valchar = check_after_sp(line_read, i + 2);
+			valchar = check_along(line_read, i + 2);
 		}
 		if (valchar != 0)
 			return (-(valchar));
+		i++;
 	}
 	return (1);
 }
