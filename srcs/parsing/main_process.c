@@ -42,12 +42,11 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	int		i;
 
 	i = 0;
-	go_back = 0;
+	go_back = (int)ft_strlen(line_read);
 	if (!validate_line_read(line_read))
 		return NULL;
-	while (special_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
+	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{
-		go_back += special_char_pos(line_read);
 		cmd_line = separate_line_read(line_read);
 		if (i == 0)
 		{
@@ -60,7 +59,9 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 			parser = parser->next;
 		}
 		parsing_process(cmd_line, &parser);
-		line_read = line_read + special_char_pos(line_read);
+		line_read = line_read + pipe_char_pos(line_read);
+		if (line_read[0] != '\0')
+			line_read++;
 		free(cmd_line);
 		i++;
 	}
