@@ -25,7 +25,7 @@ void	free_onloop(t_parse **parser, char *prefix_elem, char *line_read)
 		free(prefix_elem);
 	if (line_read != NULL)
 		free(line_read);
-} */
+}*/
 
 int	data_validation(char *line_read, char *prefix_element, t_parse **parser, t_env **env)
 {
@@ -45,6 +45,8 @@ int	data_validation(char *line_read, char *prefix_element, t_parse **parser, t_e
 		free_parser(parser);
 		return (1);
 	}
+	free(prefix_element);
+	free(line_read);
 	return (0);
 }
 
@@ -80,6 +82,6 @@ void	server_loop(t_env **env, char **envp)
 		sp_char_exec(&parser, env, envp);
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
-		free_onloop(&parser, prefix_element, line_read);
+		free_parser(&parser);
 	}
 }
