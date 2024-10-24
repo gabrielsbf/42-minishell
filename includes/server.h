@@ -30,5 +30,5 @@ void	many_args_exit(t_env **env, t_parse **parser);
 
 // exec
 int	get_arg_len(t_parse *parser);
-int execution(t_parse **parser, char **envp);
+int execution(t_parse **parser, t_env **env, char **envp);
 #endif
