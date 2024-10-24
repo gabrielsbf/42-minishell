@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	free_node(t_env *env)
+void	free_env_node(t_env *env)
 {
 	env->head = NULL;
 	free(env->name);
@@ -27,7 +27,7 @@ void	envnode_sewing(t_env **env, char **splitted_instructions)
 				(*env) = (*env)->next;
 				prev_node->next = (*env);
 			}
-			free_node(node_remover);
+			free_env_node(node_remover);
 			break ;
 		}
 		prev_node = (*env);

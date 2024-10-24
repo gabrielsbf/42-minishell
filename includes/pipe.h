@@ -95,5 +95,6 @@ int		is_env_available(char c);
 t_env	*create_env_list(char **envp);
 t_env	*add_env_node(char **env, t_env *head);
 void	get_env(t_env **env);
+void	free_env_node(t_env *env);
 
 #endif
