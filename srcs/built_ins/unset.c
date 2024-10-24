@@ -1,5 +1,13 @@
 #include "../../includes/minishell.h"
 
+void	free_env_node(t_env *env)
+{
+	env->head = NULL;
+	free(env->name);
+	free(env->value);
+	free(env);
+}
+
 void	envnode_sewing(t_env **env, char **splitted_instructions)
 {
 	t_env	*prev_node;
@@ -19,7 +27,7 @@ void	envnode_sewing(t_env **env, char **splitted_instructions)
 				(*env) = (*env)->next;
 				prev_node->next = (*env);
 			}
-			free(node_remover);
+			free_env_node(node_remover);
 			break ;
 		}
 		prev_node = (*env);
@@ -59,8 +67,10 @@ void	unset_from_env(t_env **env, char **splitted_instructions)
 	t_env *swap;
 
 	swap = (*env);
-	if (!*splitted_instructions || !(*env))
-		ft_putendl_fd("UNSET ERROR", 2);
+	if (!(*env))
+		ft_putendl_fd("UNSET ENV ERROR", 2);
+	if (!*splitted_instructions)
+		return ;
 	else if (ft_strcmp(swap->name, get_env_name(splitted_instructions)) == 0)
 		define_new_head(env);
 	else
