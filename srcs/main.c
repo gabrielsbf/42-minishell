@@ -2,16 +2,19 @@
 
 int	g_status;
 
-void	sig_handler()
+void	sig_handler(int sig)
 {
-	if (RL_ISSTATE(RL_STATE_READCMD))
+	if (sig == SIGINT)
 	{
+		if (RL_ISSTATE(RL_STATE_READCMD))
+			ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		else
+			write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 1);
-		ioctl(1, TIOCSTI, "\n");
+		rl_on_new_line();
+		g_status = 130;
 	}
-	else
-		ft_putendl_fd("", 1);
-	rl_on_new_line();
+	return ;
 }
 
 

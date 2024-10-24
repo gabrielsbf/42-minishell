@@ -43,6 +43,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 
 	i = 0;
 	go_back = (int)ft_strlen(line_read);
+	(void)go_back;
 	if (!validate_line_read(line_read))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
@@ -66,7 +67,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 		i++;
 	}
 	parser = head;
-	free(line_read - go_back);
+	/*free(line_read - go_back);*/
 	return (parser);
 }
 

@@ -4,3 +4,4 @@ pipe
 *.o
 *.a
 minishell
+readline.supp
