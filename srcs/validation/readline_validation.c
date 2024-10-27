@@ -56,7 +56,7 @@ int	test_sp_char (char *line_read)
 
 	valchar = 0;
 	i = 0;
-	while (line_read[i] != '\0')
+	while (line_read[i++] != '\0')
 	{
 		if (is_between_quotes(line_read, i) != 0)
 			continue;
@@ -71,7 +71,6 @@ int	test_sp_char (char *line_read)
 		}
 		if (valchar != 0)
 			return (-(valchar));
-		i++;
 	}
 	return (1);
 }
@@ -86,9 +85,9 @@ int	validate_line_read(char *line_read)
 		ft_putendl_fd("QUOTE ERROR", 2);
 	else if (test_sp_char(line_read) < 0)
 	{
-		if (test_sp_char(line_read) == -1)
-			ft_putendl_fd("REDIRECT ERROR", 2);
 		if (test_sp_char(line_read) == -2)
+			ft_putendl_fd("REDIRECT ERROR", 2);
+		if (test_sp_char(line_read) == -1)
 			ft_putendl_fd("PIPE ERROR", 2);
 		if (test_sp_char(line_read) == -3)
 			ft_putendl_fd("HEREDOC ERROR", 2);

@@ -95,28 +95,46 @@ int	split_process(t_parse **parser, int memory, int pos)
 	return (1);
 }
 
+int	get_redirect_part(t_parse **parser, char *cmd_txt, int mem)
+{
+	int	i;
+	int	flip;
+
+	flip = 0;
+	i = mem;
+	while (is_special_char(&cmd_txt[i]))
+		i++;
+	while (cmd_txt[i] != '\0')
+	{
+		while (!ft_isspace(cmd_txt[i]) && cmd_txt[i] != '\0' &&
+		is_special_char(&cmd_txt[i]) == 0)
+		{
+			flip = 1;
+			i++;
+		}
+		if (flip == 1)
+			break;
+		i++;
+	}
+	printf("out of redirect\n");
+	(* parser)->redir = ft_realloc_list_and_str((* parser)->redir,
+	 					ft_substr(cmd_txt, mem, i - mem));
+	return (i);
+}
+
 /*A CRIAR*/
 int		def_parse_lim(t_parse **parser)
 {
 	char	*cmd_txt;
 	int		i;
-	int		mem;
 
 	i = 0;
-	mem = 0;
 	cmd_txt = (*parser)->command_text;
 	while (cmd_txt[i] != '\0')
 	{
-		if (is_special_char(cmd_txt + i) == 2 && is_between_quotes(cmd_txt, i) == 0)
+		if (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
 		{
 			(*parser)->special_char = ft_substr(cmd_txt, i, 1);
-			return (i - 1);
-		}
-		else if (is_special_char(cmd_txt + i) != 0  && is_between_quotes(cmd_txt, i) == 0)
-		{
-			while (is_special_char(cmd_txt + i + mem) == 1 && is_between_quotes(cmd_txt, i + mem) == 0)
-				mem++;
-			(*parser)->special_char = ft_substr(cmd_txt, i, mem);
 			return (i - 1);
 		}
 		i++;
@@ -133,6 +151,14 @@ void	parsing_process(char *line_read, t_parse **parser)
 	memory = i;
 	while (line_read[i] != '\0' && i <= def_parse_lim(parser))
 	{
+		if (is_between_quotes(line_read, i) == 0 && is_special_char(line_read + i) >= 2)
+		{
+			split_process(parser, memory, i);
+			printf("entering redirect\n");
+			i = get_redirect_part(parser, line_read, i);
+			memory = i;
+			continue;
+		}
 		if(line_read[i] == 34 || line_read[i] == 39)
 		{
 			if (is_between_quotes(line_read, i) == line_read[i] ||
@@ -186,6 +212,6 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->head = head;
 	parser_init->pid = getpid();
 	parser_init->exec_txt = NULL;
-	parser_init->flags = NULL;
+	parser_init->redir = NULL;
 	return (parser_init);
 }

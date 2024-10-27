@@ -6,6 +6,8 @@ int count_arr_nb(char **str)
 	int i;
 
 	i = 0;
+	if (str == NULL)
+		return (0);
 	while (str[i] != NULL)
 		i++;
 	return (i);
@@ -53,17 +55,24 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 {
 	int		new_alloc;
 	int		i;
-	char 	**new_arr;
+	char	**new_arr;
+	int		is_null;
 
 	i = 0;
 	new_alloc = count_arr_nb(str) + 2;
+	printf("new alloc is: %d\n", new_alloc);
 	new_arr = (char **)malloc(new_alloc * sizeof(char *));
-	while (str[i] != NULL)
+	if (str != NULL)
+		is_null = 0;
+	else
+		is_null = 1;
+	while (is_null == 0 && str[i] != NULL)
 	{
 		new_arr[i] = ft_strdup(str[i]);
 		free(str[i]);
 		i++;
 	}
+	printf("out of while\n");
 	new_arr[i] = ft_strdup(str_new);
 	new_arr[i + 1] = NULL;
 	free(str_new);
