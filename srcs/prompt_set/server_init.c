@@ -79,7 +79,9 @@ void	server_loop(t_env **env, char **envp)
 		if (data_validation(line_read, prefix_element, &parser, env) == 1)
 			continue ;
 		env_expansion(&parser, env);
-		sp_char_exec(&parser, env, envp);
+		printf("BEFORE SP EXEC\n");
+		sp_char_exec(&parser);
+		printf("AFTER SP EXEC\n");
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
 		free_parser(&parser);
