@@ -10,7 +10,7 @@ typedef struct parsing
 	char	*special_char;
 	char	*write_file;
 	char	*read_file;
-	char	**flags;
+	char	**redir;
 	char	**arguments;
 	char	**env_path;
 	int		fd_in;

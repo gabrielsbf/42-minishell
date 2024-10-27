@@ -58,7 +58,7 @@ void	free_parser(t_parse **parser)
 		free_str_arr((*parser)->arguments);
 		free_str_arr((*parser)->env_path);
 		free_str_arr((*parser)->exec_txt);
-		free_str_arr((*parser)->flags);
+		free_str_arr((*parser)->redir);
 		free_parser_str((*parser));
 		(*parser)->head = NULL;
 		(*parser) = (*parser)->next;

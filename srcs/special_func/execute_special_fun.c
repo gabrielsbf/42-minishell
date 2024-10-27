@@ -12,7 +12,8 @@ void	sp_char_exec(t_parse **parser, t_env **env, char **envp)
 		printf("---------------------------------------------------------------\n");
     //Verificar se esse fork não irá dar problema.
 		if (ft_strcmp((*parser)->special_char, ">") == 0)
-			redirect(parser);
+			printf("redirect identified\n");
+			// redirect(parser);
 		if (ft_strcmp((*parser)->special_char, ">>") == 0)
 			append(parser);
 		if (ft_strcmp((*parser)->special_char, "|") == 0)
