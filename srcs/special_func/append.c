@@ -1,18 +1,13 @@
 #include "../../includes/minishell.h"
 
-int	append(t_parse **parser)
+/*redirect incomplete*/
+void	append(t_parse *parser, int redir_i)
 {
-	t_parse	*temp;
-	int		fd;
-	int		std_o;
+	char	*file_name;
 
-	std_o = dup(STDOUT_FILENO);
-	fd = 0;
-	temp = (*parser)->next;
-	if (!temp->main_command)
-		return 0;
-	fd = open(temp->main_command, O_WRONLY | O_APPEND | O_CREAT);
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-	return (std_o);
+	file_name = get_redir_name(parser->redir[redir_i]);
+	if (parser->fd_out != 1)
+		close(parser->fd_out);
+	parser->fd_out = open(file_name, O_WRONLY | O_APPEND | O_CREAT);
+	free(file_name);
 }

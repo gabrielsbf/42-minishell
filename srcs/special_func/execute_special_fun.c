@@ -1,27 +1,43 @@
 #include "../../includes/minishell.h"
 
-void	sp_char_exec(t_parse **parser, t_env **env, char **envp)
+/*função usada para identificar que tipo de redirect foi encontrado usando inteiros como identificadores*/
+void	run_redir(t_parse *temp, int redir_i)
 {
-	(void)envp;
-	(void)env;
-	(void)envp;
-	if ((*parser)->special_char != NULL)
-	{
-		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
-		printf("special char of the node is: %s\n", (*parser)->special_char);
-		printf("---------------------------------------------------------------\n");
-    //Verificar se esse fork não irá dar problema.
-		if (ft_strcmp((*parser)->special_char, ">") == 0)
-			printf("redirect identified\n");
-			// redirect(parser);
-		if (ft_strcmp((*parser)->special_char, ">>") == 0)
-			append(parser);
-		if (ft_strcmp((*parser)->special_char, "|") == 0)
+	if (temp->redir[redir_i][0] == '>' && (temp->redir[redir_i][1] != '>'
+		&& temp->redir[redir_i][1] != '<'))
+		redirect(temp, redir_i);
+	if (temp->redir[redir_i][0] == '<' && (temp->redir[redir_i][1] != '>'
+		&& temp->redir[redir_i][1] != '<'))
+		redirect_in(temp, redir_i);
+	if (temp->redir[redir_i][0] == '>' && temp->redir[redir_i][1] == '>')
+		append(temp, redir_i);/*
+	if (redir[0] == '<' && redir[1] == '<')
+		return (4); */
+}
+
+void	sp_char_exec(t_parse **parser)
+{
+	int		redir_i;
+	t_parse	*temp;
+
+	temp = (*parser);
+	if (temp->special_char != NULL)
 			pipe_handler(parser);
-		if (ft_strcmp((*parser)->special_char, "<") == 0)
-			printf("input redirect\n");
-		if (ft_strcmp((*parser)->special_char, "<<") == 0)
-			printf("heredoc");
-		printf("--------------------- SPECIAL CHAR TEST ---------------------\n");
+	while (temp)
+	{
+		redir_i = 0;
+		if (!temp->redir && temp->next != NULL)
+		{
+			temp = temp->next;
+			continue ;
+		}
+		if (!temp->redir && !temp->next)
+			return ;
+		while (temp->redir[redir_i])
+		{
+			run_redir(temp, redir_i);
+			redir_i++;
+		}
+		temp = temp->next;
 	}
 }
