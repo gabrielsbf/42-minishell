@@ -50,3 +50,14 @@ char	*separate_line_read(char *line_sub)
 		return ft_substr(line_sub, 0, index);
 	return ft_substr(line_sub, 0, index + 1);
 }
+
+int def_special_char(char *stretch)
+{
+	if ((stretch[0] == '>' || stretch[0] == '<') && stretch[0] == stretch[1])
+		return ((stretch[0]) * 2);
+	if (stretch[0] == '>' || stretch[0] == '<')
+		return (stretch[0]);
+	if (stretch[0] == '|')
+		return (stretch[0]);
+	return (0);
+}

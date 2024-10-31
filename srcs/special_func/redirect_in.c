@@ -9,5 +9,5 @@ void	redirect_in(t_parse *parser, int redir_i)
 		close(parser->fd_in);
 	parser->fd_in = open(file_name, O_RDONLY);
 	if (parser->fd_in == -1)
-	free(file_name);
+		free(file_name);
 }
