@@ -15,7 +15,7 @@ char	*get_end_line(char *eof)
 	return (ft_substr(eof, i, len - i));
 }
 
-void	read_heredoc(t_parse *parser, int redir_i, int fd)
+/* void	read_heredoc(t_parse *parser, int redir_i, int fd)
 {
 	char	*limit;
 	char	*buffer;
@@ -37,7 +37,7 @@ void	read_heredoc(t_parse *parser, int redir_i, int fd)
 		free(buffer);
 }
 
-void	heredoc_exec(t_parse *parser, int redir_i)
+void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
 {
 	int		fd_hdoc[2];
 
@@ -52,10 +52,9 @@ void	heredoc_exec(t_parse *parser, int redir_i)
 	close(fd_hdoc[1]);
 	parser->fd_in = fd_hdoc[0];
 	waitpid(parser->pid, NULL, 0);
-}
+} */
 
-/*função usada para identificar que tipo de redirect foi encontrado usando inteiros como identificadores*/
-void	run_redir(t_parse *temp, int redir_i)
+void	run_redir(t_parse *temp, int redir_i, t_env **env)
 {
 	if (temp->redir[redir_i][0] == '>' && (temp->redir[redir_i][1] != '>'
 		&& temp->redir[redir_i][1] != '<'))
@@ -66,10 +65,10 @@ void	run_redir(t_parse *temp, int redir_i)
 	if (temp->redir[redir_i][0] == '>' && temp->redir[redir_i][1] == '>')
 		append(temp, redir_i);
 	if (temp->redir[redir_i][0] == '<' && temp->redir[redir_i][1] == '<')
-		heredoc_exec(temp, redir_i);
+		heredoc_exec(temp, redir_i, env);
 }
 
-void	sp_char_exec(t_parse **parser)
+void	sp_char_exec(t_parse **parser, t_env **env)
 {
 	int		redir_i;
 	t_parse	*temp;
@@ -89,7 +88,7 @@ void	sp_char_exec(t_parse **parser)
 			return ;
 		while (temp->redir[redir_i])
 		{
-			run_redir(temp, redir_i);
+			run_redir(temp, redir_i, env);
 			redir_i++;
 		}
 		temp = temp->next;
