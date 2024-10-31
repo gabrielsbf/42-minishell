@@ -5,7 +5,6 @@ void	ft_echo(t_parse **parser)
 	int i;
 	int trailing;
 
-
 	trailing = 0;
 	i = 0;
 	if (!*(*parser)->arguments)

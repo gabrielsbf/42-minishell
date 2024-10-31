@@ -78,7 +78,7 @@ void	cd_manager(char *argument, t_env **env)
 	else if (ft_strcmp(argument, "-") == 0)
 		chdir(oldpwd);
 	else if (chdir(argument) == -1)
-		ft_putstr_fd("CD ERROR\n", 2);
+		ft_putstr_fd("cd: ERROR", 2);
 	if (oldpwd != NULL)
 		free(oldpwd);
 	pwd_update(env);
