@@ -5,3 +5,4 @@ pipe
 *.a
 minishell
 readline.supp
+.nfs*
