@@ -8,12 +8,12 @@ void	read_heredoc(t_parse *parser, int redir_i, int fd, t_env **env)
 	limit = get_redir_name((parser)->redir[redir_i]);
 	while (1)
 	{
-		env_expansion(&parser, env);
 		buffer = readline("> ");
 		if (!buffer || !ft_strcmp(limit, buffer))
 			break;
 		else if (buffer)
 		{
+			here_expansion(&buffer, env);
 			ft_putendl_fd(buffer, fd);
 			free(buffer);
 		}

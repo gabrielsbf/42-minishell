@@ -102,7 +102,7 @@ char *	check_name_in_env(t_env **envs, char * name);
 
 void	print_parser_struct(t_parse *parser);
 
-//------Env------
+//Env
 
 char	*check_name_in_env(t_env **envs, char * name);
 char	*get_env_name(char **env);
@@ -113,6 +113,12 @@ t_env	*create_env_list(char **envp);
 t_env	*add_env_node(char **env, t_env *head);
 void	get_env(t_env **env, t_parse **parser);
 void	free_env_node(t_env *env);
+
+//ENV ON HEREDOC
+void	replace_here(char **text_in, char *find, char *replace);
+int		expand_heredoc(char **text_in, int i_cipher, t_env **envs);
+int		here_valid_qt(char *text, int memory);
+void	here_expansion(char **text, t_env **envs);
 //prompt
 
 char	*prompt_prefix(void);
