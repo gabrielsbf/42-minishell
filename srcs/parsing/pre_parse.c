@@ -2,17 +2,15 @@
 
 /*make a validation on a stretch of a string to se if have validation special chars
 special chars are:
-* <
-* >
-* |
+'<', '>' and '|'
 
 the '>' chars can be proceeded by one more char of the same:
 * >>
 * <<
 return codes:
-1. |
-2. > or <
-3. >> or <<
+returns (1): |
+returns (2): > or <
+returns (3): >> or <<
 
 if results to 0 it means it's not a special char
 */

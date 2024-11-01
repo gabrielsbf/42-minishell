@@ -8,8 +8,6 @@ void	closing_fd(t_parse **parser)
 		close((*parser)->fd_out);
 }
 
-
-
 void	dup_fds(t_parse **parser)
 {
 	if ((*parser)->fd_in != 0)
@@ -29,6 +27,11 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 			return ;
 	while ((*parser))
 	{
+		if ((*parser)->main_command == NULL)
+		{
+			(*parser) = (*parser)->next;
+			continue;
+		}
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
 		{

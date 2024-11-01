@@ -5,7 +5,7 @@
 If
 RETURNS:
 * either 34 or 39 which means what quote the char is between
-* either 68(34 * 2) or 78(39 * 2) which means that the char is
+* either 68(34 * 2) or 78(39 * 2) which means that the char is quote
 * 0 if it's not between quotes
 */
 int	is_between_quotes(char *line_read, int mem)

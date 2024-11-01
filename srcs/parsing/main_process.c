@@ -1,5 +1,53 @@
 #include "../../includes/minishell.h"
 
+int	get_redirect_part(t_parse **parser, char *cmd_txt, int mem)
+{
+	int	i;
+	int	flip;
+
+	flip = 0;
+	i = mem;
+	while (is_special_char(&cmd_txt[i]))
+		i++;
+	while (cmd_txt[i] != '\0')
+	{
+		while (!ft_isspace(cmd_txt[i]) && cmd_txt[i] != '\0' &&
+		is_special_char(&cmd_txt[i]) == 0)
+		{
+			flip = 1;
+			i++;
+		}
+		if (flip == 1)
+			break;
+		i++;
+	}
+	printf("out of redirect\n");
+	(* parser)->redir = ft_realloc_list_and_str((* parser)->redir,
+	 					ft_substr(cmd_txt, mem, i - mem));
+	return (i);
+}
+
+static void	exclude_quotes(char **argument)
+{
+	char *copy_text;
+	int	i;
+	char flag;
+
+	if (!*argument)
+		return ;
+	i = 1;
+	flag = *argument[0];
+	copy_text = NULL;
+	if (*argument[0] != 39 && *argument[0] != 34)
+		return ;
+	copy_text = ft_strdup((*argument));
+	free((*argument));
+	(*argument) = NULL;
+	while (copy_text[i] != '\0' && (copy_text[i]) != flag)
+		i++;
+	(*argument) = ft_substr(copy_text, 1, i - 1);
+	free(copy_text);
+}
 
 int	jump_special_char(char *line_read)
 {
@@ -22,12 +70,22 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 	i_spc = 0;
 	i = 0;
-	i_spc = jump_special_char(line_read);
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
-	while (line_read[i_spc + i] != '\0' && !ft_isspace(line_read[i_spc + i]))
+	while (is_special_char(&line_read[i_spc]) >= 2 || ft_isspace(line_read[i_spc]))
+	{
+		if (is_special_char(&line_read[i_spc]) >= 2)
+			i_spc = get_redirect_part(parser, line_read, i_spc);
+		else
+			i_spc++;
+	}
+
+	while (line_read[i_spc + i] != '\0' && (is_between_quotes(line_read, i_spc + i) > 0 
+		|| !ft_isspace(line_read[i_spc + i])))
 		i++;
-	(*parser)->main_command = ft_substr(line_read, i_spc, i);
+	if (!is_blank_substr(line_read, i_spc, i_spc + i))
+		(*parser)->main_command = ft_substr(line_read, i_spc, i);
+	exclude_quotes(&(*parser)->main_command);
 	return (i_spc + i);
 }
 
@@ -75,51 +133,27 @@ int	split_process(t_parse **parser, int memory, int pos)
 {
 	char	*text_to_parse;
 	char	*substr_text;
-
-	//printf("entered in split proccess\nmemory:%d, pos:%d, char c:%d\n",memory, pos, c);
+	
+	printf("entered in split proccess\nmemory:%d, pos:%d\n",memory, pos);
 	text_to_parse = (*parser)->command_text;
+	printf("now: memory:%d, pos:%d\n",memory, pos);
 	//printf("text to parse variable is:%s\n", text_to_parse);
 	if (is_between_quotes(text_to_parse, memory) == 0)
 	{
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
 		substr_text = ft_substr(text_to_parse, memory, (pos - memory));
+		exclude_quotes(&substr_text);
 		//printf("substr text: %s\n", substr_text);
 		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, ft_split_and_free(substr_text, ' ' ));
 	}
 	else
 	{
-		substr_text = ft_substr(text_to_parse, memory, pos - memory + 1);
+		substr_text = ft_substr(text_to_parse, memory, pos - memory);
+		exclude_quotes(&substr_text);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
 	return (1);
-}
-
-int	get_redirect_part(t_parse **parser, char *cmd_txt, int mem)
-{
-	int	i;
-	int	flip;
-
-	flip = 0;
-	i = mem;
-	while (is_special_char(&cmd_txt[i]))
-		i++;
-	while (cmd_txt[i] != '\0')
-	{
-		while (!ft_isspace(cmd_txt[i]) && cmd_txt[i] != '\0' &&
-		is_special_char(&cmd_txt[i]) == 0)
-		{
-			flip = 1;
-			i++;
-		}
-		if (flip == 1)
-			break;
-		i++;
-	}
-	printf("out of redirect\n");
-	(* parser)->redir = ft_realloc_list_and_str((* parser)->redir,
-	 					ft_substr(cmd_txt, mem, i - mem));
-	return (i);
 }
 
 /*A CRIAR*/
@@ -172,7 +206,10 @@ void	parsing_process(char *line_read, t_parse **parser)
 			if (is_between_quotes(line_read, i) >= 34 && is_between_quotes(line_read, i) <= 39)
 				memory = i;
 			else
+			{
 				memory = i + 1;
+				i++;
+			}
 		}
 		i++;
 	}
