@@ -29,6 +29,7 @@ void	ft_exit(t_parse **parser, t_env **env)
 	int	temp;
 	int	i;
 
+	temp = 0;
 	if (!parser)
 		sigquit_exit(env, parser);
 	if (get_arg_len((*parser)) > 2)

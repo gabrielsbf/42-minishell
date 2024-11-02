@@ -39,7 +39,7 @@ int	check_along (char *line_read, int i)
 		back--;
 	while (back >= 0 && ft_isspace(line_read[back]))
 		back--;
-	if (back < 0)
+	if (back < 0 && is_special_char(&line_read[i - 1]) == 1)
 		return (is_special_char(&line_read[i - 1]));
 	while (ft_isspace(line_read[i]) == 1)
 		i++;
@@ -56,24 +56,25 @@ int	test_sp_char (char *line_read)
 
 	valchar = 0;
 	i = 0;
-	while (line_read[i++] != '\0')
+	while (line_read[i] != '\0')
 	{
 		if (is_between_quotes(line_read, i) != 0)
+		{
+			i++;
 			continue;
+		}
 		if (is_special_char(&line_read[i]) >= 1 &&
 		is_special_char(&line_read[i]) <= 2)
-		{
 			valchar = check_along(line_read, i + 1);
-		}
 		else if (is_special_char(&line_read[i]) == 3)
-		{
 			valchar = check_along(line_read, i + 2);
-		}
 		if (valchar != 0)
 			return (-(valchar));
+		i++;
 	}
 	return (1);
 }
+
 int	validate_line_read(char *line_read)
 {
 	printf("test quote is >> %d\n", test_quote(line_read));
@@ -82,17 +83,17 @@ int	validate_line_read(char *line_read)
 	if (!readline_writed(line_read))
 		return (0);
 	if (test_quote(line_read) == 0)
-		ft_putendl_fd("QUOTE ERROR", 2);
+		ft_putendl_fd("bash: syntax error near unexpected token `quotes'", 2);
 	else if (test_sp_char(line_read) < 0)
 	{
 		if (test_sp_char(line_read) == -2)
-			ft_putendl_fd("REDIRECT ERROR", 2);
+			ft_putendl_fd("bash: syntax error near unexpected token", 2);
 		if (test_sp_char(line_read) == -1)
-			ft_putendl_fd("PIPE ERROR", 2);
+			ft_putendl_fd("bash: syntax error near unexpected token", 2);
 		if (test_sp_char(line_read) == -3)
-			ft_putendl_fd("HEREDOC ERROR", 2);
+			ft_putendl_fd("bash: syntax error near unexpected token", 2);
 		if (test_sp_char(line_read) == -4)
-			ft_putendl_fd("NO TEXT AFTER SPECIAL CHAR", 2);
+			ft_putendl_fd("bash: syntax error near unexpected token `newline'", 2);
 	}
 	else
 		return (1);
@@ -103,6 +104,8 @@ int	validate_line_read(char *line_read)
 int	is_blank_substr(char *line_read, int memory, int pos)
 {
 	// printf("start function -> is blank substr\n");
+	if (pos < memory)
+		return (2);
 	while (pos >= memory)
 	{
 		if (!ft_isspace(line_read[pos]) && line_read[pos] != '\0')

@@ -2,6 +2,8 @@
 
 int	built_ins_manager(t_parse **parser, t_env **env)
 {
+	if ((*parser)->main_command == NULL)
+		return (0);
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		ft_echo(parser);
 	else if(ft_strncmp((*parser)->main_command, "exit", 5) == 0)

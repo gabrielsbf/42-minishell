@@ -105,7 +105,7 @@ void	print_parser_struct(t_parse *parser);
 //Env
 
 char	*check_name_in_env(t_env **envs, char * name);
-char	*get_env_name(char **env);
+char	*get_env_name(char **arg);
 int		get_value_length(char **env);
 char	*get_env_value(char **env);
 int		is_env_available(char c);
@@ -129,8 +129,8 @@ void	ft_echo(t_parse **parser);
 void	ft_fork(void);
 void	pwd(t_parse **parser);
 void	cd_manager(char *argument, t_env **env);
-void	export_to_env(t_env **env, char **splitted_instructions);
-void	unset_from_env(t_env **env, char **splitted_instructions);
+void	export_to_env(t_env **env, char **arguments);
+void	unset_from_env(t_env **env, char **arguments);
 void	function_listener(t_parse **parser, t_env **env, char **envp);
 int	built_ins_manager(t_parse **parser, t_env **env);
 void	pipe_built_ins(t_parse **parser, t_env **env);

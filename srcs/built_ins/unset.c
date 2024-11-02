@@ -62,17 +62,23 @@ void	define_new_head(t_env **env)
 	free(old_head);
 }
 
-void	unset_from_env(t_env **env, char **splitted_instructions)
+void	unset_from_env(t_env **env, char **arguments)
 {
-	t_env *swap;
+	t_env 	*swap;
+	int		iarg;
 
+	iarg = 0;
 	swap = (*env);
-	if (!(*env))
-		ft_putendl_fd("UNSET ENV ERROR", 2);
-	if (!*splitted_instructions)
-		return ;
-	else if (ft_strcmp(swap->name, get_env_name(splitted_instructions)) == 0)
-		define_new_head(env);
-	else
-		envnode_sewing(env, splitted_instructions);
+	while (arguments[iarg])
+	{	
+		if (!(*env))
+			ft_putendl_fd("UNSET ENV ERROR", 2);
+		if (!arguments[iarg])
+			return ;
+		else if (ft_strcmp(swap->name, get_env_name(&arguments[iarg])) == 0)
+			define_new_head(env);
+		else
+			envnode_sewing(env, &arguments[iarg]);
+		iarg++;
+	}
 }
