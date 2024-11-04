@@ -25,6 +25,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	env = create_env_list(envp);
+	add_env_status(&env);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	server_loop(&env, envp);

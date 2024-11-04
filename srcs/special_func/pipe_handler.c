@@ -22,7 +22,6 @@ int	pipe_handler(t_parse **parser)
 	int		fd[2];
 	int	last_pipe;
 
-	/* last_pipe = pipe_num(parser); */
 	last_pipe = 0;
 	temp = (*parser);
 	while (temp->next != NULL)
@@ -34,7 +33,6 @@ int	pipe_handler(t_parse **parser)
 			return (ft_putendl_fd("PIPE_ERROR", 2), 0);
 		last_pipe = fd[0];
 		temp->fd_out = fd[1];
-		// dup2((*parser)->fd_out, STDOUT_FILENO);
 		temp = temp->next;
 	}
 	temp->fd_in = last_pipe;

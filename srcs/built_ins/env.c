@@ -2,14 +2,19 @@
 
 void get_env(t_env **env, t_parse **parser)
 {
-	t_env *swap;
+	t_env *temp;
 
-	swap = (*env);
-	while (swap != NULL)
+	temp = (*env);
+	while (temp)
 	{
-		ft_putstr_fd(swap->name, (*parser)->fd_out);
+		if (ft_strcmp(temp->name, "?") == 0)
+		{
+			temp = temp->next;
+			continue;
+		}
+		ft_putstr_fd(temp->name, (*parser)->fd_out);
 		ft_putstr_fd("=", (*parser)->fd_out);
-		ft_putendl_fd(swap->value, (*parser)->fd_out);
-		swap = swap->next;
+		ft_putendl_fd(temp->value, (*parser)->fd_out);
+		temp = temp->next;
 	}
 }

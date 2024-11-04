@@ -41,7 +41,7 @@ void	replace_text(t_parse **parser, int arg, char *find, char *replace)
 
 int	is_env_available(char c)
 {
-	if (ft_isalnum(c) || c == '_')
+	if (ft_isalnum(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }

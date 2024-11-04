@@ -104,6 +104,7 @@ void	print_parser_struct(t_parse *parser);
 
 //Env
 
+void	add_env_status(t_env **env);
 char	*check_name_in_env(t_env **envs, char * name);
 char	*get_env_name(char **arg);
 int		get_value_length(char **env);
