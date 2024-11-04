@@ -70,11 +70,14 @@ void	unset_from_env(t_env **env, char **arguments)
 	iarg = 0;
 	swap = (*env);
 	while (arguments[iarg])
-	{	
+	{
 		if (!(*env))
 			ft_putendl_fd("UNSET ENV ERROR", 2);
-		if (!arguments[iarg])
-			return ;
+		if (!arguments[iarg] || ft_strcmp(arguments[iarg], "?") == 0)
+		{
+			iarg++;
+			continue ;
+		}
 		else if (ft_strcmp(swap->name, get_env_name(&arguments[iarg])) == 0)
 			define_new_head(env);
 		else

@@ -33,6 +33,8 @@ void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
 	if (parser->pid == 0)
 	{
 		read_heredoc(parser, redir_i, fd_hdoc[1], env);
+		close(fd_hdoc[0]);
+		close(fd_hdoc[1]);
 		exit(1);
 	}
 	close(fd_hdoc[1]);
