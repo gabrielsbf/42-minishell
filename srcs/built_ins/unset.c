@@ -43,7 +43,7 @@ void	define_new_head(t_env **env)
 
 	if(!(*env)->next)
 	{
-		free((*env));
+		free_env_node((*env));
 		return ;
 	}
 	old_head = (*env);
@@ -59,16 +59,14 @@ void	define_new_head(t_env **env)
 	}
 	(*env)->head = new_head;
 	(*env) = new_head;
-	free(old_head);
+	free_env_node(old_head);
 }
 
 void	unset_from_env(t_env **env, char **arguments)
 {
-	t_env 	*swap;
 	int		iarg;
 
 	iarg = 0;
-	swap = (*env);
 	while (arguments[iarg])
 	{
 		if (!(*env))
@@ -78,10 +76,11 @@ void	unset_from_env(t_env **env, char **arguments)
 			iarg++;
 			continue ;
 		}
-		else if (ft_strcmp(swap->name, get_env_name(&arguments[iarg])) == 0)
+		else if (ft_strcmp((*env)->name, get_env_name(&arguments[iarg])) == 0)
 			define_new_head(env);
 		else
 			envnode_sewing(env, &arguments[iarg]);
 		iarg++;
 	}
+
 }

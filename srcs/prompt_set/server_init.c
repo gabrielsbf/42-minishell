@@ -46,6 +46,7 @@ void	server_loop(t_env **env, char **envp)
 	char	*prefix_element;
 	t_parse	*parser;
 
+	parser = NULL;
 	while
 	(1)
 	{
