@@ -41,7 +41,7 @@ char	*inject_text(char **line_start, char **line_end)
 
 	if (*line_start == NULL)
 		 result = ft_strjoin("", (*line_end));
-	else 
+	else
 	{
 		result = ft_strjoin(*line_start, *line_end);
 		free(*line_start);
@@ -50,7 +50,7 @@ char	*inject_text(char **line_start, char **line_end)
 	*line_start = NULL;
 	*line_end = NULL;
 	return (result);
-	
+
 }
 
 char	*join_quotes(char *line_sub)
@@ -122,6 +122,7 @@ void	server_loop(t_env **env, char **envp)
 	char	*prefix_element;
 	t_parse	*parser;
 
+	parser = NULL;
 	while
 	(1)
 	{

@@ -18,15 +18,18 @@ int	export_error(char *arguments)
 	return (0);
 }
 
-t_env	*add_export(t_env *swap, t_env **head, char **arguments)
+t_env	*add_export(t_env **env, char **arguments)
 {
 	t_env	*export;
 	t_env	*status;
+	t_env	*temp;
 
-	status = swap->next;
-	printf("status->name=%s\n", status->name);
+	temp = (*env);
+	while (ft_strcmp(temp->name, "?") != 0)
+		temp = temp->next;
+	status = temp;
 	export = ft_calloc(sizeof(t_env), 1);
-	export->head = (*head);
+	export->head = temp->head;
 	export->next = status;
 	export->name = get_env_name(arguments);
 	export->value = get_env_value(arguments);
@@ -62,11 +65,9 @@ void	export_to_env(t_env **env, char **arguments)
 			iarg++;
 			continue;
 		}
-		swap->next = add_export(swap, env, &arguments[iarg]);
-		printf("swap->name=%s\n", swap->name);
-		if (swap->head != NULL)
-			swap = swap->head;
-		//(*env) = swap;
+		while (ft_strcmp(swap->next->name, "?") != 0)
+			swap = swap->next;
+		swap->next = add_export(env, &arguments[iarg]);
 		iarg++;
 	}
 }

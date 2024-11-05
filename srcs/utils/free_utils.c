@@ -50,6 +50,7 @@ void	free_parser(t_parse **parser)
 {
 	t_parse	*temp;
 
+	temp = NULL;
 	if (!(*parser))
 		return ;
 	while ((*parser))

@@ -45,17 +45,17 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
 		{
+			pipe_built_ins(parser, env);
 			dup_fds((*parser));
 			closing_fd(head);
-			pipe_built_ins(parser, env);
 			execution(parser, env, envp);
 		}
 		(*parser) = (*parser)->next;
 	}
 	t_parse *temp = head;
-	closing_fd(head);
 	while (temp)
 	{
+		closing_fd(head);
 		waitpid(temp->pid, NULL, 0);
 		temp = temp->next;
 	}
