@@ -2,41 +2,41 @@
 
 /*FUNCTION THAT MAYBE CAN GO TO LIBFT
 BASIC FIND AND REPLACE*/
-void	replace_text(t_parse **parser, int arg, char *find, char *replace)
+void	replace_text(char **text, char *find, char *replace)
 {
-	char *text;
+	char *dup_text;
 	int	new_alloc;
 	int	i_old;
 	int	i_new;
 
 	i_old = 0;
 	i_new = 0;
-	new_alloc = ft_strlen((*parser)->arguments[arg]) - ft_strlen(find) + ft_strlen(replace) + 2;
-	text = ft_strdup((*parser)->arguments[arg]);
-	free((*parser)->arguments[arg]);
-	(*parser)->arguments[arg] = NULL;
-	(*parser)->arguments[arg] = (char *)malloc(new_alloc * sizeof(char));
-	if ((*parser)->arguments[arg] == NULL)
+	new_alloc = ft_strlen(*text) - ft_strlen(find) + ft_strlen(replace) + 2;
+	dup_text = ft_strdup(*text);
+	free(*text);
+	*text = NULL;
+	*text = (char *)malloc(new_alloc * sizeof(char));
+	if (*text == NULL)
 		return ;
-	while (text[i_old] != '\0')
+	while (dup_text[i_old] != '\0')
 	{
-		if (text[i_old] == '$')
+		if (dup_text[i_old] == '$')
 		{
-			if (ft_strncmp(&text[i_old + 1], find, ft_strlen(find)) == 0)
+			if (expansion_valid(dup_text, i_old) &&ft_strncmp(&dup_text[i_old + 1], find, ft_strlen(find)) == 0 )
 			{
-				ft_strlcpy(&(*parser)->arguments[arg][i_new], replace, ft_strlen(replace)+1);
+				ft_strlcpy(&((*text)[i_new]), replace, ft_strlen(replace) + 1);
 				i_new = i_new + ft_strlen(replace);
 				i_old = i_old + ft_strlen(find) + 1;
 			}
 		}
-		if (text[i_old] != '\0')
+		if (dup_text[i_old] != '\0')
 		{
-			(*parser)->arguments[arg][i_new] = text[i_old];
+			(*text)[i_new] = dup_text[i_old];
 			i_old++;
 			i_new++;
 		}
 	}
-	(*parser)->arguments[arg][i_new] = '\0';
+	(*text)[i_new] = '\0';
 }
 
 int	is_env_available(char c)
