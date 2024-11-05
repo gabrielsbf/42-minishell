@@ -1,7 +1,6 @@
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-extern int g_status;
 #include "libft/includes/libft.h"
 //readline lib
 #include <readline/readline.h>
@@ -17,6 +16,8 @@ extern int g_status;
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
+
+extern int last_signal;
 
 typedef struct parsing
 {
@@ -99,6 +100,7 @@ void	replace_text(t_parse **parser, int argument, char *find, char *replace);
 void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char *	check_name_in_env(t_env **envs, char * name);
 //------Debug Function------ To Print
+void	verify_env_head(t_env **env);
 
 void	print_parser_struct(t_parse *parser);
 
