@@ -67,7 +67,10 @@ int execution(t_parse **parser, t_env **env, char **envp)
 	}
 	free(s);
 	if (access((*parser)->main_command, R_OK & X_OK) != 0 && !path)
-		ft_exit(parser, env);
+	{
+		update_env_status(env, 127);
+		exit (127);
+	}
 	if (!path)
 		execve((*parser)->main_command, (*parser)->exec_txt, envp);//must include exec_arguments in parser
 	else
