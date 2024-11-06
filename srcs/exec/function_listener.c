@@ -32,6 +32,8 @@ void	dup_fds(t_parse *parser)
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
 	t_parse	*head = (*parser);
+	int	stat = 0;
+	int	*status = &stat;
 
 	if (!(*parser)->special_char && built_ins_manager(parser, env) == 0)
 		return ;
@@ -56,7 +58,8 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 	while (temp)
 	{
 		closing_fd(head);
-		waitpid(temp->pid, NULL, 0);
+		waitpid(temp->pid, status, 0);
+		printf("EXECVE STATUS=%d\n", *status);
 		temp = temp->next;
 	}
 }

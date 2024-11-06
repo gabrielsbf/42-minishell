@@ -83,7 +83,7 @@ int	validate_line_read(char *line_read)
 	if (!readline_writed(line_read))
 		return (0);
 	if (test_quote(line_read) == 0)
-		ft_putendl_fd("bash: syntax error near unexpected token `quotes'", 2);
+		ft_putendl_fd("bash: syntax error near unexpected token `quotes'", 2);//status_handle
 	else if (test_sp_char(line_read) < 0)
 	{
 		if (test_sp_char(line_read) == -2)
