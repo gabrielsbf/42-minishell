@@ -80,7 +80,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 			i_spc++;
 	}
 
-	while (line_read[i_spc + i] != '\0' && (is_between_quotes(line_read, i_spc + i) > 0 
+	while (line_read[i_spc + i] != '\0' && (is_between_quotes(line_read, i_spc + i) > 0
 		|| !ft_isspace(line_read[i_spc + i])))
 		i++;
 	if (!is_blank_substr(line_read, i_spc, i_spc + i))
@@ -96,12 +96,10 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	t_parse	*parser;
 	t_parse	*head;
 	char	*cmd_line;
-	int		go_back;
 	int		i;
 
 	i = 0;
-	go_back = (int)ft_strlen(line_read);
-	(void)go_back;
+	head = NULL;
 	if (!validate_line_read(line_read))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
@@ -117,15 +115,13 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 			parser->next = init_parse(line_read, cmd_line, head, env);
 			parser = parser->next;
 		}
-		parsing_process(cmd_line, &parser);
+		parsing_process(cmd_line, &parser, env);
 		line_read = line_read + pipe_char_pos(line_read);
 		if (line_read[0] != '\0')
 			line_read++;
-		free(cmd_line);
 		i++;
 	}
 	parser = head;
-	/*free(line_read - go_back);*/
 	return (parser);
 }
 
@@ -133,7 +129,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 {
 	char	*text_to_parse;
 	char	*substr_text;
-	
+
 	printf("entered in split proccess\nmemory:%d, pos:%d\n",memory, pos);
 	text_to_parse = (*parser)->command_text;
 	printf("now: memory:%d, pos:%d\n",memory, pos);
@@ -143,14 +139,12 @@ int	split_process(t_parse **parser, int memory, int pos)
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
 		substr_text = ft_substr(text_to_parse, memory, (pos - memory));
-		exclude_quotes(&substr_text);
 		//printf("substr text: %s\n", substr_text);
 		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, ft_split_and_free(substr_text, ' ' ));
 	}
 	else
 	{
 		substr_text = ft_substr(text_to_parse, memory, pos - memory);
-		exclude_quotes(&substr_text);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
 	return (1);
@@ -176,43 +170,52 @@ int		def_parse_lim(t_parse **parser)
 	return ft_strlen((*parser)->command_text);
 }
 /*Implantar funções para acoplar 25 linhas - Dpeois do while.*/
-void	parsing_process(char *line_read, t_parse **parser)
+void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 {
 	int	i;
 	int	memory;
+	char	*exp_text;
 
-	i = set_main_command(parser, line_read);
+	env_and_quotes(parser, &line_read, env);
+	exp_text = (*parser)->command_text;
+
+	printf("text expanded is: %s\n", exp_text);
+	i = set_main_command(parser, exp_text);
 	memory = i;
-	while (line_read[i] != '\0' && i <= def_parse_lim(parser))
+	while (exp_text[i] != '\0' && i <= def_parse_lim(parser))
 	{
-		if (is_between_quotes(line_read, i) == 0 && is_special_char(line_read + i) >= 2)
+		if (is_between_quotes(exp_text, i) == 0 && is_special_char(exp_text + i) >= 2)
 		{
 			split_process(parser, memory, i);
 			printf("entering redirect\n");
-			i = get_redirect_part(parser, line_read, i);
+			i = get_redirect_part(parser, exp_text, i);
 			memory = i;
 			continue;
 		}
-		if(line_read[i] == 34 || line_read[i] == 39)
-		{
-			if (is_between_quotes(line_read, i) == line_read[i] ||
-			is_between_quotes(line_read, i) == line_read[i] * 2)
-				split_process(parser, memory, i);
-			else
-			{
-				i++;
-				continue;
-			}
-			if (is_between_quotes(line_read, i) >= 34 && is_between_quotes(line_read, i) <= 39)
-				memory = i;
-			else
-			{
-				memory = i + 1;
-				i++;
-			}
-		}
 		i++;
 	}
+	// 	if(exp_text[i] == 34 || exp_text[i] == 39)
+	// 	{
+	// 		if (is_between_quotes(exp_text, i) == exp_text[i] ||
+	// 		is_between_quotes(exp_text, i) == exp_text[i] * 2)
+	// 			split_process(parser, memory, i);
+	// 		else
+	// 		{
+	// 			i++;
+	// 			continue;
+	// 		}
+	// 		if (is_between_quotes(exp_text, i) >= 34 && is_between_quotes(exp_text, i) <= 39)
+	// 			memory = i;
+	// 		else
+	// 		{
+	// 			memory = i + 1;
+	// 			i++;
+	// 		}
+	// 	}
+	// 	if (exp_text[i] == '\0')
+	// 		break;
+	// 	i++;
+	// }
 	if (memory == i)
 		return ;
 	split_process(parser, memory, i);
