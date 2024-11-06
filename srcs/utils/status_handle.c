@@ -6,5 +6,4 @@ void	status_handle(int	status, t_env **env)
 		update_env_status(env, 127);
 	if (last_signal == 130)
 		update_env_status(env, 130);
-
 }

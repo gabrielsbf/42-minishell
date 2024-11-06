@@ -66,20 +66,29 @@ char	*oldpwd_value(t_env **env)
 	return (NULL);
 }
 
+void	free_oldpwd(char *oldpwd)
+{
+	if (oldpwd)
+		free(oldpwd);
+}
 
-void	cd_manager(char *argument, t_env **env)
+int	cd_manager(char *argument, t_env **env)
 {
 	char	*oldpwd;
 
 	oldpwd = oldpwd_value(env);
 	oldpwd_update(env);
 	if (!argument || ft_strcmp(argument, "~") == 0)
-		chdir(getenv("HOME"));
-	else if (ft_strcmp(argument, "-") == 0)
+		chdir(check_name_in_env(env, "HOME"));
+	if (argument && ft_strcmp(argument, "-") == 0)
 		chdir(oldpwd);
-	else if (chdir(argument) == -1)
-		ft_putstr_fd("cd: ERROR", 2);
-	if (oldpwd != NULL)
-		free(oldpwd);
+	if (chdir(argument) == -1)
+	{
+		ft_putendl_fd("cd: ERROR", 2);
+		free_oldpwd(oldpwd);
+		return (1);
+	}
+	free_oldpwd(oldpwd);
 	pwd_update(env);
+	return (0);
 }

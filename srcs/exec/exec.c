@@ -66,7 +66,7 @@ int execution(t_parse **parser, t_env **env, char **envp)
 		i++;
 	}
 	free(s);
-	if (access((*parser)->main_command, R_OK & X_OK) != 0 && !path)
+	if (access((*parser)->main_command, F_OK | X_OK) != 0 && !path)
 	{
 		update_env_status(env, 127);
 		exit (127);
