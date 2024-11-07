@@ -19,12 +19,15 @@ char	*prompt_prefix(void)
 
 int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t_env **env)
 {
+	printf("data validation\n");
 	if (!line_read)
 	{
+		printf("entered here");
 		free(*prefix_element);
 		free(*line_read);
 		sigquit_exit(env, parser);
 	}
+	printf("passed\n");
 	if (ft_strcmp(*line_read, "") != 0)
 		add_history(*line_read);
 	*parser = main_line_process(*line_read, env);

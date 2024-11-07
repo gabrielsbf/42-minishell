@@ -99,7 +99,7 @@ void parser_set(t_parse **parser, char *line_read, t_env **env, int i)
 	else if (i == 1)
 		(*parser)->next = init_parse(line_read, cmd_line, *parser, env);
 	else if (i > 1)
-		(*parser)->next = init_parse(line_read, cmd_line, (*parser)->head, env);
+		(*parser)->next = init_parse(line_read, cmd_line,(*parser)->head, env);
 	if (i > 0)
 		(*parser) = (*parser)->next;
 	free(cmd_line);
@@ -112,7 +112,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	t_parse	*parser;
 	char	*cmd_line;
 	int		i;
-	
+
 	parser = NULL;
 	i = 0;
 	if (!validate_line_read(line_read))
@@ -129,9 +129,8 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 		free(cmd_line);
 		cmd_line = NULL;
 	}
-	parser = parser->head;
-	printf("parser is");
-	print_parser_struct(parser);
+	if (parser->head != NULL)
+		parser = parser->head;
 	return (parser);
 }
 
