@@ -100,7 +100,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 
 	i = 0;
 	head = NULL;
-	if (!validate_line_read(line_read))
+	if (!validate_line_read(line_read, env))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{

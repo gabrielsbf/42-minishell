@@ -76,7 +76,7 @@ typedef struct utils_prompt
 //Parsing - srcs/parsing/
 
 int			get_next_match(char *line_read, int position, char c);
-int			validate_line_read(char *line_read);
+int			validate_line_read(char *line_read, t_env **env);
 int			count_arr_nb(char **str);
 char		**ft_realloc_two_lists(char **str, char **str_new);
 char		**ft_realloc_list_and_str(char **str, char *str_new);
