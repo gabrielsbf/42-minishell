@@ -46,27 +46,28 @@ int	expansion_valid(char *text, int memory)
 		return (1);
 }
 
-void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
+void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 {
 	int	i;
 	int expand_bool;
 	char	*quotes_hand;
 	i = 0;
-	while ((*text)[i] != '\0')
+	while (text[i] != '\0')
 	{
 		expand_bool = 0;
-		if ((*text)[i] == '$')
-			expand_bool = expansion_valid(*text, i);
+		if (text[i] == '$')
+			expand_bool = expansion_valid(text, i);
 		if (expand_bool == 1)
 		{
-			if (expand_variable(text, i, envs))
+			if (expand_variable(&text, i, envs))
 				env_and_quotes(parser, text, envs);
 		}
 		i++;
 	}
-	quotes_hand = join_quotes((*text));
+	quotes_hand = join_quotes(text);
 	free((*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
+	free(quotes_hand);
 }
 
 // char	*env_and_quotes(t_parse **parser, t_env **envs)

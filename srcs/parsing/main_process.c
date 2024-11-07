@@ -89,39 +89,49 @@ int	set_main_command(t_parse **parser, char *line_read)
 	return (i_spc + i);
 }
 
+void parser_set(t_parse **parser, char *line_read, t_env **env, int i)
+{
+	char	*cmd_line;
+
+	cmd_line = separate_line_read(line_read);
+	if (i == 0)
+		(*parser) = init_parse(line_read, cmd_line, NULL, env);
+	else if (i == 1)
+		(*parser)->next = init_parse(line_read, cmd_line, *parser, env);
+	else if (i > 1)
+		(*parser)->next = init_parse(line_read, cmd_line, (*parser)->head, env);
+	if (i > 0)
+		(*parser) = (*parser)->next;
+	free(cmd_line);
+}
+
 /*Preciso validar parte da leitura em cima do texto da esquerda pra direita.*/
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
 t_parse	*main_line_process(char *line_read, t_env **env)
 {
 	t_parse	*parser;
-	t_parse	*head;
 	char	*cmd_line;
 	int		i;
-
+	
+	parser = NULL;
 	i = 0;
-	head = NULL;
 	if (!validate_line_read(line_read))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{
 		cmd_line = separate_line_read(line_read);
-		if (i == 0)
-		{
-			parser = init_parse(line_read, cmd_line, head, env);
-			head = parser;
-		}
-		else if (i > 0)
-		{
-			parser->next = init_parse(line_read, cmd_line, head, env);
-			parser = parser->next;
-		}
+		parser_set(&parser, line_read, env, i);
 		parsing_process(cmd_line, &parser, env);
 		line_read = line_read + pipe_char_pos(line_read);
 		if (line_read[0] != '\0')
 			line_read++;
 		i++;
+		free(cmd_line);
+		cmd_line = NULL;
 	}
-	parser = head;
+	parser = parser->head;
+	printf("parser is");
+	print_parser_struct(parser);
 	return (parser);
 }
 
@@ -176,7 +186,7 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 	int	memory;
 	char	*exp_text;
 
-	env_and_quotes(parser, &line_read, env);
+	env_and_quotes(parser, line_read, env);
 	exp_text = (*parser)->command_text;
 
 	printf("text expanded is: %s\n", exp_text);
@@ -194,28 +204,6 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 		}
 		i++;
 	}
-	// 	if(exp_text[i] == 34 || exp_text[i] == 39)
-	// 	{
-	// 		if (is_between_quotes(exp_text, i) == exp_text[i] ||
-	// 		is_between_quotes(exp_text, i) == exp_text[i] * 2)
-	// 			split_process(parser, memory, i);
-	// 		else
-	// 		{
-	// 			i++;
-	// 			continue;
-	// 		}
-	// 		if (is_between_quotes(exp_text, i) >= 34 && is_between_quotes(exp_text, i) <= 39)
-	// 			memory = i;
-	// 		else
-	// 		{
-	// 			memory = i + 1;
-	// 			i++;
-	// 		}
-	// 	}
-	// 	if (exp_text[i] == '\0')
-	// 		break;
-	// 	i++;
-	// }
 	if (memory == i)
 		return ;
 	split_process(parser, memory, i);

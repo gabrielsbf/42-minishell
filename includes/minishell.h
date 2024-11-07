@@ -59,20 +59,6 @@ typedef struct utils_prompt
 
 }	t_prompt;
 
-// srcs/prompt_set/pipe_utils
-//DEPRECATED - int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
-//DEPRECATED - void		simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
-
-// srcs/prompt_set/prompt_set
-
-//DEPRECATED -  void		free_str_in_pointer(char **string);
-//DEPRECATED -  void		free_struct(t_prompt **prompt);
-//DEPRECATED -  t_prompt	*init_prompt_struct(void);
-//DEPRECATED -  int			count_prompt_args(t_prompt **prompt);
-
-//Parsing - srcs/parsing/
-// DEPRECATED - > char		*st_put_specialch(char **arguments);
-
 //Parsing - srcs/parsing/
 
 int			get_next_match(char *line_read, int position, char c);
@@ -102,7 +88,7 @@ char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
 
 int	expand_variable(char **text, int i_cipher, t_env **envs);
-void	env_and_quotes(t_parse ** parser, char **text, t_env **envs);
+void	env_and_quotes(t_parse ** parser, char *text, t_env **envs);
 int		expansion_valid(char *text, int memory);
 void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
