@@ -21,7 +21,7 @@ void	closing_fd(t_parse *parser)
 	}
 }
 
-void	dup_fds(t_parse *parser)
+void	dup_fds (t_parse *parser)
 {
 	if (parser->fd_in != STDIN_FILENO)
 		dup2(parser->fd_in, STDIN_FILENO);
@@ -32,9 +32,9 @@ void	dup_fds(t_parse *parser)
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
 	t_parse	*head = (*parser);
-	int	stat = 0;
-	int	*status = &stat;
+	int	status;
 
+	status = 0;
 	if (!(*parser)->special_char && built_ins_manager(parser, env) == 0)
 		return ;
 	while ((*parser))
@@ -58,8 +58,9 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 	while (temp)
 	{
 		closing_fd(head);
-		waitpid(temp->pid, status, 0);
-		printf("EXECVE STATUS=%d\n", *status);
+		waitpid(temp->pid, &status, 0);
+		printf("EXECVE STATUS=%d\n", WEXITSTATUS(status));
+		update_env_status(env, WEXITSTATUS(status));
 		temp = temp->next;
 	}
 }
