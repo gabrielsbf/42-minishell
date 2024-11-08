@@ -1,11 +1,11 @@
 #include "../../includes/minishell.h"
 
-void	read_heredoc(t_parse *parser, int redir_i, int fd, t_env **env)
+void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env)
 {
 	char	*limit;
 	char	*buffer;
 
-	limit = get_redir_name((parser)->redir[redir_i]);
+	limit = get_redir_name((*parser)->redir[redir_i]);
 	while (1)
 	{
 		buffer = readline("> ");
@@ -23,14 +23,14 @@ void	read_heredoc(t_parse *parser, int redir_i, int fd, t_env **env)
 		free(buffer);
 }
 
-void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
+void	heredoc_exec(t_parse **parser, int redir_i, t_env **env)
 {
 	int		fd_hdoc[2];
 
 	if (pipe(fd_hdoc) == -1)
 		return ;
-	parser->pid = fork();
-	if (parser->pid == 0)
+	(*parser)->pid = fork();
+	if ((*parser)->pid == 0)
 	{
 		read_heredoc(parser, redir_i, fd_hdoc[1], env);
 		close(fd_hdoc[0]);
@@ -38,6 +38,6 @@ void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
 		exit(1);
 	}
 	close(fd_hdoc[1]);
-	parser->fd_in = fd_hdoc[0];
-	waitpid(parser->pid, NULL, 0);
+	(*parser)->fd_in = fd_hdoc[0];
+	waitpid((*parser)->pid, NULL, 0);
 }

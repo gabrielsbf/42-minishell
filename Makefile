@@ -7,6 +7,7 @@ DIR_OBJS = builds/
 DIR_SRCS = srcs/
 DIR_INCLUDES = includes/
 LIBFT_A = includes/libft/libft.a
+SUPP_FILE = readline.supp
 
 GET_SRCS = $(shell find $(DIR_SRCS))
 
@@ -31,12 +32,15 @@ $(DIR_OBJS)/%.o : %.c
 	mkdir -p $(dir $@)
 	$(COMPILER) -c $< -o $@
 
+val: all
+	valgrind  --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(SUPP_FILE) ./$(NAME)
 clean:
 	$(RM) $(DIR_OBJS)
 	cd includes/libft && make clean && cd ../..
 
 fclean: clean
 	$(RM) $(NAME) $(DIR_OBJS) $(LIBFT_A)
+
 
 
 re: fclean all

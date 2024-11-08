@@ -116,34 +116,3 @@ int	is_blank_substr(char *line_read, int memory, int pos)
 	}
 	return (1);
 }
-
-
-/*
-DEPRECATED FOR WHILE.
-char	*st_put_specialch(char **arguments)//checar special char durante o processo de parsing
-{
-	int		i;
-	char	*special_char;
-
-	i = 0;
-	if (!arguments)
-		return NULL;
-	special_char = NULL;
-	while(arguments[i] != NULL)
-	{
-		if (ft_strcmp(arguments[i], ">>") == 0 || ft_strcmp(arguments[i], "<<") == 0)
-		{
-			special_char = ft_calloc(sizeof(char), 3);
-			special_char = arguments[i];
-		}
-		else if (ft_strcmp(arguments[i], "<") == 0 || ft_strcmp(arguments[i], ">") == 0
-			|| ft_strcmp(arguments[i], "|") == 0)
-		{
-			special_char = ft_calloc(sizeof(char), 2);
-			special_char = arguments[i];
-		}
-		i++;
-	}
-	return (special_char);
-}
-*/

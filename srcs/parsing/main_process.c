@@ -70,6 +70,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 	i_spc = 0;
 	i = 0;
+	printf("starting main command\n");
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
 	while (is_special_char(&line_read[i_spc]) >= 2 || ft_isspace(line_read[i_spc]))
@@ -89,39 +90,51 @@ int	set_main_command(t_parse **parser, char *line_read)
 	return (i_spc + i);
 }
 
+void parser_set(t_parse **parser, char *line_read, t_env **env, int i)
+{
+	char	*cmd_line;
+
+	cmd_line = separate_line_read(line_read);
+	if (i == 0)
+		(*parser) = init_parse(line_read, cmd_line, NULL, env);
+	else if (i == 1)
+		(*parser)->next = init_parse(line_read, cmd_line, *parser, env);
+	else if (i > 1)
+		(*parser)->next = init_parse(line_read, cmd_line,(*parser)->head, env);
+	if (i > 0)
+	{
+		(*parser) = (*parser)->next;
+		(*parser)->next = NULL;
+	}
+	free(cmd_line);
+}
+
 /*Preciso validar parte da leitura em cima do texto da esquerda pra direita.*/
 /*(incomplete) maybe this function will get all the constructors and make the treatment of the line buffer.---*/
 t_parse	*main_line_process(char *line_read, t_env **env)
 {
 	t_parse	*parser;
-	t_parse	*head;
 	char	*cmd_line;
 	int		i;
 
+	parser = NULL;
 	i = 0;
-	head = NULL;
-	if (!validate_line_read(line_read, env))
+	if (!validate_line_read(line_read))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{
 		cmd_line = separate_line_read(line_read);
-		if (i == 0)
-		{
-			parser = init_parse(line_read, cmd_line, head, env);
-			head = parser;
-		}
-		else if (i > 0)
-		{
-			parser->next = init_parse(line_read, cmd_line, head, env);
-			parser = parser->next;
-		}
+		parser_set(&parser, line_read, env, i);
 		parsing_process(cmd_line, &parser, env);
 		line_read = line_read + pipe_char_pos(line_read);
 		if (line_read[0] != '\0')
 			line_read++;
 		i++;
+		free(cmd_line);
+		cmd_line = NULL;
 	}
-	parser = head;
+	if (parser->head != NULL)
+		parser = parser->head;
 	return (parser);
 }
 
@@ -162,6 +175,7 @@ int		def_parse_lim(t_parse **parser)
 	{
 		if (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
 		{
+			printf("entered here\n");
 			(*parser)->special_char = ft_substr(cmd_txt, i, 1);
 			return (i - 1);
 		}
@@ -176,7 +190,7 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 	int	memory;
 	char	*exp_text;
 
-	env_and_quotes(parser, &line_read, env);
+	env_and_quotes(parser, line_read, env);
 	exp_text = (*parser)->command_text;
 
 	printf("text expanded is: %s\n", exp_text);
@@ -194,28 +208,6 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 		}
 		i++;
 	}
-	// 	if(exp_text[i] == 34 || exp_text[i] == 39)
-	// 	{
-	// 		if (is_between_quotes(exp_text, i) == exp_text[i] ||
-	// 		is_between_quotes(exp_text, i) == exp_text[i] * 2)
-	// 			split_process(parser, memory, i);
-	// 		else
-	// 		{
-	// 			i++;
-	// 			continue;
-	// 		}
-	// 		if (is_between_quotes(exp_text, i) >= 34 && is_between_quotes(exp_text, i) <= 39)
-	// 			memory = i;
-	// 		else
-	// 		{
-	// 			memory = i + 1;
-	// 			i++;
-	// 		}
-	// 	}
-	// 	if (exp_text[i] == '\0')
-	// 		break;
-	// 	i++;
-	// }
 	if (memory == i)
 		return ;
 	split_process(parser, memory, i);
@@ -240,18 +232,19 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 {
 	t_parse	*parser_init;
 	parser_init = malloc(sizeof(t_parse));
-	parser_init->next = NULL;
-	parser_init->entire_text = ft_strdup(line_read);
-	parser_init->command_text = ft_strdup(cmd_str);
-	parser_init->arguments = (char **)malloc(sizeof(char *));
-	parser_init->arguments[0] = NULL;
+	parser_init->entire_text = ft_strdup(line_read);//freed (free_parser_str)
+	parser_init->command_text = ft_strdup(cmd_str);//freed (free_parser_str)
+	parser_init->main_command = NULL; //freed (free_parser_str)
+	parser_init->exec_txt = NULL;
 	parser_init->env_path = get_env_path(env);
 	parser_init->fd_in = STDIN_FILENO;
 	parser_init->fd_out = STDOUT_FILENO;
 	parser_init->special_char = NULL;
 	parser_init->head = head;
 	parser_init->pid = getpid();
-	parser_init->exec_txt = NULL;
+	parser_init->arguments = (char **)malloc(sizeof(char *));
+	parser_init->arguments[0] = NULL;
 	parser_init->redir = NULL;
+	parser_init->next = NULL;
 	return (parser_init);
 }

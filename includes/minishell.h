@@ -28,8 +28,6 @@ typedef struct parsing
 	char	*main_command;
 	char	**exec_txt;
 	char	*special_char;
-	char	*write_file;
-	char	*read_file;
 	char	**redir;
 	char	**arguments;
 	char	**env_path;
@@ -58,20 +56,6 @@ typedef struct utils_prompt
 	int		number_of_inputs;
 
 }	t_prompt;
-
-// srcs/prompt_set/pipe_utils
-//DEPRECATED - int			pipe_exec(int argc, char *argv[], t_prompt **prompt);
-//DEPRECATED - void		simple_prompt_handler(int argc, char *argv[], t_prompt **t_prompt);
-
-// srcs/prompt_set/prompt_set
-
-//DEPRECATED -  void		free_str_in_pointer(char **string);
-//DEPRECATED -  void		free_struct(t_prompt **prompt);
-//DEPRECATED -  t_prompt	*init_prompt_struct(void);
-//DEPRECATED -  int			count_prompt_args(t_prompt **prompt);
-
-//Parsing - srcs/parsing/
-// DEPRECATED - > char		*st_put_specialch(char **arguments);
 
 //Parsing - srcs/parsing/
 
@@ -102,7 +86,7 @@ char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
 
 int	expand_variable(char **text, int i_cipher, t_env **envs);
-void	env_and_quotes(t_parse ** parser, char **text, t_env **envs);
+void	env_and_quotes(t_parse ** parser, char *text, t_env **envs);
 int		expansion_valid(char *text, int memory);
 void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
@@ -149,17 +133,17 @@ void	pipe_built_ins(t_parse **parser, t_env **env);
 void	free_str_arr(char **args);
 void	free_env(t_env **env);
 void	free_str_arr(char **args);
-void	free_parser_str(t_parse *parser);
+void	free_parser_str(t_parse **parser);
 void	free_parser(t_parse **parser);
 // redirect
-void	redirect(t_parse *parser, int redir_i);
-void	append(t_parse *parser, int redir_i);
+void	redirect(t_parse **parser, int redir_i);
+void	append(t_parse **parser, int redir_i);
 char	*get_redir_name(char	*redir);
-void	redirect_in(t_parse *parser, int redir_i);
+void	redirect_in(t_parse **parser, int redir_i);
 int		pipe_handler(t_parse **parser);
 void	sp_char_exec(t_parse **parser, t_env **env);
-void	read_heredoc(t_parse *parser, int redir_i, int fd, t_env **env);
-void	heredoc_exec(t_parse *parser, int redir_i, t_env **env);
+void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env);
+void	heredoc_exec(t_parse **parser, int redir_i, t_env **env);
 //exit utils
 void	sigquit_exit(t_env **env, t_parse **parser);
 void	non_numeric_exit(t_env **env, t_parse **parser);
