@@ -56,7 +56,7 @@ int execution(t_parse **parser, t_env **env, char **envp)
 	while ((*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);
-		if(access(path, F_OK & X_OK) != 0)
+		if(access(path, F_OK | X_OK) != 0)
 		{
 			free(path);
 			path = NULL;
@@ -68,7 +68,8 @@ int execution(t_parse **parser, t_env **env, char **envp)
 	free(s);
 	if (access((*parser)->main_command, F_OK | X_OK) != 0 && !path)
 	{
-		update_env_status(env, 127);
+		free_parser(parser);
+		free_env(env);
 		exit (127);
 	}
 	if (!path)

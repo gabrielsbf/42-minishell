@@ -43,7 +43,7 @@ void	ft_exit(t_parse **parser, t_env **env)
 				non_numeric_exit(env, parser);
 			i++;
 		}
-		temp = ft_atoi((*parser)->arguments[1]);
+		temp = ft_atoi((*parser)->arguments[0]);
 	}
 	free_env(env);
 	free_parser(parser);

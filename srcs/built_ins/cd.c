@@ -66,29 +66,51 @@ char	*oldpwd_value(t_env **env)
 	return (NULL);
 }
 
-void	free_oldpwd(char *oldpwd)
+int	special_chdir(char *argument, char *oldpwd, t_env **env, int *status)
 {
-	if (oldpwd)
-		free(oldpwd);
+	if (!argument || ft_strcmp(argument, "~") == 0)
+	{
+		*status = -1;
+		if (chdir(check_name_in_env(env, "HOME")) == -1)
+			*status = 1;
+		if (argument && ft_strcmp(argument, "~") == 0)
+		{
+			if (chdir(getenv("HOME")) == -1)
+				*status = 1;
+		}
+	}
+	if (argument && ft_strcmp(argument, "-") == 0)
+	{
+		*status = -1;
+		if (oldpwd)
+		{
+			if (chdir(oldpwd) == -1)
+				*status = 1;
+		}
+	}
+	if (*status == 1)
+		ft_putendl_fd("cd: ERROR", 2);
+	return (*status);
 }
 
 int	cd_manager(char *argument, t_env **env)
 {
 	char	*oldpwd;
+	int		status;
 
+	status = 0;
 	oldpwd = oldpwd_value(env);
 	oldpwd_update(env);
-	if (!argument || ft_strcmp(argument, "~") == 0)
-		chdir(check_name_in_env(env, "HOME"));
-	if (argument && ft_strcmp(argument, "-") == 0)
-		chdir(oldpwd);
-	if (chdir(argument) == -1)
+	special_chdir(argument, oldpwd, env, &status);
+	if (status == 0 && chdir(argument) == -1)
 	{
 		ft_putendl_fd("cd: ERROR", 2);
-		free_oldpwd(oldpwd);
-		return (1);
+		status = 1;
 	}
-	free_oldpwd(oldpwd);
+	if (oldpwd)
+		free(oldpwd);
 	pwd_update(env);
-	return (0);
+	if (status == -1)
+		return (0);
+	return (status);
 }

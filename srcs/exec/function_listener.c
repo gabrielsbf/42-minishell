@@ -21,7 +21,7 @@ void	closing_fd(t_parse *parser)
 	}
 }
 
-void	dup_fds(t_parse *parser)
+void	dup_fds (t_parse *parser)
 {
 	if (parser->fd_in != STDIN_FILENO)
 		dup2(parser->fd_in, STDIN_FILENO);
@@ -60,7 +60,7 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		closing_fd(head);
 		waitpid(temp->pid, &status, 0);
 		printf("EXECVE STATUS=%d\n", WEXITSTATUS(status));
-		update_env_status(env, status);
+		update_env_status(env, WEXITSTATUS(status));
 		temp = temp->next;
 	}
 }

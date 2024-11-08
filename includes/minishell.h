@@ -137,14 +137,14 @@ char	*prompt_prefix(void);
 void	server_loop(t_env **env, char **envp);
 // srcs/prompt_set/built_ins/
 void	ft_exit(t_parse **parser, t_env **env);
-int	ft_echo(t_parse **parser);
+int		ft_echo(t_parse **parser);
 void	ft_fork(void);
 int		pwd(t_parse **parser);
 int		cd_manager(char *argument, t_env **env);
-void	export_to_env(t_env **env, char **arguments);
+int		export_to_env(t_env **env, char **arguments);
 void	unset_from_env(t_env **env, char **arguments);
 void	function_listener(t_parse **parser, t_env **env, char **envp);
-int	built_ins_manager(t_parse **parser, t_env **env);
+int		built_ins_manager(t_parse **parser, t_env **env);
 void	pipe_built_ins(t_parse **parser, t_env **env);
 // free utils
 void	free_str_arr(char **args);
