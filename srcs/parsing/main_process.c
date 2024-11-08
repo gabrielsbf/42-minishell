@@ -70,6 +70,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 
 	i_spc = 0;
 	i = 0;
+	printf("starting main command\n");
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
 	while (is_special_char(&line_read[i_spc]) >= 2 || ft_isspace(line_read[i_spc]))
@@ -101,7 +102,10 @@ void parser_set(t_parse **parser, char *line_read, t_env **env, int i)
 	else if (i > 1)
 		(*parser)->next = init_parse(line_read, cmd_line,(*parser)->head, env);
 	if (i > 0)
+	{
 		(*parser) = (*parser)->next;
+		(*parser)->next = NULL;
+	}
 	free(cmd_line);
 }
 
@@ -171,6 +175,7 @@ int		def_parse_lim(t_parse **parser)
 	{
 		if (is_special_char(cmd_txt + i) == 1 && is_between_quotes(cmd_txt, i) == 0)
 		{
+			printf("entered here\n");
 			(*parser)->special_char = ft_substr(cmd_txt, i, 1);
 			return (i - 1);
 		}
@@ -227,18 +232,19 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 {
 	t_parse	*parser_init;
 	parser_init = malloc(sizeof(t_parse));
-	parser_init->next = NULL;
-	parser_init->entire_text = ft_strdup(line_read);
-	parser_init->command_text = ft_strdup(cmd_str);
-	parser_init->arguments = (char **)malloc(sizeof(char *));
-	parser_init->arguments[0] = NULL;
+	parser_init->entire_text = ft_strdup(line_read);//freed (free_parser_str)
+	parser_init->command_text = ft_strdup(cmd_str);//freed (free_parser_str)
+	parser_init->main_command = NULL; //freed (free_parser_str)
+	parser_init->exec_txt = NULL;
 	parser_init->env_path = get_env_path(env);
 	parser_init->fd_in = STDIN_FILENO;
 	parser_init->fd_out = STDOUT_FILENO;
 	parser_init->special_char = NULL;
 	parser_init->head = head;
 	parser_init->pid = getpid();
-	parser_init->exec_txt = NULL;
+	parser_init->arguments = (char **)malloc(sizeof(char *));
+	parser_init->arguments[0] = NULL;
 	parser_init->redir = NULL;
+	parser_init->next = NULL;
 	return (parser_init);
 }

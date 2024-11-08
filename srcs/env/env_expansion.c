@@ -52,6 +52,7 @@ void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 	int expand_bool;
 	char	*quotes_hand;
 	i = 0;
+
 	while (text[i] != '\0')
 	{
 		expand_bool = 0;
@@ -65,7 +66,8 @@ void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 		i++;
 	}
 	quotes_hand = join_quotes(text);
-	free((*parser)->command_text);
+	if ((*parser)->command_text)
+		free((*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
 	free(quotes_hand);
 }

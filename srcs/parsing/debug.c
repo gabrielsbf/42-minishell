@@ -15,8 +15,10 @@ void	print_parser_struct(t_parse *parser)
 		printf("NODE INDEX %d\n", index_node);
 		i = 0;
 		i_redir = 0;
-		printf("Cmd Text is: %s\n", temp->command_text);
-		printf("Main Command -> %s\n", temp->main_command);
+		if (temp->command_text)
+			printf("Cmd Text is: %s\n", temp->command_text);
+		if (temp->main_command)
+			printf("Main Command -> %s\n", temp->main_command);
 		if ((temp)->special_char != NULL)
 			printf("special char is: %s\n",temp->special_char);
 		if (temp->arguments != NULL)

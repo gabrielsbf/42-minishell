@@ -28,8 +28,6 @@ typedef struct parsing
 	char	*main_command;
 	char	**exec_txt;
 	char	*special_char;
-	char	*write_file;
-	char	*read_file;
 	char	**redir;
 	char	**arguments;
 	char	**env_path;
@@ -135,17 +133,17 @@ void	pipe_built_ins(t_parse **parser, t_env **env);
 void	free_str_arr(char **args);
 void	free_env(t_env **env);
 void	free_str_arr(char **args);
-void	free_parser_str(t_parse *parser);
+void	free_parser_str(t_parse **parser);
 void	free_parser(t_parse **parser);
 // redirect
-void	redirect(t_parse *parser, int redir_i);
-void	append(t_parse *parser, int redir_i);
+void	redirect(t_parse **parser, int redir_i);
+void	append(t_parse **parser, int redir_i);
 char	*get_redir_name(char	*redir);
-void	redirect_in(t_parse *parser, int redir_i);
+void	redirect_in(t_parse **parser, int redir_i);
 int		pipe_handler(t_parse **parser);
 void	sp_char_exec(t_parse **parser, t_env **env);
-void	read_heredoc(t_parse *parser, int redir_i, int fd, t_env **env);
-void	heredoc_exec(t_parse *parser, int redir_i, t_env **env);
+void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env);
+void	heredoc_exec(t_parse **parser, int redir_i, t_env **env);
 //exit utils
 void	sigquit_exit(t_env **env, t_parse **parser);
 void	non_numeric_exit(t_env **env, t_parse **parser);

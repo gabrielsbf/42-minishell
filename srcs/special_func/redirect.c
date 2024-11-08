@@ -27,13 +27,13 @@ char	*get_redir_name(char	*redir)
 	return (file_name);
 }
 
-void	redirect(t_parse *parser, int redir_i)
+void	redirect(t_parse **parser, int redir_i)
 {
 	char	*file_name;
 
-	file_name = get_redir_name(parser->redir[redir_i]);
-	if (parser->fd_out != 1)
-		close(parser->fd_out);
-	parser->fd_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	file_name = get_redir_name((*parser)->redir[redir_i]);
+	if ((*parser)->fd_out != 1)
+		close((*parser)->fd_out);
+	(*parser)->fd_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	free(file_name);
 }
