@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:30:31 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:31:07 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-void get_env(t_env **env, t_parse **parser)
+void	get_env(t_env **env, t_parse **parser)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = (*env);
 	while (temp)
@@ -10,7 +22,7 @@ void get_env(t_env **env, t_parse **parser)
 		if (ft_strcmp(temp->name, "?") == 0)
 		{
 			temp = temp->next;
-			continue;
+			continue ;
 		}
 		ft_putstr_fd(temp->name, (*parser)->fd_out);
 		ft_putstr_fd("=", (*parser)->fd_out);
