@@ -54,43 +54,43 @@ void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
 	waitpid(parser->pid, NULL, 0);
 } */
 
-void	run_redir(t_parse **temp, int redir_i, t_env **env)
+void	run_redir(t_parse *temp, int redir_i, t_env **env)
 {
-	if ((*temp)->redir[redir_i][0] == '>' && ((*temp)->redir[redir_i][1] != '>'
-		&& (*temp)->redir[redir_i][1] != '<'))
-		redirect(temp, redir_i);
-	if ((*temp)->redir[redir_i][0] == '<' && ((*temp)->redir[redir_i][1] != '>'
-		&& (*temp)->redir[redir_i][1] != '<'))
-		redirect_in(temp, redir_i);
-	if ((*temp)->redir[redir_i][0] == '>' && (*temp)->redir[redir_i][1] == '>')
-		append(temp, redir_i);
-	if ((*temp)->redir[redir_i][0] == '<' && (*temp)->redir[redir_i][1] == '<')
-		heredoc_exec(temp, redir_i, env);
+	if (temp->redir[redir_i][0] == '>' && (temp->redir[redir_i][1] != '>'
+		&& temp->redir[redir_i][1] != '<'))
+		redirect(&temp, redir_i);
+	if (temp->redir[redir_i][0] == '<' && (temp->redir[redir_i][1] != '>'
+		&& temp->redir[redir_i][1] != '<'))
+		redirect_in(env, &temp, redir_i);
+	if (temp->redir[redir_i][0] == '>' && temp->redir[redir_i][1] == '>')
+		append(&temp, redir_i);
+	if (temp->redir[redir_i][0] == '<' && temp->redir[redir_i][1] == '<')
+		heredoc_exec(&temp, redir_i, env);
 }
 
 void	sp_char_exec(t_parse **parser, t_env **env)
 {
 	int		redir_i;
-	t_parse	**temp;
+	t_parse	*temp;
 
-	temp = parser;
-	if ((*temp)->special_char != NULL)
+	temp = (*parser);
+	if (temp->special_char != NULL)
 			pipe_handler(parser);
 	while (temp)
 	{
 		redir_i = 0;
-		if (!(*temp)->redir && (*temp)->next != NULL)
+		if (!temp->redir && temp->next != NULL)
 		{
-			(*temp) = (*temp)->next;
+			temp = temp->next;
 			continue ;
 		}
-		if (!(*temp)->redir && !(*temp)->next)
+		if (!temp->redir && !temp->next)
 			return ;
-		while ((*temp)->redir[redir_i])
+		while (temp->redir[redir_i])
 		{
 			run_redir(temp, redir_i, env);
 			redir_i++;
 		}
-		(*temp) = (*temp)->next;
+		temp = temp->next;
 	}
 }

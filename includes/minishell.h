@@ -27,14 +27,14 @@ typedef struct parsing
 	char	*entire_text;
 	char	*command_text;
 	char	*main_command;
-	char	**exec_txt;
 	char	*special_char;
+	char	**exec_txt;
 	char	**redir;
 	char	**arguments;
 	char	**env_path;
 	int		fd_in;
 	int		fd_out;
-	int		is_error;
+	int		status;
 	int		pid;
 	struct	parsing *next;
 	struct	parsing *head;
@@ -140,7 +140,7 @@ void	free_parser(t_parse **parser);
 void	redirect(t_parse **parser, int redir_i);
 void	append(t_parse **parser, int redir_i);
 char	*get_redir_name(char	*redir);
-void	redirect_in(t_parse **parser, int redir_i);
+void	redirect_in(t_env **env, t_parse **parser, int redir_i);
 int		pipe_handler(t_parse **parser);
 void	sp_char_exec(t_parse **parser, t_env **env);
 void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env);
@@ -152,7 +152,9 @@ void	many_args_exit(t_env **env, t_parse **parser);
 
 // exec
 int	get_arg_len(t_parse *parser);
-int execution(t_parse **parser, t_env **env, char **envp);
+void	execution(t_parse **parser, t_env **env, char **envp);
+// status
+void	throw_error(int status);
 //maybe libft
 int		ft_isspace(char c);
 char	**ft_split_and_free(char *s, char c);

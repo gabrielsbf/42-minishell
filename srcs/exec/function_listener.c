@@ -1,11 +1,5 @@
 #include "../../includes/minishell.h"
 
-void	printfds(t_parse *parser)
-{
-	printf("fd_in->%d\n", parser->fd_in);
-	printf("fd_out->%d\n", parser->fd_out);
-}
-
 void	closing_fd(t_parse *parser)
 {
 	t_parse *temp;
@@ -29,14 +23,8 @@ void	dup_fds (t_parse *parser)
 		dup2(parser->fd_out, STDOUT_FILENO);
 }
 
-void	function_listener(t_parse **parser, t_env **env, char **envp)
+void	is_forking (t_parse **parser, t_parse *head, t_env **env, char **envp)
 {
-	t_parse	*head = (*parser);
-	int	status;
-
-	status = 0;
-	if (!(*parser)->special_char && built_ins_manager(parser, env) == 0)
-		return ;
 	while ((*parser))
 	{
 		if ((*parser)->main_command == NULL)
@@ -47,6 +35,8 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
 		{
+			signal(SIGQUIT, SIG_DFL);
+			signal(SIGINT, SIG_DFL);
 			pipe_built_ins(parser, env);
 			dup_fds((*parser));
 			closing_fd(head);
@@ -54,13 +44,24 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		}
 		(*parser) = (*parser)->next;
 	}
-	t_parse *temp = head;
-	while (temp)
+}
+
+void	function_listener(t_parse **parser, t_env **env, char **envp)
+{
+	t_parse	*head;
+
+	head = (*parser);
+	if (!(*parser)->special_char && (built_ins_manager(parser, env) == 0
+		|| (*parser)->status != 0))
+		return ;
+	is_forking(parser, head, env, envp);
+	(*parser) = head;
+	while ((*parser))
 	{
 		closing_fd(head);
-		waitpid(temp->pid, &status, 0);
-		printf("EXECVE STATUS=%d\n", WEXITSTATUS(status));
-		update_env_status(env, WEXITSTATUS(status));
-		temp = temp->next;
+		waitpid((*parser)->pid, &(*parser)->status, 0);
+		update_env_status(env, WEXITSTATUS((*parser)->status));
+		throw_error(WEXITSTATUS((*parser)->status));
+		(*parser) = (*parser)->next;
 	}
 }

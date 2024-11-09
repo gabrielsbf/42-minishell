@@ -34,7 +34,10 @@ int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t
 		free(*line_read);
 		free(*prefix_element);
 		free_parser(parser);
-		update_env_status(env, last_signal);
+		if (last_signal == 130)
+			update_env_status(env, last_signal);
+		else
+			update_env_status(env, 2);
 		return (1);
 	}
 	free(*prefix_element);
