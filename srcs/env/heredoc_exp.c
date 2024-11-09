@@ -1,15 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_exp.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:42:45 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:43:16 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	replace_here(char **text_in, char *find, char *replace)
 {
-	char *line_here;
-	int	new_alloc;
-	int	i_old;
-	int	i_new;
+	char	*line_here;
+	int		new_alloc;
+	int		i_old;
+	int		i_new;
 
 	i_old = 0;
 	i_new = 0;
-	new_alloc = ft_strlen((*text_in)) - ft_strlen(find) + ft_strlen(replace) + 1;
+	new_alloc = ft_strlen((*text_in))
+		- ft_strlen(find) + ft_strlen(replace) + 1;
 	line_here = ft_strdup((*text_in));
 	free((*text_in));
 	(*text_in) = (char *)malloc(new_alloc * sizeof(char));

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_env_status.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:36:51 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:38:10 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-void	update_env_status(t_env **env, int	status)
+void	update_env_status(t_env **env, int status)
 {
 	t_env	*temp;
 
@@ -27,17 +39,21 @@ t_env	*create_env_status(t_env *head)
 	status->next = NULL;
 	return (status);
 }
+
 void	verify_env_head(t_env **env)
 {
-	t_env *temp = (*env);
-	int	x = 0;
+	t_env	*temp;
+	int		x;
+
+	temp = (*env);
+	x = 0;
 	if ((*env)->head == NULL)
 	{
 		x++;
 		printf("ENV HEAD IS NULL\n");
 		temp = temp->next;
 	}
-	while(temp)
+	while (temp)
 	{
 		x++;
 		printf("loop head print%s\n", temp->name);

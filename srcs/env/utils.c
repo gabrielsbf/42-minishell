@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:43:59 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:45:01 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 /*FUNCTION THAT MAYBE CAN GO TO LIBFT
 BASIC FIND AND REPLACE*/
 void	replace_text(char **text, char *find, char *replace)
 {
-	char *dup_text;
-	int	new_alloc;
-	int	i_old;
-	int	i_new;
+	char	*dup_text;
+	int		new_alloc;
+	int		i_old;
+	int		i_new;
 
 	i_old = 0;
 	i_new = 0;
@@ -22,7 +34,8 @@ void	replace_text(char **text, char *find, char *replace)
 	{
 		if (dup_text[i_old] == '$')
 		{
-			if (expansion_valid(dup_text, i_old) &&ft_strncmp(&dup_text[i_old + 1], find, ft_strlen(find)) == 0 )
+			if (expansion_valid(dup_text, i_old)
+				&& ft_strncmp(&dup_text[i_old + 1], find, ft_strlen(find)) == 0)
 			{
 				ft_strlcpy(&((*text)[i_new]), replace, ft_strlen(replace) + 1);
 				i_new = i_new + ft_strlen(replace);
