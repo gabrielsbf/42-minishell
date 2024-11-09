@@ -48,10 +48,11 @@ void	is_forking (t_parse **parser, t_parse *head, t_env **env, char **envp)
 
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
-	t_parse	*head = (*parser);
+	t_parse	*head;
 
 	head = (*parser);
-	if (!(*parser)->special_char && built_ins_manager(parser, env) == 0)
+	if (!(*parser)->special_char && (built_ins_manager(parser, env) == 0
+		|| (*parser)->status != 0))
 		return ;
 	is_forking(parser, head, env, envp);
 	(*parser) = head;
@@ -60,6 +61,7 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		closing_fd(head);
 		waitpid((*parser)->pid, &(*parser)->status, 0);
 		update_env_status(env, WEXITSTATUS((*parser)->status));
+		throw_error(WEXITSTATUS((*parser)->status));
 		(*parser) = (*parser)->next;
 	}
 }
