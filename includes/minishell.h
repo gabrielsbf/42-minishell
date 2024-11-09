@@ -73,11 +73,11 @@ int			is_between_quotes(char *line_read, int memory);
 int			is_blank_substr(char *line_read, int memory, int pos);
 int			is_special_char(char *stretch);
 int			necessary_change(char *line_sub);
-char		*inject_text(char **line_start, char **line_end);
+char		*inject_text(char **line_start, char **line_end, char *prefix_end, char *sufix_end);
 void		quote_op(char *ref, char **dst, int *i, int *start);
 char		*join_quotes(char *line_sub);
 int			split_process(t_parse **parser, int memory, int pos);
-void		parsing_process(char *line_read, t_parse **parser, t_env **env);
+void		parsing_process(char **line_read, t_parse **parser, t_env **env);
 t_parse		*main_line_process(char *line_read, t_env **env);
 t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
 
@@ -87,7 +87,7 @@ char		*separate_line_read(char *line_sub);
 // ENV EXPANSION FUNC.
 
 int	expand_variable(char **text, int i_cipher, t_env **envs);
-void	env_and_quotes(t_parse ** parser, char *text, t_env **envs);
+void	env_and_quotes(t_parse ** parser, char **text, t_env **envs);
 int		expansion_valid(char *text, int memory);
 void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);

@@ -21,10 +21,15 @@ void	free_env(t_env **env)
 
 void	free_str(char **str)
 {
-	if (!(*str))
+	// printf("\n--------FREE STRING--------\n");
+	// printf("address: %p is being deallocated\n", (*str));
+	if ((str) == NULL || (*str) == NULL)
 		return ;
-	free(*str);
-	*str = NULL;
+	// printf("string is: %s\n", *str);
+	free((*str));
+	(*str) = NULL;
+	// printf("confirm null: %s\n", *str);
+	// printf("--------END OF FREE--------\n\n");
 }
 
 void	free_str_arr(char **args)

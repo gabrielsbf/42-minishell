@@ -11,7 +11,7 @@ void	replace_here(char **text_in, char *find, char *replace)
 	i_new = 0;
 	new_alloc = ft_strlen((*text_in)) - ft_strlen(find) + ft_strlen(replace) + 1;
 	line_here = ft_strdup((*text_in));
-	free((*text_in));
+	free_str(text_in);
 	(*text_in) = (char *)malloc(new_alloc * sizeof(char));
 	printf("len alloqued for text is: %d\n", new_alloc);
 	while (line_here[i_old] != '\0')
@@ -55,7 +55,7 @@ int	expand_heredoc(char **text_in, int i_cipher, t_env **envs)
 	if (env_value == NULL)
 		return 0;
 	replace_here(text_in, env_name, env_value);
-	free(env_name);
+	free_str(&env_name);
 	return (1);
 }
 

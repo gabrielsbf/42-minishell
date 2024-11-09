@@ -22,8 +22,8 @@ int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t
 {
 	if (!(*line_read))
 	{
-		free(*prefix_element);
-		free(*line_read);
+		free_str(prefix_element);
+		free_str(line_read);
 		sigquit_exit(env, parser);
 	}
 	if (ft_strcmp(*line_read, "") != 0)
@@ -40,8 +40,8 @@ int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t
 			update_env_status(env, 2);
 		return (1);
 	}
-	free(*prefix_element);
-	free(*line_read);
+	free_str(prefix_element);
+	free_str(line_read);
 	return (0);
 }
 

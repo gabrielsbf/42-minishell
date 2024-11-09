@@ -96,10 +96,11 @@ var need -> if really needs to make te input */
 // 	*sentence = ft_strdup(temp);
 // }
 
-char	*inject_text(char **line_start, char **line_end)
+char	*inject_text(char **line_start, char **line_end, char *prefix, char *sufix)
 {
 	char	*result;
-
+	(void)prefix;
+	(void)sufix;
 	if (*line_end == NULL)
 		return (*line_start);
 	if (*line_start == NULL)
@@ -139,7 +140,7 @@ void		inject_in_op(char **dst, char *ref, int *start, int *f_qt)
 	else
 	{
 		temp = substr_val(ref, *start, *f_qt);
-		*dst = inject_text(dst, &temp);
+		*dst = inject_text(dst, &temp, NULL, NULL);
 	}
 	*start = *start + *f_qt;
 }
@@ -162,13 +163,23 @@ void	quote_op(char *ref, char **dst, int *f_qt, int *start)
 	while (ref[last] != '\0' && !ft_isspace(ref[last]) && !is_quote(ref[last]))
 		last++;
 	temp = substr_val(ref, begin , (*f_qt) - 1);
-	(*dst) = inject_text(dst, &temp);
+	(*dst) = inject_text(dst, &temp, NULL, NULL);
 	temp = substr_val(ref, (*f_qt) + 1, l_qt);
-	(*dst) = inject_text(dst, &temp);
+	(*dst) = inject_text(dst, &temp, NULL, NULL);
 	temp = substr_val(ref, l_qt + 1, last);
-	(*dst) = inject_text(dst, &temp);
+	(*dst) = inject_text(dst, &temp, NULL, NULL);
 	set_vars(ref, f_qt, start, last);
 }
+
+/*Still not decided what to do with that*/
+/*
+static void put_quotes_std(char **line_return, int mem, int final)
+{
+	char *ptr = substr_val(*line_return, mem, final);
+	printf("mem -> %d | final -> %d\n", mem, final);
+	printf("put quotes std >> %s\n", ptr);
+	free_str(&ptr);
+}*/
 
 char	*join_quotes(char *line_sub)
 {
@@ -176,27 +187,22 @@ char	*join_quotes(char *line_sub)
 	char	*temp_line;
 	int		i;
 	int		start;
-	// int		incidence;
 
 	line_return = NULL;
 	i = 0;
 	start = 0;
-	// incidence = 0;
 	if (necessary_change(line_sub) == 0)
 		return ft_strdup(line_sub);
 	while (line_sub[i] != '\0')
 	{
 		while ((line_sub[i] == 34 || line_sub[i] == 39))
-		{
 			quote_op(line_sub, &line_return, &i, &start);
-			// incidence ++;
-		}
 		if (line_sub[i] == '\0')
 			break;
 		i++;
 	}
 	temp_line = ft_substr(line_sub, start, i - start);
-	line_return = inject_text(&line_return, &temp_line);
+	line_return = inject_text(&line_return, &temp_line, NULL, NULL);
 	printf("final line return is: %s\n", line_return);
 	return (line_return);
 }

@@ -61,14 +61,14 @@ char	*create_path_exec(t_parse **parser)
 		path = ft_strjoin((*parser)->env_path[i], s);
 		if(access(path, F_OK | X_OK) != 0)
 		{
-			free(path);
+			free_str(&path);
 			path = NULL;
 		}
 		else
 			break ;
 		i++;
 	}
-	free(s);
+	free_str(&s);
 	return (path);
 }
 

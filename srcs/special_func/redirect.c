@@ -35,5 +35,5 @@ void	redirect(t_parse **parser, int redir_i)
 	if ((*parser)->fd_out != 1)
 		close((*parser)->fd_out);
 	(*parser)->fd_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	free(file_name);
+	free_str(&file_name);
 }

@@ -3,8 +3,8 @@
 void	free_env_node(t_env *env)
 {
 	env->head = NULL;
-	free(env->name);
-	free(env->value);
+	free_str(&env->name);
+	free_str(&env->value);
 	free(env);
 }
 
