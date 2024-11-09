@@ -7,6 +7,8 @@ int	get_arg_len(t_parse *parser)
 
 	i = 0;
 	temp = parser;
+	if (!(parser)->arguments)
+		return (0);
 	while(temp->arguments[i] != NULL)
 		i++;
 	return (i);

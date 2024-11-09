@@ -62,6 +62,7 @@ void	server_loop(t_env **env, char **envp)
 		if (data_validation(&line_read, &prefix_element, &parser, env) == 1)
 			continue ;
 		sp_char_exec(&parser, env);
+		printf("PRINTING PARSER BEFORE FUNCTION LISTENER\n");
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
 		if (last_signal != 0)

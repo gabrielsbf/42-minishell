@@ -42,7 +42,5 @@ void	print_parser_struct(t_parse *parser)
 		printf("*************************************\n");
 		index_node++;
 		temp = temp->next;
-
 	}
-	printf("\n");
 }

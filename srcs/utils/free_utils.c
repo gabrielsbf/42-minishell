@@ -19,6 +19,14 @@ void	free_env(t_env **env)
 	}
 }
 
+void	free_str(char **str)
+{
+	if (!(*str))
+		return ;
+	free(*str);
+	*str = NULL;
+}
+
 void	free_str_arr(char **args)
 {
 	int	i;

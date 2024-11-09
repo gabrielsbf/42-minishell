@@ -121,7 +121,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	i = 0;
 	if (!validate_line_read(line_read, env))
 		return NULL;
-	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
+	while (line_read[0] != '\0' && pipe_char_pos(line_read) <= (int)ft_strlen(line_read))
 	{
 		cmd_line = separate_line_read(line_read);
 		parser_set(&parser, line_read, env, i);
@@ -130,11 +130,10 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 		if (line_read[0] != '\0')
 			line_read++;
 		i++;
-		free(cmd_line);
-		cmd_line = NULL;
 	}
 	if (parser->head != NULL)
 		parser = parser->head;
+	printf("parser COMPLETED\n");
 	return (parser);
 }
 
@@ -164,6 +163,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
 	printf("SPLIT PROCESS ENDED SUCCESS\n");
+
 	return (1);
 }
 
@@ -199,6 +199,7 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 
 	printf("text expanded is: %s\n", exp_text);
 	i = set_main_command(parser, exp_text);
+	printf("main text is %s\n",(*parser)->main_command);
 	memory = i;
 	while (exp_text[i] != '\0' && i <= def_parse_lim(parser))
 	{
@@ -215,6 +216,7 @@ void	parsing_process(char *line_read, t_parse **parser, t_env **env)
 	if (memory == i)
 		return ;
 	split_process(parser, memory, i);
+	printf("end parsing proccess with success\n");
 }
 
 char	**get_env_path(t_env **env)
@@ -247,7 +249,8 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->head = head;
 	parser_init->status = 0;
 	parser_init->pid = getpid();
-	parser_init->arguments = NULL;
+	parser_init->arguments = (char **)malloc(sizeof(char *));
+	parser_init->arguments[0] = NULL;
 	parser_init->redir = NULL;
 	parser_init->next = NULL;
 	return (parser_init);

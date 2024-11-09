@@ -34,7 +34,7 @@ int heredoc_before(char *text, int memory)
 
 int	expansion_valid(char *text, int memory)
 {
-	printf("text is: %s - memory: %d", text, memory);
+	printf("text is: %s - memory: %d\n", text, memory);
 	if (heredoc_before(text, memory) == 0)
 		return (0);
 	if (is_between_quotes(text, memory) == 39 ||
@@ -61,11 +61,12 @@ void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 		if (expand_bool == 1)
 		{
 			if (expand_variable(&text, i, envs))
-				env_and_quotes(parser, text, envs);
+				i = 0;
 		}
 		i++;
 	}
 	quotes_hand = join_quotes(text);
+	printf("JOIN QUOTES IS: %s\n", quotes_hand);
 	if ((*parser)->command_text)
 		free((*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);

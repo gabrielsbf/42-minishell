@@ -133,7 +133,7 @@ void	pipe_built_ins(t_parse **parser, t_env **env);
 // free utils
 void	free_str_arr(char **args);
 void	free_env(t_env **env);
-void	free_str_arr(char **args);
+void	free_str(char **str);
 void	free_parser_str(t_parse **parser);
 void	free_parser(t_parse **parser);
 // redirect

@@ -107,11 +107,9 @@ char	*inject_text(char **line_start, char **line_end)
 	else
 	{
 		result = ft_strjoin(*line_start, *line_end);
-		free(*line_start);
+		free_str(line_start);
 	}
-	free(*line_end);
-	*line_start = NULL;
-	*line_end = NULL;
+	free_str(line_end);
 	return (result);
 }
 

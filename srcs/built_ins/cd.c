@@ -39,7 +39,7 @@ void	oldpwd_update(t_env **env)
 	{
 		if (ft_strcmp(temp->name, "OLDPWD") == 0)
 		{
-			free(temp->value);
+			free_str(&temp->value);
 			temp->value = ft_calloc(sizeof(char), ft_strlen(cwd) + 1);
 			while (cwd[i] != '\0')
 			{

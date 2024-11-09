@@ -49,11 +49,11 @@ void	is_forking (t_parse **parser, t_parse *head, t_env **env, char **envp)
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
 	t_parse	*head;
-
 	head = (*parser);
 	if (!(*parser)->special_char && (built_ins_manager(parser, env) == 0
 		|| (*parser)->status != 0))
 		return ;
+	printf("passed fork\n");
 	is_forking(parser, head, env, envp);
 	(*parser) = head;
 	while ((*parser))
