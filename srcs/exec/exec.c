@@ -54,7 +54,7 @@ char	*create_path_exec(t_parse **parser)
 	s = NULL;
 	if ((*parser)->main_command[0] != '/')
 		s = ft_strjoin("/", (*parser)->main_command);
-	while ((*parser)->env_path[i] != NULL)
+	while ((*parser)->env_path && (*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);
 		if(access(path, F_OK | X_OK) != 0)
@@ -77,7 +77,6 @@ void	execution(t_parse **parser, t_env **env, char **envp)
 	(void)env;
 	create_execargs(parser);
 	path = create_path_exec(parser);
-	printf("%s\n", (*parser)->main_command);
 	if (access((*parser)->main_command, F_OK & X_OK) != 0 && !path)
 	{
 		free_parser(parser);

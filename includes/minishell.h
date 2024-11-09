@@ -154,7 +154,7 @@ void	many_args_exit(t_env **env, t_parse **parser);
 int	get_arg_len(t_parse *parser);
 void	execution(t_parse **parser, t_env **env, char **envp);
 // status
-void	status_handle(int status, t_env **env);
+void	throw_error(int status);
 //maybe libft
 int		ft_isspace(char c);
 char	**ft_split_and_free(char *s, char c);
