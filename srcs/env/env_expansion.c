@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_expansion.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:42:27 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 /*
 A ideia é fazer a expansão dentro do function listener
@@ -10,18 +22,18 @@ int	expand_variable(char **text, int i_cipher, t_env **envs)
 	int		memory;
 
 	memory = i_cipher + 1;
-	while((*text)[memory] != '\0' && is_env_available((*text)[memory]))
+	while ((*text)[memory] != '\0' && is_env_available((*text)[memory]))
 		memory++;
 	env_name = ft_substr(*text, i_cipher + 1, memory - i_cipher - 1);
 	env_value = check_name_in_env(envs, env_name);
 	if (env_value == NULL)
-		return 0;
+		return (0);
 	replace_text(text, env_name, env_value);
 	free(env_name);
 	return (1);
 }
 
-int heredoc_before(char *text, int memory)
+int	heredoc_before(char *text, int memory)
 {
 	while (memory > 0)
 	{
@@ -37,8 +49,8 @@ int	expansion_valid(char *text, int memory)
 	printf("text is: %s - memory: %d", text, memory);
 	if (heredoc_before(text, memory) == 0)
 		return (0);
-	if (is_between_quotes(text, memory) == 39 ||
-	is_between_quotes(text, memory) == 78)
+	if (is_between_quotes(text, memory) == 39
+		|| is_between_quotes(text, memory) == 78)
 		return (0);
 	else if (is_between_quotes(text, memory))
 		return (1);
@@ -48,11 +60,11 @@ int	expansion_valid(char *text, int memory)
 
 void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 {
-	int	i;
-	int expand_bool;
+	int		i;
+	int		expand_bool;
 	char	*quotes_hand;
-	i = 0;
 
+	i = 0;
 	while (text[i] != '\0')
 	{
 		expand_bool = 0;

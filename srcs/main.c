@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	last_signal;
+int	g_last_signal;
 
 void	sig_handler(int sig)
 {
@@ -12,7 +12,7 @@ void	sig_handler(int sig)
 			write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 1);
 		rl_on_new_line();
-		last_signal = 130;
+		g_last_signal = 130;
 	}
 	return ;
 }

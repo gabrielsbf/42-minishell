@@ -1,51 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:55:34 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include "libft/includes/libft.h"
+# include "libft/includes/libft.h"
 //readline lib
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 //common libs
-#include <signal.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <dirent.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <stdlib.h>
+# include <signal.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <dirent.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <stdlib.h>
 //system libs
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <sys/wait.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <sys/ioctl.h>
+# include <sys/wait.h>
 
-
-extern int last_signal;
-
+extern int	g_last_signal;
 typedef struct parsing
 {
-	char	*entire_text;
-	char	*command_text;
-	char	*main_command;
-	char	*special_char;
-	char	**exec_txt;
-	char	**redir;
-	char	**arguments;
-	char	**env_path;
-	int		fd_in;
-	int		fd_out;
-	int		status;
-	int		pid;
-	struct	parsing *next;
-	struct	parsing *head;
+	char			*entire_text;
+	char			*command_text;
+	char			*main_command;
+	char			*special_char;
+	char			**exec_txt;
+	char			**redir;
+	char			**arguments;
+	char			**env_path;
+	int				fd_in;
+	int				fd_out;
+	int				status;
+	int				pid;
+	struct parsing	*next;
+	struct parsing	*head;
 }	t_parse;
 
 typedef struct s_env
 {
-	char	*value;
-	char	*name;
-	struct	s_env *next;
-	struct	s_env *head;
+	char			*value;
+	char			*name;
+	struct s_env	*next;
+	struct s_env	*head;
 }	t_env;
 
 typedef struct utils_prompt
@@ -60,47 +70,42 @@ typedef struct utils_prompt
 
 //Parsing - srcs/parsing/
 
-int			get_next_match(char *line_read, int position, char c);
-int			validate_line_read(char *line_read, t_env **env);
-int			count_arr_nb(char **str);
-char		**ft_realloc_two_lists(char **str, char **str_new);
-char		**ft_realloc_list_and_str(char **str, char *str_new);
-int			count_args(char *line_read);
-int			set_main_command(t_parse **parser, char *line_read);
-int			jump_special_char(char *line_read);
+int		get_next_match(char *line_read, int position, char c);
+int		validate_line_read(char *line_read, t_env **env);
+int		count_arr_nb(char **str);
+char	**ft_realloc_two_lists(char **str, char **str_new);
+char	**ft_realloc_list_and_str(char **str, char *str_new);
+int		count_args(char *line_read);
+int		set_main_command(t_parse **parser, char *line_read);
+int		jump_special_char(char *line_read);
 //TEXT UTILS
-int			is_between_quotes(char *line_read, int memory);
-int			is_blank_substr(char *line_read, int memory, int pos);
-int			is_special_char(char *stretch);
-int			necessary_change(char *line_sub);
-char		*inject_text(char **line_start, char **line_end, int need_qt);
-void		quote_op(char *ref, char **dst, int *i, int *start);
-char		*join_quotes(char *line_sub);
-int			split_process(t_parse **parser, int memory, int pos);
-void		parsing_process(char *line_read, t_parse **parser, t_env **env);
-t_parse		*main_line_process(char *line_read, t_env **env);
-t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
-
-
-int			pipe_char_pos(char *line_sub);
-char		*separate_line_read(char *line_sub);
-// ENV EXPANSION FUNC.
-
-int	expand_variable(char **text, int i_cipher, t_env **envs);
-void	env_and_quotes(t_parse ** parser, char *text, t_env **envs);
+int		is_between_quotes(char *line_read, int memory);
+int		is_blank_substr(char *line_read, int memory, int pos);
+int		is_special_char(char *stretch);
+int		necessary_change(char *line_sub);
+char	*inject_text(char **line_start, char **line_end, int need_qt);
+void	quote_op(char *ref, char **dst, int *i, int *start);
+char	*join_quotes(char *line_sub);
+int		split_process(t_parse **parser, int memory, int pos);
+void	parsing_process(char *line_read, t_parse **parser, t_env **env);
+t_parse	*main_line_process(char *line_read, t_env **env);
+t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
+int		pipe_char_pos(char *line_sub);
+char	*separate_line_read(char *line_sub);
+//ENV EXPANSION FUNC.
+int		expand_variable(char **text, int i_cipher, t_env **envs);
+void	env_and_quotes(t_parse **parser, char *text, t_env **envs);
 int		expansion_valid(char *text, int memory);
 void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
-char *	check_name_in_env(t_env **envs, char * name);
+char	*check_name_in_env(t_env **envs, char *name);
 //------Debug Function------ To Print
 void	verify_env_head(t_env **env);
-
 void	print_parser_struct(t_parse *parser);
-
 //Env
-void	update_env_status(t_env **env, int	status);
+void	update_env_status(t_env **env, int status);
 void	add_env_status(t_env **env);
-char	*check_name_in_env(t_env **envs, char * name);
+char	*check_name_in_env(t_env **envs, char *name);
 char	*get_env_name(char **arg);
 int		get_value_length(char **env);
 char	*get_env_value(char **env);
@@ -151,7 +156,7 @@ void	non_numeric_exit(t_env **env, t_parse **parser);
 void	many_args_exit(t_env **env, t_parse **parser);
 
 // exec
-int	get_arg_len(t_parse *parser);
+int		get_arg_len(t_parse *parser);
 void	execution(t_parse **parser, t_env **env, char **envp);
 // status
 void	throw_error(int status);
@@ -160,6 +165,6 @@ int		ft_isspace(char c);
 char	**ft_split_and_free(char *s, char c);
 int		ft_strcmp(char const *str, char const *cmp);
 
-#define FOLDER_BIN "/bin/"
-#define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"
+# define FOLDER_BIN "/bin/"
+# define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"
 #endif
