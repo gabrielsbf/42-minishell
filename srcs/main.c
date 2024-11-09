@@ -14,7 +14,6 @@ void	sig_handler(int sig)
 		rl_on_new_line();
 		last_signal = 130;
 	}
-	printf("%d\n", last_signal);
 	return ;
 }
 

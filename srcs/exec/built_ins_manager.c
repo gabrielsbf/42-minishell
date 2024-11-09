@@ -50,6 +50,5 @@ void	pipe_built_ins(t_parse **parser, t_env **env)
 		return ;
 	free_parser(parser);
 	free_env(env);
-	printf("%d\n", status);
 	exit (status);
 }

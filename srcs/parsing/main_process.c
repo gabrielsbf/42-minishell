@@ -119,7 +119,7 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 
 	parser = NULL;
 	i = 0;
-	if (!validate_line_read(line_read))
+	if (!validate_line_read(line_read, env))
 		return NULL;
 	while (pipe_char_pos(line_read) <= (int)ft_strlen(line_read) && line_read[0] != '\0')
 	{
@@ -241,6 +241,7 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->fd_out = STDOUT_FILENO;
 	parser_init->special_char = NULL;
 	parser_init->head = head;
+	parser_init->status = 0;
 	parser_init->pid = getpid();
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;
