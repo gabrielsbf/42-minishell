@@ -43,20 +43,21 @@ void	create_execargs(t_parse **parser)
 	(*parser)->exec_txt[i] = NULL;
 }
 
-int execution(t_parse **parser, t_env **env, char **envp)
+char	*create_path_exec(t_parse **parser)
 {
-	int		i;
 	char	*path;
 	char	*s;
+	int		i;
 
-	(void)env;
-	create_execargs(parser);
 	i = 0;
-	s = ft_strjoin("/", (*parser)->main_command);
+	path = NULL;
+	s = NULL;
+	if ((*parser)->main_command[0] != '/')
+		s = ft_strjoin("/", (*parser)->main_command);
 	while ((*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);
-		if(access(path, F_OK & X_OK) != 0)
+		if(access(path, F_OK | X_OK) != 0)
 		{
 			free(path);
 			path = NULL;
@@ -66,14 +67,25 @@ int execution(t_parse **parser, t_env **env, char **envp)
 		i++;
 	}
 	free(s);
-	if (access((*parser)->main_command, R_OK & X_OK) != 0 && !path)
+	return (path);
+}
+
+void	execution(t_parse **parser, t_env **env, char **envp)
+{
+	char	*path;
+
+	(void)env;
+	create_execargs(parser);
+	path = create_path_exec(parser);
+	printf("%s\n", (*parser)->main_command);
+	if (access((*parser)->main_command, F_OK & X_OK) != 0 && !path)
 	{
-		update_env_status(env, 127);
+		free_parser(parser);
+		free_env(env);
 		exit (127);
 	}
 	if (!path)
 		execve((*parser)->main_command, (*parser)->exec_txt, envp);//must include exec_arguments in parser
 	else
 		execve(path, (*parser)->exec_txt, envp);
-	return (0);
 }

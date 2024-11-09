@@ -78,7 +78,6 @@ int	test_sp_char (char *line_read)
 int	validate_line_read(char *line_read, t_env **env)
 {
 	(void)env;
-	int	resp;
 	printf("test quote is >> %d\n", test_quote(line_read));
 	printf("test special char is >> %d\n", test_sp_char(line_read));
 	printf("you write anything on the readline is >> %d\n", readline_writed(line_read));

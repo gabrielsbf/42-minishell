@@ -1,18 +1,24 @@
 #include "../../includes/minishell.h"
 
-int	export_error(char *arguments)
+int	export_error(int *status, char *arguments)
 {
 	int	i;
 
 	i = 0;
 	if (ft_isalpha(arguments[0]) == 0 && arguments[0] != '_')
+	{
+		*status = 1;
 		return (0);
+	}
 	while (arguments[i] != '\0')
 	{
 		if (arguments[i] == '=')
 			return (1);
 		if (ft_isalnum(arguments[i]) == 0 && arguments[i] != '_')
+		{
+			*status = 1;
 			return (0);
+		}
 		i++;
 	}
 	return (0);
@@ -50,16 +56,18 @@ int	is_export_updated(t_env *env, char	**arguments)
 	return (0);
 }
 
-void	export_to_env(t_env **env, char **arguments)
+int	export_to_env(t_env **env, char **arguments)
 {
 	t_env *swap;
 	int	iarg;
+	int	status;
 
+	status = 0;
 	iarg = 0;
 	swap = (*env);
 	while ((arguments[iarg] != NULL))
 	{
-		if (!arguments[iarg] || export_error(arguments[iarg]) == 0
+		if (!arguments[iarg] || export_error(&status, arguments[iarg]) == 0
 		|| is_export_updated(swap, &arguments[iarg]) == 1)
 		{
 			iarg++;
@@ -68,6 +76,8 @@ void	export_to_env(t_env **env, char **arguments)
 		while (ft_strcmp(swap->next->name, "?") != 0)
 			swap = swap->next;
 		swap->next = add_export(env, &arguments[iarg]);
+		swap = swap->head;
 		iarg++;
 	}
+	return (status);
 }

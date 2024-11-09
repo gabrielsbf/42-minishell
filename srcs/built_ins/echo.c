@@ -1,6 +1,6 @@
 #include "../../includes/minishell.h"
 
-void	ft_echo(t_parse **parser)
+int	ft_echo(t_parse **parser)
 {
 	int i;
 	int trailing;
@@ -10,7 +10,7 @@ void	ft_echo(t_parse **parser)
 	if (!*(*parser)->arguments)
 	{
 		ft_putstr_fd("\n", (*parser)->fd_out);
-		return ;
+		return (0);
 	}
 	if (ft_strncmp((*parser)->arguments[0], "-n", 3) == 0)
 		i++;
@@ -25,4 +25,5 @@ void	ft_echo(t_parse **parser)
 	}
 	if (trailing == 1)
 		ft_putstr_fd("\n", (*parser)->fd_out);
+	return (0);
 }

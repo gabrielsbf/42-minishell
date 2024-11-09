@@ -32,18 +32,18 @@ void	ft_exit(t_parse **parser, t_env **env)
 	temp = 0;
 	if (!parser)
 		sigquit_exit(env, parser);
-	if (get_arg_len((*parser)) > 2)
+	if (get_arg_len((*parser)) > 1)
 		many_args_exit(env, parser);
-	if (get_arg_len((*parser)) == 2)
+	if (get_arg_len((*parser)) == 1)
 	{
 		i = 0;
-		while ((*parser)->arguments[1][i])
+		while ((*parser)->arguments[0][i])
 		{
-			if (ft_isdigit((*parser)->arguments[1][i]) == 0)
+			if (ft_isdigit((*parser)->arguments[0][i]) == 0)
 				non_numeric_exit(env, parser);
 			i++;
 		}
-		temp = ft_atoi((*parser)->arguments[1]);
+		temp = ft_atoi((*parser)->arguments[0]);
 	}
 	free_env(env);
 	free_parser(parser);
