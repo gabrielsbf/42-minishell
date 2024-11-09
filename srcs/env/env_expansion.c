@@ -69,6 +69,7 @@ void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
 	if ((*parser)->command_text)
 		free((*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
+	printf("Command text after quote hands: %s\n", (*parser)->command_text);
 	free(quotes_hand);
 }
 

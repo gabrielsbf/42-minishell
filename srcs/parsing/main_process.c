@@ -142,24 +142,28 @@ int	split_process(t_parse **parser, int memory, int pos)
 {
 	char	*text_to_parse;
 	char	*substr_text;
+	char	**text_spl;
 
-	printf("entered in split proccess\nmemory:%d, pos:%d\n",memory, pos);
+	text_spl = NULL;
 	text_to_parse = (*parser)->command_text;
-	printf("now: memory:%d, pos:%d\n",memory, pos);
+	printf("text to parse is: %s\n",text_to_parse);
 	//printf("text to parse variable is:%s\n", text_to_parse);
 	if (is_between_quotes(text_to_parse, memory) == 0)
 	{
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
 		substr_text = ft_substr(text_to_parse, memory, (pos - memory));
+		text_spl = ft_split(substr_text, ' ');
+		free(substr_text);
 		//printf("substr text: %s\n", substr_text);
-		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, ft_split_and_free(substr_text, ' ' ));
+		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, text_spl);
 	}
 	else
 	{
 		substr_text = ft_substr(text_to_parse, memory, pos - memory);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
+	printf("SPLIT PROCESS ENDED SUCCESS\n");
 	return (1);
 }
 
@@ -243,8 +247,7 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->head = head;
 	parser_init->status = 0;
 	parser_init->pid = getpid();
-	parser_init->arguments = (char **)malloc(sizeof(char *));
-	parser_init->arguments[0] = NULL;
+	parser_init->arguments = NULL;
 	parser_init->redir = NULL;
 	parser_init->next = NULL;
 	return (parser_init);

@@ -84,48 +84,28 @@ int	necessary_change(char *line_sub)
 
 /*if begin is 1 -> execute function with the first quote who appears
 var need -> if really needs to make te input */
-static	void put_std_quote(char **sentence, int begin, int	need)
-{
-	int	i;
+// static	void put_std_quote(char **sentence)
+// {
+// 	char	*txt;
+// 	char	*temp;
 
-	i = 0;
-	if (need == 0)
-		return ;
-	if ((*sentence) == NULL)
-		return ;
-	if (begin == 1)
-	{
-		while ((*sentence)[i] != '\0')
-		{
-			if ((*sentence)[i] == 34 || (*sentence)[i] == 39)
-			{
-				(*sentence)[i] = 34;
-				break;
-			}
-			i++;
-		}
-		return ;
-	}
-	else
-		(*sentence)[ft_strlen((*sentence)) - 1] = 34;
-}
+// 	txt = ft_strjoin("\"",*sentence);
+// 	temp = ft_strjoin(txt, "\"");
+// 	free(*sentence);
+// 	*sentence = NULL;
+// 	*sentence = ft_strdup(temp);
+// }
 
-char	*inject_text(char **line_start, char **line_end, int need_qt)
+char	*inject_text(char **line_start, char **line_end)
 {
 	char	*result;
 
-	printf("entering inject text: linestart:%s | line_end: %s\n", (*line_start), (*line_end));
 	if (*line_end == NULL)
 		return (*line_start);
-	put_std_quote(line_start, 1, need_qt);
 	if (*line_start == NULL)
-	{
-		put_std_quote(line_end, 1, need_qt);
 		result = ft_strjoin("", (*line_end));
-	}
 	else
 	{
-		put_std_quote(line_end, 0, need_qt);
 		result = ft_strjoin(*line_start, *line_end);
 		free(*line_start);
 	}
@@ -161,7 +141,7 @@ void		inject_in_op(char **dst, char *ref, int *start, int *f_qt)
 	else
 	{
 		temp = substr_val(ref, *start, *f_qt);
-		*dst = inject_text(dst, &temp, 0);
+		*dst = inject_text(dst, &temp);
 	}
 	*start = *start + *f_qt;
 }
@@ -184,14 +164,11 @@ void	quote_op(char *ref, char **dst, int *f_qt, int *start)
 	while (ref[last] != '\0' && !ft_isspace(ref[last]) && !is_quote(ref[last]))
 		last++;
 	temp = substr_val(ref, begin , (*f_qt) - 1);
-	// printf("temp 1 : begin %d | f_quote %d\n", begin, *f_qt);
-	(*dst) = inject_text(dst, &temp, 0);
+	(*dst) = inject_text(dst, &temp);
 	temp = substr_val(ref, (*f_qt) + 1, l_qt);
-	// printf("temp 2 : f_quote %d | l_quote %d\n", *f_qt, l_qt);
-	(*dst) = inject_text(dst, &temp, 0);
+	(*dst) = inject_text(dst, &temp);
 	temp = substr_val(ref, l_qt + 1, last);
-	// printf("temp 3 : l_quote %d | final %d\n", l_qt, last);
-	(*dst) = inject_text(dst, &temp, 0);
+	(*dst) = inject_text(dst, &temp);
 	set_vars(ref, f_qt, start, last);
 }
 
@@ -221,7 +198,7 @@ char	*join_quotes(char *line_sub)
 		i++;
 	}
 	temp_line = ft_substr(line_sub, start, i - start);
-	line_return = inject_text(&line_return, &temp_line, 0);
+	line_return = inject_text(&line_return, &temp_line);
 	printf("final line return is: %s\n", line_return);
 	return (line_return);
 }

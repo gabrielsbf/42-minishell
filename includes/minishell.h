@@ -73,7 +73,7 @@ int			is_between_quotes(char *line_read, int memory);
 int			is_blank_substr(char *line_read, int memory, int pos);
 int			is_special_char(char *stretch);
 int			necessary_change(char *line_sub);
-char		*inject_text(char **line_start, char **line_end, int need_qt);
+char		*inject_text(char **line_start, char **line_end);
 void		quote_op(char *ref, char **dst, int *i, int *start);
 char		*join_quotes(char *line_sub);
 int			split_process(t_parse **parser, int memory, int pos);

@@ -30,19 +30,16 @@ char **ft_realloc_two_lists(char **str, char **str_new)
 	i_last = 0;
 	new_alloc = count_arr_nb(str) + count_arr_nb(str_new) + 1;
 	new_arr = (char **)malloc(new_alloc * sizeof(char *));
-	while (str[i] != NULL)
+	while (str && str[i] != NULL)
 	{
 		new_arr[i] = ft_strdup(str[i]);
-		free(str[i++]);
+		i++;
 	}
-	while (str_new[i_last] != NULL)
-	{
-		new_arr[i++] = ft_strdup(str_new[i_last]);
-		free(str_new[i_last++]);
-	}
-	free(str);
-	free(str_new);
+	while (str_new && str_new[i_last] != NULL)
+		new_arr[i++] = ft_strdup(str_new[i_last++]);
 	new_arr[i] = NULL;
+	free_str_arr(str);
+	free_str_arr(str_new);
 	return (new_arr);
 }
 
@@ -60,7 +57,6 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 
 	i = 0;
 	new_alloc = count_arr_nb(str) + 2;
-	printf("new alloc is: %d\n", new_alloc);
 	new_arr = (char **)malloc(new_alloc * sizeof(char *));
 	if (str != NULL)
 		is_null = 0;
@@ -69,14 +65,12 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 	while (is_null == 0 && str[i] != NULL)
 	{
 		new_arr[i] = ft_strdup(str[i]);
-		free(str[i]);
 		i++;
 	}
-	printf("out of while\n");
 	new_arr[i] = ft_strdup(str_new);
 	new_arr[i + 1] = NULL;
 	free(str_new);
-	free(str);
+	free_str_arr(str);
 	return new_arr;
 }
 
