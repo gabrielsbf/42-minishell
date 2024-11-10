@@ -70,20 +70,22 @@ int	set_main_command(t_parse **parser, char *line_read)
 	i = 0;
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
-	while (is_special_char(&line_read[i_spc]) >= 2 || ft_isspace(line_read[i_spc]))
+	while (!is_between_quotes(line_read, i_spc + i) &&
+		(is_special_char(&line_read[i_spc]) >= 2 || ft_isspace(line_read[i_spc])))
 	{
 		if (is_special_char(&line_read[i_spc]) >= 2)
 			i_spc = get_redirect_part(parser, line_read, i_spc);
 		else
 			i_spc++;
 	}
-
 	while (line_read[i_spc + i] != '\0' && (is_between_quotes(line_read, i_spc + i) > 0
-		|| !ft_isspace(line_read[i_spc + i])))
+		|| !ft_isspace(line_read[i_spc + i])) && !is_special_char(&line_read[i_spc + i]))
+		i++;
+	while (is_between_quotes(line_read, i_spc + i) > 0)
 		i++;
 	if (!is_blank_substr(line_read, i_spc, i_spc + i))
 		(*parser)->main_command = ft_substr(line_read, i_spc, i);
-	// exclude_quotes(&(*parser)->main_command);
+	exclude_quotes(&(*parser)->main_command);
 	return (i_spc + i);
 }
 
@@ -148,6 +150,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 		if (is_blank_substr(text_to_parse, memory, pos))
 			return (0);
 		substr_text = ft_substr(text_to_parse, memory, (pos - memory));
+		exclude_quotes(&substr_text);
 		text_spl = ft_split(substr_text, ' ');
 		free_str(&substr_text);
 		(*parser)->arguments = ft_realloc_two_lists((*parser)->arguments, text_spl);
@@ -155,6 +158,7 @@ int	split_process(t_parse **parser, int memory, int pos)
 	else
 	{
 		substr_text = ft_substr(text_to_parse, memory, pos - memory);
+		exclude_quotes(&substr_text);
 		(*parser)->arguments = ft_realloc_list_and_str((*parser)->arguments, substr_text);
 	}
 	return (1);
@@ -179,28 +183,52 @@ int		def_parse_lim(t_parse **parser)
 	}
 	return ft_strlen((*parser)->command_text);
 }
+
+int	split_with_quote(t_parse **parser, char *exp_text, int *i, int *memory)
+{
+	if (is_between_quotes(exp_text, *i) == 0 && is_special_char(exp_text + *i) >= 2)
+	{
+		split_process(parser, *memory, *i);
+		*i = get_redirect_part(parser, exp_text, *i);
+		*memory = *i;
+		return (0);
+	}
+	if (is_between_quotes(exp_text, *i) == exp_text[*i] ||
+		is_between_quotes(exp_text, *i) == exp_text[*i] * 2)
+			split_process(parser, *memory, *i);
+	else
+	{
+		(*i) = (*i) + 1;
+		return (0);
+	}
+	if (is_between_quotes(exp_text, *i) >= 34 &&
+	is_between_quotes(exp_text, *i) <= 39)
+		*memory = *i;
+	else
+	{
+		*memory = (*i) + 1;
+		(*i) = (*i) + 1;
+	}
+	return (1);
+}
+
 /*Implantar funções para acoplar 25 linhas - Dpeois do while.*/
 void	parsing_process(char **line_read, t_parse **parser, t_env **env)
 {
 	int	i;
 	int	memory;
 	char	*exp_text;
+	int	parse_lim;
 
 	env_and_quotes(parser, line_read, env);
 	exp_text = (*parser)->command_text;
 	i = set_main_command(parser, exp_text);
-	printf("main text is %s\n",(*parser)->main_command);
 	memory = i;
-	while (exp_text[i] != '\0' && i <= def_parse_lim(parser))
+	parse_lim = def_parse_lim(parser);
+	while (exp_text[i] != '\0' && i < parse_lim)
 	{
-		if (is_between_quotes(exp_text, i) == 0 && is_special_char(exp_text + i) >= 2)
-		{
-			split_process(parser, memory, i);
-			printf("entering redirect\n");
-			i = get_redirect_part(parser, exp_text, i);
-			memory = i;
+		if (split_with_quote(parser, exp_text, &i, &memory) == 0)
 			continue;
-		}
 		i++;
 	}
 	if (memory == i)

@@ -70,7 +70,6 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 	new_arr[i] = ft_strdup(str_new);
 	new_arr[i + 1] = NULL;
 	free_str(&str_new);
-	printf("confirming null on realoc list -> %s", str_new);
 	free_str_arr(str);
 	return new_arr;
 }

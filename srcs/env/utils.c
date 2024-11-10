@@ -14,7 +14,6 @@ void	replace_text(char **text, char *find, char *replace)
 	new_alloc = ft_strlen(*text) - ft_strlen(find) + ft_strlen(replace) + 2;
 	dup_text = ft_strdup(*text);
 	free_str(text);
-	printf("CONFIRMING NULL >> replace text %s\n", *text);
 	*text = (char *)malloc(new_alloc * sizeof(char));
 	if (*text == NULL)
 		return ;

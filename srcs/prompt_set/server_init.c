@@ -31,8 +31,8 @@ int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t
 	*parser = main_line_process(*line_read, env);
 	if ((*parser) == NULL)
 	{
-		free_str_arr(line_read);
-		free_str_arr(prefix_element);
+		free_str(line_read);
+		free_str(prefix_element);
 		free_parser(parser);
 		if (last_signal == 130)
 			update_env_status(env, last_signal);
@@ -62,7 +62,6 @@ void	server_loop(t_env **env, char **envp)
 		if (data_validation(&line_read, &prefix_element, &parser, env) == 1)
 			continue ;
 		sp_char_exec(&parser, env);
-		printf("PRINTING PARSER BEFORE FUNCTION LISTENER\n");
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
 		if (last_signal != 0)
