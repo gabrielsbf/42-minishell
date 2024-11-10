@@ -1,8 +1,8 @@
 #include "../../includes/minishell.h"
 
-void	heredoc_last_signal(char *limit, int fd)
+void	heredoc_g_last_signal(char *limit, int fd)
 {
-	if (last_signal == 130)
+	if (g_last_signal == 130)
 	{
 		free_str(&limit);
 		close (fd);
@@ -19,7 +19,7 @@ void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env)
 	while (1)
 	{
 		buffer = readline("> ");
-		heredoc_last_signal(limit, fd);
+		heredoc_g_last_signal(limit, fd);
 		if (!buffer || !ft_strcmp(limit, buffer))
 			break;
 		else if (buffer)
@@ -37,7 +37,7 @@ void	sig_heredoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		last_signal = 130;
+		g_last_signal = 130;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		signal(SIGINT, SIG_IGN);
 	}

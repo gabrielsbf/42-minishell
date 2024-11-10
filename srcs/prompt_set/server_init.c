@@ -34,8 +34,8 @@ int	data_validation(char **line_read, char **prefix_element, t_parse **parser, t
 		free_str(line_read);
 		free_str(prefix_element);
 		free_parser(parser);
-		if (last_signal == 130)
-			update_env_status(env, last_signal);
+		if (g_last_signal == 130)
+			update_env_status(env, g_last_signal);
 		else
 			update_env_status(env, 2);
 		return (1);
@@ -55,7 +55,7 @@ void	server_loop(t_env **env, char **envp)
 	while
 	(1)
 	{
-		last_signal = 0;
+		g_last_signal = 0;
 		rl_replace_line("", 0);
 		prefix_element = prompt_prefix();
 		line_read = readline(prefix_element);
@@ -64,8 +64,8 @@ void	server_loop(t_env **env, char **envp)
 		sp_char_exec(&parser, env);
 		print_parser_struct(parser);
 		function_listener(&parser, env, envp);
-		if (last_signal != 0)
-			update_env_status(env, last_signal);
+		if (g_last_signal != 0)
+			update_env_status(env, g_last_signal);
 		free_parser(&parser);
 	}
 }

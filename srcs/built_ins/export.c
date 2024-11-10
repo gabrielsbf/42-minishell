@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:32:12 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:32:58 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	export_error(int *status, char *arguments)
@@ -58,9 +70,9 @@ int	is_export_updated(t_env *env, char	**arguments)
 
 int	export_to_env(t_env **env, char **arguments)
 {
-	t_env *swap;
-	int	iarg;
-	int	status;
+	t_env	*swap;
+	int		iarg;
+	int		status;
 
 	status = 0;
 	iarg = 0;
@@ -68,10 +80,10 @@ int	export_to_env(t_env **env, char **arguments)
 	while ((arguments[iarg] != NULL))
 	{
 		if (!arguments[iarg] || export_error(&status, arguments[iarg]) == 0
-		|| is_export_updated(swap, &arguments[iarg]) == 1)
+			|| is_export_updated(swap, &arguments[iarg]) == 1)
 		{
 			iarg++;
-			continue;
+			continue ;
 		}
 		while (ft_strcmp(swap->next->name, "?") != 0)
 			swap = swap->next;

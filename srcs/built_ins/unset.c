@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/09 01:33:28 by bkwamme           #+#    #+#             */
+/*   Updated: 2024/11/09 01:34:43 by bkwamme          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_env_node(t_env *env)
@@ -17,7 +29,8 @@ void	envnode_sewing(t_env **env, char **splitted_instructions)
 	prev_node = (*env);
 	while ((*env) != NULL)
 	{
-		if (ft_strcmp((*env)->name, get_env_name(splitted_instructions)) == 0)//WSL2_GUI_APPS_ENABLED
+		if (ft_strcmp((*env)->name, get_env_name(splitted_instructions))
+			== 0)
 		{
 			node_remover = (*env);
 			if ((*env)->next == NULL)
@@ -41,7 +54,7 @@ void	define_new_head(t_env **env)
 	t_env	*new_head;
 	t_env	*old_head;
 
-	if(!(*env)->next)
+	if (!(*env)->next)
 	{
 		free_env_node((*env));
 		return ;
@@ -49,7 +62,7 @@ void	define_new_head(t_env **env)
 	old_head = (*env);
 	new_head = (*env)->next;
 	(*env) = (*env)->next;
-	while((*env)->next != NULL)
+	while ((*env)->next != NULL)
 	{
 		if ((*env) == new_head)
 			(*env)->head = NULL;
@@ -82,5 +95,4 @@ void	unset_from_env(t_env **env, char **arguments)
 			envnode_sewing(env, &arguments[iarg]);
 		iarg++;
 	}
-
 }
