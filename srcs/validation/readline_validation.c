@@ -105,6 +105,8 @@ int	validate_line_read(char *line_read, t_env **env)
 int	is_blank_substr(char *line_read, int memory, int pos)
 {
 	// printf("start function -> is blank substr\n");
+	if (pos > (int)ft_strlen(line_read))
+		pos = ft_strlen(line_read);
 	if (pos < memory)
 		return (2);
 	while (pos >= memory)
