@@ -64,7 +64,7 @@ void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
 	char	*quotes_hand;
 
 	i = 0;
-	while ((*text[i]) != '\0')
+	while ((*text)[i] != '\0')
 	{
 		expand_bool = 0;
 		if ((*text)[i] == '$')
