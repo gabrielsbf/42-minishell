@@ -19,19 +19,33 @@ void	free_env(t_env **env)
 	}
 }
 
+void	free_str(char **str)
+{
+	// printf("\n--------FREE STRING--------\n");
+	// printf("address: %p is being deallocated\n", (*str));
+	if ((str) == NULL || (*str) == NULL)
+		return ;
+	// printf("string is: %s\n", *str);
+	free((*str));
+	(*str) = NULL;
+	// printf("confirm null: %s\n", *str);
+	// printf("--------END OF FREE--------\n\n");
+}
+
 void	free_str_arr(char **args)
 {
 	int	i;
 
+	i = 0;
 	if (!args)
 		return ;
-	i = 0;
-	while (args[i] != NULL)
+	while (args && args[i] != NULL)
 	{
 		free(args[i]);
 		i++;
 	}
-	free(args);
+	if (args)
+		free(args);
 }
 
 void	free_parser_str(t_parse **parser)

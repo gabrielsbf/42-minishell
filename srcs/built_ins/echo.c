@@ -19,7 +19,7 @@ int	ft_echo(t_parse **parser)
 
 	trailing = 0;
 	i = 0;
-	if (!*(*parser)->arguments)
+	if (!(*parser)->arguments || !*(*parser)->arguments)
 	{
 		ft_putstr_fd("\n", (*parser)->fd_out);
 		return (0);

@@ -29,7 +29,7 @@ int	expand_variable(char **text, int i_cipher, t_env **envs)
 	if (env_value == NULL)
 		return (0);
 	replace_text(text, env_name, env_value);
-	free(env_name);
+	free_str(&env_name);
 	return (1);
 }
 
@@ -46,7 +46,6 @@ int	heredoc_before(char *text, int memory)
 
 int	expansion_valid(char *text, int memory)
 {
-	printf("text is: %s - memory: %d", text, memory);
 	if (heredoc_before(text, memory) == 0)
 		return (0);
 	if (is_between_quotes(text, memory) == 39
@@ -58,30 +57,30 @@ int	expansion_valid(char *text, int memory)
 		return (1);
 }
 
-void	env_and_quotes(t_parse **parser, char *text, t_env **envs)
+void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
 {
 	int		i;
 	int		expand_bool;
 	char	*quotes_hand;
 
 	i = 0;
-	while (text[i] != '\0')
+	while ((*text)[i] != '\0')
 	{
 		expand_bool = 0;
-		if (text[i] == '$')
-			expand_bool = expansion_valid(text, i);
+		if ((*text)[i] == '$')
+			expand_bool = expansion_valid(*text, i);
 		if (expand_bool == 1)
 		{
-			if (expand_variable(&text, i, envs))
-				env_and_quotes(parser, text, envs);
+			if (expand_variable(text, i, envs))
+				i = 0;
 		}
 		i++;
 	}
-	quotes_hand = join_quotes(text);
+	quotes_hand = join_quotes(*text);
 	if ((*parser)->command_text)
-		free((*parser)->command_text);
+		free_str(&(*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
-	free(quotes_hand);
+	free_str(&quotes_hand);
 }
 
 // char	*env_and_quotes(t_parse **parser, t_env **envs)

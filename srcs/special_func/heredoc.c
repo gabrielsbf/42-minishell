@@ -4,7 +4,7 @@ void	heredoc_g_last_signal(char *limit, int fd)
 {
 	if (g_last_signal == 130)
 	{
-		free(limit);
+		free_str(&limit);
 		close (fd);
 		exit(130);
 	}
@@ -26,12 +26,12 @@ void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env)
 		{
 			here_expansion(&buffer, env);
 			ft_putendl_fd(buffer, fd);
-			free(buffer);
+			free_str(&buffer);
 		}
 	}
 	if (buffer)
-		free(buffer);
-	free(limit);
+		free_str(&buffer);
+	free_str(&limit);
 }
 void	sig_heredoc(int sig)
 {

@@ -79,22 +79,29 @@ int		count_args(char *line_read);
 int		set_main_command(t_parse **parser, char *line_read);
 int		jump_special_char(char *line_read);
 //TEXT UTILS
-int		is_between_quotes(char *line_read, int memory);
-int		is_blank_substr(char *line_read, int memory, int pos);
-int		is_special_char(char *stretch);
-int		necessary_change(char *line_sub);
-char	*inject_text(char **line_start, char **line_end, int need_qt);
-void	quote_op(char *ref, char **dst, int *i, int *start);
-char	*join_quotes(char *line_sub);
-int		split_process(t_parse **parser, int memory, int pos);
-void	parsing_process(char *line_read, t_parse **parser, t_env **env);
-t_parse	*main_line_process(char *line_read, t_env **env);
-t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
-int		pipe_char_pos(char *line_sub);
-char	*separate_line_read(char *line_sub);
-//ENV EXPANSION FUNC.
-int		expand_variable(char **text, int i_cipher, t_env **envs);
-void	env_and_quotes(t_parse **parser, char *text, t_env **envs);
+int			is_between_quotes(char *line_read, int memory);
+int			is_blank_substr(char *line_read, int memory, int pos);
+int			is_special_char(char *stretch);
+int			necessary_change(char *line_sub);
+char		*join_str_val(char *init, char *end);
+char		*inject_text(char **line_start, char **line_end, char *prefix_end, char *sufix_end);
+void		quote_op(char *ref, char **dst, int *i, int *start);
+void		pos_quote(char **dst);
+void		pre_quote(char *ref, char **dst, int *i, int *start);
+char	*exclude_spaces(char *line_sub);
+char		*join_quotes(char *line_sub);
+int			split_process(t_parse **parser, int memory, int pos);
+void		parsing_process(char **line_read, t_parse **parser, t_env **env);
+t_parse		*main_line_process(char *line_read, t_env **env);
+t_parse		*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env);
+
+
+int			pipe_char_pos(char *line_sub);
+char		*separate_line_read(char *line_sub);
+// ENV EXPANSION FUNC.
+
+int	expand_variable(char **text, int i_cipher, t_env **envs);
+void	env_and_quotes(t_parse ** parser, char **text, t_env **envs);
 int		expansion_valid(char *text, int memory);
 void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
@@ -138,7 +145,7 @@ void	pipe_built_ins(t_parse **parser, t_env **env);
 // free utils
 void	free_str_arr(char **args);
 void	free_env(t_env **env);
-void	free_str_arr(char **args);
+void	free_str(char **str);
 void	free_parser_str(t_parse **parser);
 void	free_parser(t_parse **parser);
 // redirect
