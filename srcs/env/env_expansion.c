@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:42:27 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/10 19:01:37 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
 		free_str(&(*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
 	free_str(&quotes_hand);
+	free_str(text);
 }
 
 // char	*env_and_quotes(t_parse **parser, t_env **envs)
