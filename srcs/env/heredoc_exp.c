@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_exp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:42:45 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:43:16 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/11 22:22:02 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	replace_here(char **text_in, char *find, char *replace)
 	i_old = 0;
 	i_new = 0;
 	new_alloc = ft_strlen((*text_in))
-		- ft_strlen(find) + ft_strlen(replace) + 1;
+		- ft_strlen(find) + ft_strlen(replace) + 2;
 	line_here = ft_strdup((*text_in));
 	free_str(text_in);
-	(*text_in) = (char *)malloc(new_alloc * sizeof(char));
+	(*text_in) = ft_calloc(new_alloc,sizeof(char));
 	printf("len alloqued for text is: %d\n", new_alloc);
 	while (line_here[i_old] != '\0')
 	{
@@ -41,15 +41,15 @@ void	replace_here(char **text_in, char *find, char *replace)
 				// printf("EXECUTED COPYSTR: newstring is: %s\n", (*text_in));
 			}
 		}
-		if (line_here[i_old] != '\0')
-		{
+		if (line_here[i_old] == '\0')
+			break;
 			// printf("line here is not null yet, char is: %d", line_here[i_old]);
-			(*text_in)[i_new] = line_here[i_old];
-			i_old++;
-			i_new++;
-		}
+		(*text_in)[i_new] = line_here[i_old];
+		i_old++;
+		i_new++;
 	}
 	// printf("END OF WHILE LOOP - i_new is %d and , text is: %s\n", i_new, (*text_in));
+	free_str(&line_here);
 	if ((*text_in)[i_new] != '\0')
 		(*text_in)[i_new] = '\0';
 }
@@ -63,11 +63,12 @@ int	expand_heredoc(char **text_in, int i_cipher, t_env **envs)
 	memory = i_cipher + 1;
 	while((*text_in)[memory] != '\0' && is_env_available((*text_in)[memory]))
 		memory++;
-	env_name = ft_substr((*text_in), i_cipher + 1, memory - i_cipher - 1);
+	env_name = substr_val((*text_in), i_cipher + 1, memory);
 	env_value = check_name_in_env(envs, env_name);
 	if (env_value == NULL)
-		return 0;
-	replace_here(text_in, env_name, env_value);
+		replace_here(text_in, env_name, "");
+	else
+		replace_here(text_in, env_name, env_value);
 	free_str(&env_name);
 	return (1);
 }
@@ -84,15 +85,13 @@ void	here_expansion(char **text, t_env **envs)
 {
 	int	i;
 	int expand_bool;
-	char *temp;
 
-	temp = (*text);
 	i = 0;
-	while (temp[i] != '\0')
+	while ((*text)[i] != '\0')
 	{
 		expand_bool = 0;
-		if (temp[i] == '$')
-			expand_bool = here_valid_qt(temp, i);
+		if ((*text)[i] == '$')
+			expand_bool = here_valid_qt(*text, i);
 		if (expand_bool == 1)
 		{
 			if (expand_heredoc(text, i, envs))
@@ -103,4 +102,5 @@ void	here_expansion(char **text, t_env **envs)
 	}
 	// printf("End of HERE EXPANSION -> Buffer is: %s\n", (*text));
 }
+
 

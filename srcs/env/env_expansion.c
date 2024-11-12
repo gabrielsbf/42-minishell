@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/10 19:01:37 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/11 21:44:17 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	expand_variable(char **text, int i_cipher, t_env **envs)
 	env_name = ft_substr(*text, i_cipher + 1, memory - i_cipher - 1);
 	env_value = check_name_in_env(envs, env_name);
 	if (env_value == NULL)
-		return (0);
-	replace_text(text, env_name, env_value);
+		replace_text(text, env_name, "");
+	else
+		replace_text(text, env_name, env_value);
 	free_str(&env_name);
 	return (1);
 }

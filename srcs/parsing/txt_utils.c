@@ -221,7 +221,7 @@ void	pre_quote(char *ref, char **dst, int *i, int *start)
 	begin = *i;
 	temp = NULL;
 	quote = ref[begin];
-	while (!ft_isspace(ref[begin]) && !is_special_char(&ref[begin]) && begin >= 0)
+	while (begin >= 0 && !ft_isspace(ref[begin]) && !is_special_char(&ref[begin]))
 		begin--;
 	if (begin < 0)
 		sub = 0;
@@ -296,8 +296,7 @@ char	*exclude_spaces(char *line_sub)
 	line_return = NULL;
 	while (line_sub[i] != '\0')
 	{
-		while ((!ft_isspace(line_sub[i]) || is_between_quotes(line_sub, i)) &&
-		line_sub[i] != '\0')
+		while (line_sub[i] != '\0' && (!ft_isspace(line_sub[i]) || is_between_quotes(line_sub, i)))
 			i++;
 		if (i != start)
 		{

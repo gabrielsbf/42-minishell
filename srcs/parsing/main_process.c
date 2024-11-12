@@ -234,6 +234,8 @@ void	parsing_process(char **line_read, t_parse **parser, t_env **env)
 			continue;
 		if (exp_text[i] == '\0')
 			break;
+		if (is_special_char(&exp_text[i]))
+			i--;
 		i++;
 	}
 	if (memory == i)

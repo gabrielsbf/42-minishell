@@ -16,6 +16,8 @@ if results to 0 it means it's not a special char
 */
 int		is_special_char(char *stretch)
 {
+	if (stretch[0] == '\0')
+		return (0);
 	if ((stretch[0] == '>' || stretch[0] == '<') && stretch[0] == stretch[1])
 		return (3);
 	if (stretch[0] == '>' || stretch[0] == '<')
