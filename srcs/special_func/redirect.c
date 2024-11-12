@@ -31,7 +31,9 @@ void	redirect(t_parse **parser, int redir_i)
 {
 	char	*file_name;
 
+	printf("ENTREI NO REDIRECT\n");
 	file_name = get_redir_name((*parser)->redir[redir_i]);
+	printf("FD OUT É -> %d\n", (*parser)->fd_out);
 	if ((*parser)->fd_out != 1)
 		close((*parser)->fd_out);
 	(*parser)->fd_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);

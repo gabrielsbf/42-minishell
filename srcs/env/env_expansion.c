@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:42:27 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/11 21:44:17 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int	expand_variable(char **text, int i_cipher, t_env **envs)
 	env_name = ft_substr(*text, i_cipher + 1, memory - i_cipher - 1);
 	env_value = check_name_in_env(envs, env_name);
 	if (env_value == NULL)
-		return (0);
-	replace_text(text, env_name, env_value);
+		replace_text(text, env_name, "");
+	else
+		replace_text(text, env_name, env_value);
 	free_str(&env_name);
 	return (1);
 }
@@ -81,6 +82,7 @@ void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
 		free_str(&(*parser)->command_text);
 	(*parser)->command_text = ft_strdup(quotes_hand);
 	free_str(&quotes_hand);
+	free_str(text);
 }
 
 // char	*env_and_quotes(t_parse **parser, t_env **envs)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:28:40 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:28:41 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/10 16:33:35 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	pwd_update(t_env **env)
 	{
 		if (ft_strcmp(temp->name, "PWD") == 0)
 		{
-			free(temp->value);
+			free_str(&temp->value);
 			temp->value = ft_calloc(sizeof(char), ft_strlen(cwd) + 1);
 			while (cwd[i] != '\0')
 			{
@@ -120,7 +120,7 @@ int	cd_manager(char *argument, t_env **env)
 		status = 1;
 	}
 	if (oldpwd)
-		free(oldpwd);
+		free_str(&oldpwd);
 	pwd_update(env);
 	if (status == -1)
 		return (0);

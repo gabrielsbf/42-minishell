@@ -23,7 +23,7 @@ void	free_str(char **str)
 {
 	// printf("\n--------FREE STRING--------\n");
 	// printf("address: %p is being deallocated\n", (*str));
-	if ((str) == NULL || (*str) == NULL)
+	if (!(str)|| !(*str))
 		return ;
 	// printf("string is: %s\n", *str);
 	free((*str));
@@ -41,35 +41,36 @@ void	free_str_arr(char **args)
 		return ;
 	while (args && args[i] != NULL)
 	{
-		free(args[i]);
+		free_str(&args[i]);
 		i++;
 	}
 	if (args)
 		free(args);
+	args = NULL;
 }
 
 void	free_parser_str(t_parse **parser)
 {
 	if ((*parser)->command_text)
-		free((*parser)->command_text);
+		free_str(&(*parser)->command_text);
 	if ((*parser)->entire_text)
-		free((*parser)->entire_text);
+		free_str(&(*parser)->entire_text);
 	if ((*parser)->main_command)
-		free((*parser)->main_command);
+		free_str(&(*parser)->main_command);
 	if ((*parser)->special_char)
-		free((*parser)->special_char);
+		free_str(&(*parser)->special_char);
 }
 
 void	free_parser(t_parse **parser)
 {
-	t_parse	**temp;
+	t_parse	*temp;
 
 	temp = NULL;
 	if (!(*parser))
 		return ;
 	while ((*parser))
 	{
-		temp = parser;
+		temp = *parser;
 		free_str_arr((*parser)->arguments);
 		free_str_arr((*parser)->env_path);
 		free_str_arr((*parser)->exec_txt);
@@ -77,6 +78,6 @@ void	free_parser(t_parse **parser)
 		free_parser_str(parser);
 		(*parser)->head = NULL;
 		(*parser) = (*parser)->next;
-		free(*temp);
+		free(temp);
 	}
 }

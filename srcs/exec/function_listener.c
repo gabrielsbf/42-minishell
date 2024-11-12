@@ -64,4 +64,5 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 		throw_error(WEXITSTATUS((*parser)->status));
 		(*parser) = (*parser)->next;
 	}
+	*parser = head;
 }

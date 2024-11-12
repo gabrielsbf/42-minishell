@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env_status.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:36:51 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:38:10 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/10 17:26:46 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	update_env_status(t_env **env, int status)
 	{
 		temp = temp->next;
 		if (temp->next == NULL)
+		{
+			free_str(&temp->value);
 			temp->value = ft_itoa(status);
+		}
 	}
 }
 

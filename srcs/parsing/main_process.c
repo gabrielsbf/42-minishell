@@ -52,7 +52,8 @@ int	jump_special_char(char *line_read)
 	int	i;
 
 	i = 0;
-	while (is_special_char(line_read + i))
+	while (line_read[i] != '\0' &&
+	 is_special_char(line_read + i))
 		i++;
 	return (i);
 }
@@ -115,19 +116,21 @@ t_parse	*main_line_process(char *line_read, t_env **env)
 	t_parse	*parser;
 	char	*cmd_line;
 	int		i;
+	char	*temp;
 
+	temp = line_read;
 	parser = NULL;
 	i = 0;
-	if (!validate_line_read(line_read, env))
+	if (!validate_line_read(temp, env))
 		return NULL;
-	while (line_read[0] != '\0' && pipe_char_pos(line_read) <= (int)ft_strlen(line_read))
+	while (temp[0] != '\0' && pipe_char_pos(temp) <= (int)ft_strlen(temp))
 	{
-		cmd_line = separate_line_read(line_read);
-		parser_set(&parser, line_read, env, i);
+		cmd_line = separate_line_read(temp);
+		parser_set(&parser, temp, env, i);
 		parsing_process(&cmd_line, &parser, env);
-		line_read = line_read + pipe_char_pos(line_read);
-		if (line_read[0] != '\0')
-			line_read++;
+		temp = temp + pipe_char_pos(temp);
+		if (temp[0] != '\0')
+			temp++;
 		free_str(&cmd_line);
 		i++;
 	}
@@ -229,6 +232,10 @@ void	parsing_process(char **line_read, t_parse **parser, t_env **env)
 	{
 		if (split_with_quote(parser, exp_text, &i, &memory) == 0)
 			continue;
+		if (exp_text[i] == '\0')
+			break;
+		if (is_special_char(&exp_text[i]))
+			i--;
 		i++;
 	}
 	if (memory == i)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:43:59 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:45:01 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/11 21:46:14 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	replace_text(char **text, char *find, char *replace)
 				i_old = i_old + ft_strlen(find) + 1;
 			}
 		}
-		if (dup_text[i_old] != '\0')
-		{
-			(*text)[i_new] = dup_text[i_old];
+		if (dup_text[i_old] == '\0')
+			break;
+		(*text)[i_new] = dup_text[i_old];
 			i_old++;
 			i_new++;
-		}
 	}
+	free_str(&dup_text);
 	(*text)[i_new] = '\0';
 }
 

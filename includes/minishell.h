@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:55:34 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/11 22:04:58 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ int			necessary_change(char *line_sub);
 char		*join_str_val(char *init, char *end);
 char		*inject_text(char **line_start, char **line_end, char *prefix_end, char *sufix_end);
 void		quote_op(char *ref, char **dst, int *i, int *start);
-void		pos_quote(char **dst);
 void		pre_quote(char *ref, char **dst, int *i, int *start);
-char	*exclude_spaces(char *line_sub);
+char		*exclude_spaces(char *line_sub);
+char		*substr_val(char *s, int start, int final);
 char		*join_quotes(char *line_sub);
 int			split_process(t_parse **parser, int memory, int pos);
 void		parsing_process(char **line_read, t_parse **parser, t_env **env);

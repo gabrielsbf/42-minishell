@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:31:19 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:31:56 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/10 17:22:56 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_exit(t_parse **parser, t_env **env)
 	int	temp;
 	int	i;
 
+	clear_history();
 	temp = 0;
 	if (!parser)
 		sigquit_exit(env, parser);

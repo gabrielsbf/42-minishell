@@ -33,7 +33,7 @@ $(DIR_OBJS)/%.o : %.c
 	$(COMPILER) -c $< -o $@
 
 val: all
-	valgrind  --leak-check=full --show-leak-kinds=all --track-fds=yes --suppressions=$(SUPP_FILE) ./$(NAME)
+	valgrind --read-inline-info=yes --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=$(SUPP_FILE) ./$(NAME)
 clean:
 	$(RM) $(DIR_OBJS)
 	cd includes/libft && make clean && cd ../..
