@@ -11,7 +11,8 @@ int	get_redirect_part(t_parse **parser, char *cmd_txt, int mem)
 		i++;
 	while (cmd_txt[i] != '\0')
 	{
-		while (!ft_isspace(cmd_txt[i]) && cmd_txt[i] != '\0' &&
+		while ((!ft_isspace(cmd_txt[i]) ||
+		is_between_quotes(cmd_txt, i) > 0) && cmd_txt[i] != '\0' &&
 		is_special_char(&cmd_txt[i]) == 0)
 		{
 			flip = 1;

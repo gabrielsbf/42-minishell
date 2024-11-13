@@ -14,6 +14,5 @@ void	redirect_in(t_env **env, t_parse **parser, int redir_i)
 		update_env_status(env, 1);
 		ft_putendl_fd("input redirect: ERROR", 2);
 	}
-	if ((*parser)->fd_in == -1)
-		free_str(&file_name);
+	free_str(&file_name);
 }
