@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/11 22:04:58 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/13 00:46:50 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char		*inject_text(char **line_start, char **line_end, char *prefix_end, char *s
 void		quote_op(char *ref, char **dst, int *i, int *start);
 void		pre_quote(char *ref, char **dst, int *i, int *start);
 char		*exclude_spaces(char *line_sub);
+void		exclude_quotes(char **argument);
 char		*substr_val(char *s, int start, int final);
 char		*join_quotes(char *line_sub);
 int			split_process(t_parse **parser, int memory, int pos);

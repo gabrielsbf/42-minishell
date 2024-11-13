@@ -62,6 +62,8 @@ void	heredoc_exec(t_parse **parser, int redir_i, t_env **env)
 		signal(SIGINT, sig_heredoc);
 		read_heredoc(parser, redir_i, fd_hdoc[1], env);
 		close(fd_hdoc[1]);
+		free_parser(parser);
+		free_env(env);
 		exit(0);
 	}
 	close(fd_hdoc[1]);

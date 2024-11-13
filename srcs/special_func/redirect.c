@@ -11,7 +11,8 @@ char	*get_redir_name(char	*redir)
 	i = 0;
 	while (redir[i] != '\0')
 	{
-		if (redir[i] != '<' && redir[i] != '>' && redir[i] != ' ')
+		if (redir[i] != '<' && redir[i] != '>' &&
+		(redir[i] != ' ' || is_between_quotes(redir, i) > 0))
 			file_i++;
 		i++;
 	}
@@ -20,10 +21,13 @@ char	*get_redir_name(char	*redir)
 	file_i = -1;
 	while (redir[i] != '\0')
 	{
-		if (redir[i] != '<' && redir[i] != '>' && redir[i] != ' ')
+		if (redir[i] != '<' && redir[i] != '>' &&
+		(redir[i] != ' ' || is_between_quotes(redir, i) > 0))
 			file_name[++file_i] = redir[i];
+
 		i++;
 	}
+	exclude_quotes(&file_name);
 	return (file_name);
 }
 
