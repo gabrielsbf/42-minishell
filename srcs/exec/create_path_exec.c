@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:23:59 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/13 20:28:04 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/14 10:18:23 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ char	*create_path_exec(t_parse **parser)
 	s = NULL;
 	if ((*parser)->main_command[0] != '/')
 		s = ft_strjoin("/", (*parser)->main_command);
+	else
+		s = ft_strdup((*parser)->main_command);
 	while ((*parser)->env_path && (*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);

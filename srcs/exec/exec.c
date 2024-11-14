@@ -51,11 +51,16 @@ char	*temp_actual_path_wsl(t_parse **parser, t_env **env)
 	char	*actual_path;
 	char	cwd[4097];
 
-	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), "/");
-	file = temp_pwd_wsl(temp);
-	free_str(&temp);
-	actual_path = ft_strjoin(file, (*parser)->main_command);
-	free_str(&file);
+	if ((*parser)->main_command[0] != '/')
+	{
+		temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), "/");
+		file = temp_pwd_wsl(temp);
+		free_str(&temp);
+		actual_path = ft_strjoin(file, (*parser)->main_command);
+		free_str(&file);
+	}
+	else
+		actual_path = ft_strdup((*parser)->main_command);
 	check_dir(parser, env, actual_path);
 	if (ft_is_dir(actual_path) == 1)
 	{
@@ -109,12 +114,13 @@ void	execution(t_parse **parser, t_env **env, char **envp)
 		path = temp_actual_path_wsl(parser, env);
 	else
 		path = create_path_exec(parser);
+	if (access((*parser)->main_command, F_OK | X_OK) == 0)
+		execve((*parser)->main_command, (*parser)->exec_txt, envp);
 	if (!path)
 	{
 		free_parser(parser);
 		free_env(env);
 		exit (127);
 	}
-	if (ft_is_dir(path) == 0)
-		execve(path, (*parser)->exec_txt, envp);
+	execve(path, (*parser)->exec_txt, envp);
 }
