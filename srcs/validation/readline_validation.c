@@ -2,7 +2,7 @@
 
 int	readline_writed (char *line_read)
 {
-	if (ft_strcmp(line_read, "") == 0)
+	if (ft_strcmp(line_read, "") == 0 || is_blank_substr(line_read, 0, (int)ft_strlen(line_read)) == 1)
 		return (0);
 	return (1);
 }
@@ -35,7 +35,7 @@ int	check_along (char *line_read, int i)
 
 	back = i - 1;
 
-	while (is_special_char(&line_read[back]) > 0 && back >= 0)
+	while (back >= 0 && is_special_char(&line_read[back]) > 0)
 		back--;
 	while (back >= 0 && ft_isspace(line_read[back]))
 		back--;
@@ -108,7 +108,7 @@ int	is_blank_substr(char *line_read, int memory, int pos)
 	if (pos > (int)ft_strlen(line_read))
 		pos = ft_strlen(line_read);
 	if (pos < memory)
-		return (2);
+		return (-2);
 	while (pos >= memory)
 	{
 		if (!ft_isspace(line_read[pos]) && line_read[pos] != '\0')

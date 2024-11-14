@@ -8,13 +8,13 @@ char	*prompt_prefix(void)
 
 	prompt_prefix = ft_strjoin(getenv("LOGNAME"), "@");
 	temp = ft_strjoin(prompt_prefix, getenv("USER"));
-	free(prompt_prefix);
+	free_str(&prompt_prefix);
 	prompt_prefix = ft_strjoin(temp, ":");
-	free(temp);
+	free_str(&temp);
 	temp = ft_strjoin(prompt_prefix, getcwd(cwd, sizeof(cwd)));
-	free(prompt_prefix);
+	free_str(&prompt_prefix);
 	prompt_prefix = ft_strjoin(temp, "$ ");
-	free(temp);
+	free_str(&temp);
 	return (prompt_prefix);
 }
 
