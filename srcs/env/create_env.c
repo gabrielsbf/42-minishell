@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:38:43 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/13 14:21:51 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/14 11:48:33 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,16 @@ t_env	*create_env_list(char **envp)
 {
 	t_env	*env_list;
 	t_env	*head;
+	int		i;
 
+	i = 0;
 	head = NULL;
 	env_list = add_env_node(envp, head);
-	while (*++envp)
+	while (envp[++i])
 	{
 		if (!head)
 			head = env_list;
-		env_list->next = add_env_node(envp, head);
+		env_list->next = add_env_node(&envp[i], head);
 		env_list = env_list->next;
 	}
 	env_list->next = NULL;

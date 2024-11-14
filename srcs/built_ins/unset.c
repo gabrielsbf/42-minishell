@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:33:28 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:34:43 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/14 11:17:18 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	envnode_sewing(t_env **env, char **splitted_instructions)
 	prev_node = (*env);
 	while ((*env) != NULL)
 	{
-		if (ft_strcmp((*env)->name, get_env_name(splitted_instructions))
+		if (ft_strcmp((*env)->name, *splitted_instructions)
 			== 0)
 		{
 			node_remover = (*env);
@@ -89,7 +89,7 @@ void	unset_from_env(t_env **env, char **arguments)
 			iarg++;
 			continue ;
 		}
-		else if (ft_strcmp((*env)->name, get_env_name(&arguments[iarg])) == 0)
+		else if (ft_strcmp((*env)->name, arguments[iarg]) == 0)
 			define_new_head(env);
 		else
 			envnode_sewing(env, &arguments[iarg]);
