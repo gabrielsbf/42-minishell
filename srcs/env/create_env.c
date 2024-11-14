@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:38:43 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:40:45 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:21:51 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_env	*add_env_node(char **env, t_env *head)
 {
 	t_env	*env_node;
 
-	env_node = ft_calloc(sizeof(t_env), 1);
+	env_node = (t_env *) malloc(sizeof(t_env) * 1);
 	env_node->head = head;
 	env_node->name = get_env_name(env);
 	env_node->value = get_env_value(env);

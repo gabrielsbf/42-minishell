@@ -3,10 +3,10 @@
 void	throw_error(int	status)
 {/*
 	if (status == 1)
-		ft_putendl_fd("invalid input: ERROR", 2);
+		ft_putendl_fd("invalid input: ERROR", 2);*/
 	if (status == 2)
 		ft_putendl_fd("invalid syntax or argument: ERROR", 2);
-	if (status == 126)
+	/*if (status == 126)
 		ft_putendl_fd("invalid execution: ERROR", 2); */
 	if (status == 127)
 		ft_putendl_fd("command not found: ERROR", 2);/*

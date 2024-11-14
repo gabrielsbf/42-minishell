@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/13 00:46:50 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/14 09:17:24 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,9 @@ void	non_numeric_exit(t_env **env, t_parse **parser);
 void	many_args_exit(t_env **env, t_parse **parser);
 
 // exec
+void	get_execargs(char	*args, char **exec_arg, int	arr_i);
+void	create_execargs(t_parse **parser);
+char	*create_path_exec(t_parse **parser);
 int		get_arg_len(t_parse *parser);
 void	execution(t_parse **parser, t_env **env, char **envp);
 // status
@@ -172,6 +175,9 @@ void	throw_error(int status);
 int		ft_isspace(char c);
 char	**ft_split_and_free(char *s, char c);
 int		ft_strcmp(char const *str, char const *cmp);
+int		ft_is_dir(char	*path);
+int		check_slash(char *path);
+char	*remove_slash(char *file);
 
 # define FOLDER_BIN "/bin/"
 # define FOLDER_BUILT_IN "./srcs/prompt_set/built_ins/"
