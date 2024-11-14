@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:31:19 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/10 17:22:56 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/13 15:11:49 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	get_arg_len(t_parse *parser)
+{
+	t_parse	*temp;
+	int	i;
+
+	i = 0;
+	temp = parser;
+	if (!(parser)->arguments)
+		return (0);
+	while(temp->arguments[i] != NULL)
+		i++;
+	return (i);
+}
 
 void	sigquit_exit(t_env **env, t_parse **parser)
 {

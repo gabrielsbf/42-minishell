@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_env_status.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:36:51 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/10 17:26:46 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:21:17 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_env	*create_env_status(t_env *head)
 
 	name = ft_calloc(sizeof(char), 2);
 	name[0] = '?';
-	status = ft_calloc(sizeof(t_env), 1);
+	status = (t_env *) malloc(sizeof(t_env) * 1);
 	status->head = head;
 	status->name = name;
 	status->value = ft_itoa(0);

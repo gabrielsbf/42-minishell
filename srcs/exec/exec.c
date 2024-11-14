@@ -1,76 +1,93 @@
 #include "../../includes/minishell.h"
 
-int	get_arg_len(t_parse *parser)
+void	check_dir(t_parse **parser, t_env **env, char *file)
 {
-	t_parse	*temp;
-	int	i;
+	int		is_dir;
 
-	i = 0;
-	temp = parser;
-	if (!(parser)->arguments)
-		return (0);
-	while(temp->arguments[i] != NULL)
-		i++;
-	return (i);
-}
-
-void	get_execargs(char	*args, char **exec_arg, int	arr_i)
-{
-	int		i;
-
-	i = 0;
-	while (args[i] != '\0')
+	if (check_slash((*parser)->main_command) == 1)
 	{
-		exec_arg[arr_i][i] = args[i];
-		i++;
-	}
-}
-
-void	create_execargs(t_parse **parser)
-{
-	int		arg_len;
-	int		i;
-
-	i = 0;
-	arg_len = get_arg_len((*parser)) + 1;
-	(*parser)->exec_txt = ft_calloc(sizeof(char *), arg_len + 1);
-	while (arg_len > i)
-	{
-		if (i == 0)
-			(*parser)->exec_txt[i] = ft_strdup((*parser)->main_command);
-		else
-			(*parser)->exec_txt[i] = ft_strdup((*parser)->arguments[i - 1]);
-		i++;
-	}
-	(*parser)->exec_txt[i] = NULL;
-}
-
-
-char	*create_path_exec(t_parse **parser)
-{
-	char	*path;
-	char	*s;
-	int		i;
-
-	i = 0;
-	path = NULL;
-	s = NULL;
-	if ((*parser)->main_command[0] != '/')
-		s = ft_strjoin("/", (*parser)->main_command);
-	while ((*parser)->env_path && (*parser)->env_path[i] != NULL)
-	{
-		path = ft_strjoin((*parser)->env_path[i], s);
-		if(access(path, F_OK | X_OK) != 0)
+		file = remove_slash(file);
+		is_dir = ft_is_dir(file);
+		printf("file -> %s\n", file);
+		printf("is_dir -> %d\n",is_dir);
+		free_str(&file);
+		free_env(env);
+		free_parser(parser);
+		if (is_dir == 1 || is_dir == 0)
 		{
-			free_str(&path);
-			path = NULL;
+			if (is_dir == 1)
+				ft_putendl_fd("Is a directory", 2);
+			if (is_dir == 0)
+				ft_putendl_fd("Not a directory", 2);
+			exit (126);
 		}
-		else
-			break ;
-		i++;
+		exit (127);
 	}
-	free_str(&s);
-	return (path);
+}
+
+char	*temp_pwd_wsl(char *temp)
+{
+	int	i;
+	int	tempi;
+	char	*path = "/home/bkwamme/";
+	char	*pwd;
+
+	tempi = 0;
+	i = 0;
+	while (i != 3)
+	{
+		if (temp[tempi] == '/')
+			i++;
+		tempi++;
+	}
+	pwd = ft_strjoin(path, &temp[tempi]);
+	return (pwd);
+}
+
+char	*temp_actual_path_wsl(t_parse **parser, t_env **env)
+{
+	char	*file;
+	char	*temp;
+	char	*actual_path;
+	char	cwd[4097];
+
+	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), "/");
+	file = temp_pwd_wsl(temp);
+	free_str(&temp);
+	actual_path = ft_strjoin(file, (*parser)->main_command);
+	free_str(&file);
+	check_dir(parser, env, actual_path);
+	if (ft_is_dir(actual_path) == 1)
+	{
+		free_parser(parser);
+		free_env(env);
+		free_str(&actual_path);
+		ft_putendl_fd("Is a directory", 2);
+		exit(126);
+	}
+	return (actual_path);
+}
+
+char	*actual_path(t_parse **parser, t_env **env)
+{
+	char	*file;
+	char	*temp;
+	char	cwd[4097];
+
+
+	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), "/");
+	file = ft_strjoin(temp, (*parser)->main_command);
+	free_str(&temp);
+	check_dir(parser, env, file);
+	if (ft_is_dir(file) == 1)
+	{
+		free_parser(parser);
+		free_env(env);
+		free_str(&file);
+		ft_putendl_fd("Is a directory", 2);
+		exit(126);
+	}
+	return (file);
 }
 
 void	execution(t_parse **parser, t_env **env, char **envp)
@@ -78,16 +95,26 @@ void	execution(t_parse **parser, t_env **env, char **envp)
 	char	*path;
 
 	(void)env;
+	path = NULL;
+	if (ft_strcmp((*parser)->main_command, ".") == 0)
+	{
+		free_parser(parser);
+		free_env(env);
+		exit (2);
+	}
 	create_execargs(parser);
-	path = create_path_exec(parser);
-	if (access((*parser)->main_command, F_OK & X_OK) != 0 && !path)
+	if (ft_strncmp((*parser)->main_command, "./", 2) == 0
+		|| ft_strncmp((*parser)->main_command, "../", 3) == 0
+			|| check_slash((*parser)->main_command) == 1)
+		path = temp_actual_path_wsl(parser, env);
+	else
+		path = create_path_exec(parser);
+	if (!path)
 	{
 		free_parser(parser);
 		free_env(env);
 		exit (127);
 	}
-	if (!path)
-		execve((*parser)->main_command, (*parser)->exec_txt, envp);//must include exec_arguments in parser
-	else
+	if (ft_is_dir(path) == 0)
 		execve(path, (*parser)->exec_txt, envp);
 }

@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:32:12 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/09 01:32:58 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/13 14:22:37 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env	*add_export(t_env **env, char **arguments)
 	while (ft_strcmp(temp->name, "?") != 0)
 		temp = temp->next;
 	status = temp;
-	export = ft_calloc(sizeof(t_env), 1);
+	export = (t_env *) malloc(sizeof(t_env) * 1);
 	export->head = temp->head;
 	export->next = status;
 	export->name = get_env_name(arguments);
