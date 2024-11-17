@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_dir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:25:31 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/14 09:17:40 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/16 22:08:51 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_slash(char *path)
 	i = 0;
 	while (path[i] != '\0')
 		i++;
-	if (path[i - 1] == '/')
+	if (i > 0 && path[i - 1] == '/')
 		return (1);
 	return (0);
 }

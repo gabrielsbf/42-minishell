@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/16 23:28:44 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/16 23:51:35 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 /*(finished) Count the number of char * present on the vector.*/
-int count_arr_nb(char **str)
+int	count_arr_nb(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str == NULL)
@@ -13,13 +25,58 @@ int count_arr_nb(char **str)
 	return (i);
 }
 
+int	jump_special_char(char *line_read)
+{
+	int	i;
+
+	i = 0;
+	while (line_read[i] != '\0'
+		&& is_spchar(line_read + i))
+		i++;
+	return (i);
+}
+
+char	*exclude_spaces(char *line_sub)
+{
+	char	*line_return;
+	char	*temp_line;
+	int		i;
+	int		start;
+
+	i = 0;
+	start = 0;
+	line_return = NULL;
+	while (line_sub[i] != '\0')
+	{
+		while (line_sub[i] != '\0' && (!ft_isspace(line_sub[i])
+				|| is_btw_qts(line_sub, i)))
+			i++;
+		if (i != start)
+		{
+			if (line_sub[i] == '\0')
+				temp_line = substr_val(line_sub, start, i);
+			else
+				temp_line = substr_val(line_sub, start, i + 1);
+			line_return = inject_text(&line_return, &temp_line, NULL, NULL);
+			start = i;
+		}
+		if (line_sub[i] == '\0')
+			break ;
+		i++;
+		start++;
+	}
+	if (i != start)
+		temp_line = substr_val(line_sub, start, i);
+	line_return = inject_text(&line_return, &temp_line, NULL, NULL);
+	return (line_return);
+}
+
 /*
 (finished) This function do a realloc between two arrays of char pointers
 It will be on the sequence -> the first char ** will be at the
 start and the second will be at the end.
-****PUT IN MAYBE LIBFT(???)
 */
-char **ft_realloc_two_lists(char **str, char **str_new)
+char	**ft_realloc_two_lists(char **str, char **str_new)
 {
 	int		new_alloc;
 	int		i;
@@ -46,9 +103,8 @@ char **ft_realloc_two_lists(char **str, char **str_new)
 /*
 (finished) This function do a realloc of an array of char pointers and puts a new
 char pointer at the end of the array.
-****PUT IN MAYBE LIBFT(???)
 */
-char **ft_realloc_list_and_str(char **str, char *str_new)
+char	**ft_realloc_list_and_str(char **str, char *str_new)
 {
 	int		new_alloc;
 	int		i;
@@ -71,29 +127,5 @@ char **ft_realloc_list_and_str(char **str, char *str_new)
 	new_arr[i + 1] = NULL;
 	free_str(&str_new);
 	free_str_arr(str);
-	return new_arr;
+	return (new_arr);
 }
-
-/*
-(incomplete) This function will pass through the line_readed and will count how many arguments will exist
-(an argument is a word that is not between quotes or a sentence that is indeed between simple or double quotes.)
-*/
-int	count_args(char *line_read)
-{
-	int	count;
-	int	i;
-
-	i = 0;
-	count = 0;
-
-	/*Just to work - return will change*/
-	(void)count;
-	while(line_read[i] != '\0')
-	{
-		if (line_read[i+1])
-		i++;
-	}
-	/*Just to work - return will change*/
-	return (i);
-}
-

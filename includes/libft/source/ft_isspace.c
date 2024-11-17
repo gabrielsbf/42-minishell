@@ -5,8 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/30 19:22:34 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/06/30 19:22:35 by gabrfern         ###   ########.fr       */
+/*   Created: 2024/11/17 00:25:52 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/17 00:26:39 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+int	ft_isspace(char c)
+{
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
+}

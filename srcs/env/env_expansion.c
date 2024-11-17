@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/11 21:44:17 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/16 23:24:01 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	expansion_valid(char *text, int memory)
 {
 	if (heredoc_before(text, memory) == 0)
 		return (0);
-	if (is_between_quotes(text, memory) == 39
-		|| is_between_quotes(text, memory) == 78)
+	if (is_btw_qts(text, memory) == 39
+		|| is_btw_qts(text, memory) == 78)
 		return (0);
-	else if (is_between_quotes(text, memory))
+	else if (is_btw_qts(text, memory))
 		return (1);
 	else
 		return (1);

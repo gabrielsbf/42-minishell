@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:42:45 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/11 22:22:02 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/17 00:03:11 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,24 @@ void	replace_here(char **text_in, char *find, char *replace)
 		- ft_strlen(find) + ft_strlen(replace) + 2;
 	line_here = ft_strdup((*text_in));
 	free_str(text_in);
-	(*text_in) = ft_calloc(new_alloc,sizeof(char));
-	printf("len alloqued for text is: %d\n", new_alloc);
+	(*text_in) = ft_calloc(new_alloc, sizeof(char));
 	while (line_here[i_old] != '\0')
 	{
 		if (line_here[i_old] == '$')
 		{
 			if (ft_strncmp(&line_here[i_old + 1], find, ft_strlen(find)) == 0)
 			{
-				// printf("ENTERED IN THE EXPANSION MODULE\nreplacing %s to %s, on a %d len, index in i new is: %d and i_old is: %d\n", &(*text_in)[i_new], replace, (int)ft_strlen(replace)+1, i_new, i_old);
-				ft_strlcpy(&(*text_in)[i_new], replace, ft_strlen(replace)+1);
+				ft_strlcpy(&(*text_in)[i_new], replace, ft_strlen(replace) + 1);
 				i_new = i_new + ft_strlen(replace);
 				i_old = i_old + ft_strlen(find) + 1;
-				// printf("final of process\ni_new is %d and i_old is %d\n", i_new, i_old);
-				// printf("EXECUTED COPYSTR: newstring is: %s\n", (*text_in));
 			}
 		}
 		if (line_here[i_old] == '\0')
-			break;
-			// printf("line here is not null yet, char is: %d", line_here[i_old]);
+			break ;
 		(*text_in)[i_new] = line_here[i_old];
 		i_old++;
 		i_new++;
 	}
-	// printf("END OF WHILE LOOP - i_new is %d and , text is: %s\n", i_new, (*text_in));
 	free_str(&line_here);
 	if ((*text_in)[i_new] != '\0')
 		(*text_in)[i_new] = '\0';
@@ -61,7 +55,7 @@ int	expand_heredoc(char **text_in, int i_cipher, t_env **envs)
 	int		memory;
 
 	memory = i_cipher + 1;
-	while((*text_in)[memory] != '\0' && is_env_available((*text_in)[memory]))
+	while ((*text_in)[memory] != '\0' && is_env_available((*text_in)[memory]))
 		memory++;
 	env_name = substr_val((*text_in), i_cipher + 1, memory);
 	env_value = check_name_in_env(envs, env_name);
@@ -75,7 +69,7 @@ int	expand_heredoc(char **text_in, int i_cipher, t_env **envs)
 
 int	here_valid_qt(char *text, int memory)
 {
-	if (is_between_quotes(text, memory))
+	if (is_btw_qts(text, memory))
 		return (1);
 	else
 		return (1);
@@ -84,7 +78,7 @@ int	here_valid_qt(char *text, int memory)
 void	here_expansion(char **text, t_env **envs)
 {
 	int	i;
-	int expand_bool;
+	int	expand_bool;
 
 	i = 0;
 	while ((*text)[i] != '\0')
@@ -96,11 +90,7 @@ void	here_expansion(char **text, t_env **envs)
 		{
 			if (expand_heredoc(text, i, envs))
 				i = 0;
-			// printf("RESETED HEREDOC\nEXPANSION WAS FINISHED, text is: %s\n", (*text));
 		}
 		i++;
 	}
-	// printf("End of HERE EXPANSION -> Buffer is: %s\n", (*text));
 }
-
-
