@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   built_ins_manager.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:02:03 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:02:04 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 int	built_ins_manager(t_parse **parser, t_env **env)
@@ -9,9 +21,9 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 		return (0);
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		status = ft_echo(parser);
-	else if(ft_strncmp((*parser)->main_command, "exit", 5) == 0)
+	else if (ft_strncmp((*parser)->main_command, "exit", 5) == 0)
 		ft_exit(parser, env);
-	else if(ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
+	else if (ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
 		status = pwd(parser);
 	else if (ft_strncmp((*parser)->main_command, "cd", 3) == 0)
 		status = cd_manager((*parser)->arguments[0], env);
@@ -34,9 +46,9 @@ void	pipe_built_ins(t_parse **parser, t_env **env)
 	status = 0;
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		status = ft_echo(parser);
-	else if(ft_strncmp((*parser)->main_command, "exit", 5) == 0)
+	else if (ft_strncmp((*parser)->main_command, "exit", 5) == 0)
 		ft_exit(parser, env);
-	else if(ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
+	else if (ft_strncmp((*parser)->main_command, "pwd", 4) == 0)
 		status = pwd(parser);
 	else if (ft_strncmp((*parser)->main_command, "cd", 3) == 0)
 		status = cd_manager((*parser)->arguments[0], env);
@@ -50,5 +62,5 @@ void	pipe_built_ins(t_parse **parser, t_env **env)
 		return ;
 	free_parser(parser);
 	free_env(env);
-	exit (status);
+	exit(status);
 }

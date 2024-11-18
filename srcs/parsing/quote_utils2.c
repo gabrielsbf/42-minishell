@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quote_operation2.c                                 :+:      :+:    :+:   */
+/*   quote_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/16 23:52:57 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/16 23:54:30 by gabrfern         ###   ########.fr       */
+/*   Created: 2024/11/17 22:39:58 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/17 22:55:04 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,47 +72,15 @@ void	check_and_setvars(int *final, int *begin, char *ref, int proc)
 	}
 }
 
-int	is_quote(char c)
+void	set_positions(char *ref, int *begin, int *last, int *start)
 {
-	if (c == 34 || c == 39)
-		return (1);
-	else
-		return (0);
-}
-
-/*
-If
-RETURNS:
-* either 34 or 39 which means what quote the char is between
-* either 68(34 * 2) or 78(39 * 2) which means that the char is quote and
-* 0 if it's not between quotes
-*/
-int	is_btw_qts(char *line_read, int mem)
-{
-	int	iter;
-	int	prior;
-	int	lock;
-
-	iter = 0;
-	prior = 0;
-	lock = 0;
-	while (iter <= mem)
-	{
-		if ((line_read[iter] == 39
-				|| line_read[iter] == 34) && lock == 0)
-		{
-			prior = line_read[iter];
-			lock = 1;
-		}
-		else if (line_read[iter] == prior)
-		{
-			lock = 0;
-			prior = 0;
-		}
-		iter++;
-	}
-	if (prior == 0 && (line_read[mem] == 34 || line_read[mem] == 39))
-		return (line_read[mem] * 2);
-	else
-		return (prior);
+	while (*begin >= 0 && *begin > *start
+		&& !ft_isspace(ref[*begin]) && !is_quote(ref[*begin])
+		&& is_spchar(&ref[*begin]) == 0)
+		(*begin)--;
+	if (*begin == -1)
+		(*begin)++;
+	while (ref[*last] != '\0' && !ft_isspace(ref[*last])
+		&& !is_quote(ref[*last]) && is_spchar(&ref[*last]) == 0)
+		(*last)++;
 }

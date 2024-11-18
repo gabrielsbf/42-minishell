@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:16:42 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:16:43 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	heredoc_g_last_signal(char *limit, int fd)
@@ -21,7 +33,7 @@ void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env)
 		buffer = readline("> ");
 		heredoc_g_last_signal(limit, fd);
 		if (!buffer || !ft_strcmp(limit, buffer))
-			break;
+			break ;
 		else if (buffer)
 		{
 			here_expansion(&buffer, env);
@@ -33,6 +45,7 @@ void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env)
 		free_str(&buffer);
 	free_str(&limit);
 }
+
 void	sig_heredoc(int sig)
 {
 	if (sig == SIGINT)

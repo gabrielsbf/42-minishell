@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/17 00:31:13 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/17 22:53:33 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ int		necessary_change(char *line_sub);
 char	*join_str_val(char *init, char *end);
 char	*inject_text(char **start, char **end, char *prefend, char *sufend);
 void	inject_in_op(char **dst, char *ref, int *start, int *f_qt);
+void	set_positions(char *ref, int *begin, int *last, int *start);
 void	join_specific_quote(char **dst, char qt, int is_begin);
-void	quote_op(char *ref, char **dst, int *i, int *start);
-void	pre_quote(char *ref, char **dst, int *i, int *start);
 char	*exclude_spaces(char *line_sub);
 void	exclude_quotes(char **argument);
 char	*substr_val(char *s, int start, int final);

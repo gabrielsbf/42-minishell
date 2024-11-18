@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   function_listener.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:02:17 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:03:48 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	closing_fd(t_parse *parser)
 {
-	t_parse *temp;
+	t_parse	*temp;
 
 	temp = parser;
 	while (temp)
@@ -15,7 +27,7 @@ void	closing_fd(t_parse *parser)
 	}
 }
 
-void	dup_fds (t_parse *parser)
+void	dup_fds(t_parse *parser)
 {
 	if (parser->fd_in != STDIN_FILENO)
 		dup2(parser->fd_in, STDIN_FILENO);
@@ -23,14 +35,14 @@ void	dup_fds (t_parse *parser)
 		dup2(parser->fd_out, STDOUT_FILENO);
 }
 
-void	is_forking (t_parse **parser, t_parse *head, t_env **env, char **envp)
+void	is_forking(t_parse **parser, t_parse *head, t_env **env, char **envp)
 {
 	while ((*parser))
 	{
 		if ((*parser)->main_command == NULL)
 		{
 			(*parser) = (*parser)->next;
-			continue;
+			continue ;
 		}
 		(*parser)->pid = fork();
 		if ((*parser)->pid == 0)
@@ -49,9 +61,10 @@ void	is_forking (t_parse **parser, t_parse *head, t_env **env, char **envp)
 void	function_listener(t_parse **parser, t_env **env, char **envp)
 {
 	t_parse	*head;
+
 	head = (*parser);
 	if (!(*parser)->special_char && (built_ins_manager(parser, env) == 0
-		|| (*parser)->status != 0))
+			|| (*parser)->status != 0))
 	{
 		closing_fd(head);
 		return ;

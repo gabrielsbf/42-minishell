@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 15:25:31 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/16 22:08:51 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/18 01:07:10 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*remove_slash(char *file)
 	int		i;
 	int		last_slash;
 	char	*new_file;
+
 	i = 0;
 	while (file[i] != '\0')
 		i++;

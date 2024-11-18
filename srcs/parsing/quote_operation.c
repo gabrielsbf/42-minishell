@@ -6,30 +6,22 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 22:51:41 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/16 23:37:33 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:12:28 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	join_specific_quote(char **dst, char qt, int is_begin)
+static void	input_elements(char **dst, char *ref, int f_index, int l_index)
 {
-	char	*c;
-	char	*copy;
+	char	*temp;
 
-	copy = ft_strdup(*dst);
-	c = ft_calloc(sizeof(char), 2);
-	c[0] = qt;
-	free_str(dst);
-	if (is_begin == 1)
-		*dst = join_str_val(c, copy);
-	else
-		*dst = join_str_val(copy, c);
-	free_str(&copy);
-	free_str(&c);
+	temp = substr_val(ref, f_index, l_index);
+	(*dst) = inject_text(dst, &temp, NULL, NULL);
+	free_str(&temp);
 }
 
-void	pre_quote(char *ref, char **dst, int *i, int *start)
+static void	pre_quote(char *ref, char **dst, int *i, int *start)
 {
 	char	*temp;
 	char	quote;
@@ -53,43 +45,38 @@ void	pre_quote(char *ref, char **dst, int *i, int *start)
 	*start = sub;
 }
 
-void	quote_op(char *ref, char **dst, int *f_qt, int *start)
+static void	quote_op(char *ref, char **dst, int *f_qt, int *start)
 {
 	int		begin;
 	int		l_qt;
 	int		last;
-	char	*temp;
 	int		inc;
 
 	inc = ref[*f_qt];
 	while ((ref[*f_qt] == 34 || ref[*f_qt] == 39))
 	{
 		inject_in_op(dst, ref, start, f_qt);
-		temp = NULL;
 		begin = *f_qt;
 		l_qt = get_next_match(ref, *f_qt, ref[(*f_qt)]);
 		last = l_qt;
 		check_and_setvars(&last, &begin, ref, 1);
-		while (begin >= 0 && begin > *start
-			&& !ft_isspace(ref[begin]) && !is_quote(ref[begin])
-			&& is_spchar(&ref[begin]) == 0)
-			begin--;
-		if (begin == -1)
-			begin++;
-		while (ref[last] != '\0' && !ft_isspace(ref[last])
-			&& !is_quote(ref[last]) && is_spchar(&ref[last]) == 0)
-			last++;
-		temp = substr_val(ref, begin, (*f_qt) - 1);
-		(*dst) = inject_text(dst, &temp, NULL, NULL);
-		temp = substr_val(ref, (*f_qt) + 1, l_qt);
-		(*dst) = inject_text(dst, &temp, NULL, NULL);
-		temp = substr_val(ref, l_qt + 1, last);
-		(*dst) = inject_text(dst, &temp, NULL, NULL);
+		set_positions(ref, &begin, &last, start);
+		input_elements(dst, ref, begin, (*f_qt) - 1);
+		input_elements(dst, ref, (*f_qt) + 1, l_qt);
+		input_elements(dst, ref, l_qt + 1, last);
 		check_and_setvars(&last, f_qt, ref, 0);
 		set_vars(ref, f_qt, start, last);
 	}
 	if (inc == 34 || inc == 39)
 		join_specific_quote(dst, inc, 0);
+}
+
+static void	init_quote_vars(char **l_return, char **t_line, int *i, int *start)
+{
+	*t_line = NULL;
+	*l_return = NULL;
+	*i = 0;
+	*start = 0;
 }
 
 char	*join_quotes(char *line_pre)
@@ -100,11 +87,8 @@ char	*join_quotes(char *line_pre)
 	int		i;
 	int		start;
 
-	temp_line = NULL;
-	line_return = NULL;
+	init_quote_vars(&line_return, &temp_line, &i, &start);
 	line_sub = exclude_spaces(line_pre);
-	i = 0;
-	start = 0;
 	if (necessary_change(line_sub) == 0)
 		return (line_sub);
 	while (line_sub[i] != '\0')
@@ -120,25 +104,4 @@ char	*join_quotes(char *line_pre)
 	line_return = inject_text(&line_return, &temp_line, NULL, NULL);
 	free_str(&line_sub);
 	return (line_return);
-}
-
-void	exclude_quotes(char **argument)
-{
-	char	*copy_text;
-	int		i;
-	char	flag;
-
-	if (!(*argument))
-		return ;
-	i = 1;
-	flag = (*argument)[0];
-	copy_text = NULL;
-	if ((*argument)[0] != 39 && (*argument)[0] != 34)
-		return ;
-	copy_text = ft_strdup((*argument));
-	free_str(argument);
-	while (copy_text[i] != '\0' && (copy_text[i]) != flag)
-		i++;
-	(*argument) = ft_substr(copy_text, 1, i - 1);
-	free_str(&copy_text);
 }
