@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:33:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/16 23:47:27 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/18 19:55:10 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,14 @@ int	set_main_command(t_parse **parser, char *line_read)
 		else
 			i_spc++;
 	}
-	while (line_read[i_spc + i] != '\0' && (is_btw_qts(line_read, i_spc + i) > 0
-			|| !ft_isspace(line_read[i_spc + i]))
+	while (line_read[i_spc + i] != '\0' && !ft_isspace(line_read[i_spc + i])
 		&& !is_spchar(&line_read[i_spc + i]))
 		i++;
 	while (is_btw_qts(line_read, i_spc + i) > 0)
 		i++;
-	if (!is_blank_substr(line_read, i_spc, i_spc + i))
-		(*parser)->main_command = ft_substr(line_read, i_spc, i);
+	if (is_blank_substr(line_read, i_spc, i_spc + i) || i == 0)
+		return (0);
+	(*parser)->main_command = ft_substr(line_read, i_spc, i);
 	exclude_quotes(&(*parser)->main_command);
 	return (i_spc + i);
 }
