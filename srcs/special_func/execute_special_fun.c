@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_special_fun.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:12:10 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:12:11 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 char	*get_end_line(char *eof)
@@ -9,8 +21,8 @@ char	*get_end_line(char *eof)
 	while (ft_isspace(eof[i]))
 		i++;
 	len = i;
-	while (eof[len] != '\0' &&
-		!ft_isspace(eof[len]))
+	while (eof[len] != '\0'
+		&& !ft_isspace(eof[len]))
 		len++;
 	return (ft_substr(eof, i, len - i));
 }
@@ -75,7 +87,7 @@ void	sp_char_exec(t_parse **parser, t_env **env)
 
 	temp = (*parser);
 	if (temp->special_char != NULL)
-			pipe_handler(parser);
+		pipe_handler(parser);
 	while (temp)
 	{
 		redir_i = 0;

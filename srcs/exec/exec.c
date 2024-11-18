@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:05:18 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:05:19 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	check_dir(t_parse **parser, t_env **env, char *file)
@@ -9,7 +21,7 @@ void	check_dir(t_parse **parser, t_env **env, char *file)
 		file = remove_slash(file);
 		is_dir = ft_is_dir(file);
 		printf("file -> %s\n", file);
-		printf("is_dir -> %d\n",is_dir);
+		printf("is_dir -> %d\n", is_dir);
 		free_str(&file);
 		free_env(env);
 		free_parser(parser);
@@ -27,8 +39,8 @@ void	check_dir(t_parse **parser, t_env **env, char *file)
 
 char	*temp_pwd_wsl(char *temp)
 {
-	int	i;
-	int	tempi;
+	int		i;
+	int		tempi;
 	char	*path = "/home/bkwamme/";
 	char	*pwd;
 
@@ -79,7 +91,6 @@ char	*actual_path(t_parse **parser, t_env **env)
 	char	*temp;
 	char	cwd[4097];
 
-
 	temp = ft_strjoin(getcwd(cwd, sizeof(cwd)), "/");
 	file = ft_strjoin(temp, (*parser)->main_command);
 	free_str(&temp);
@@ -110,7 +121,7 @@ void	execution(t_parse **parser, t_env **env, char **envp)
 	create_execargs(parser);
 	if (ft_strncmp((*parser)->main_command, "./", 2) == 0
 		|| ft_strncmp((*parser)->main_command, "../", 3) == 0
-			|| check_slash((*parser)->main_command) == 1)
+		|| check_slash((*parser)->main_command) == 1)
 		path = temp_actual_path_wsl(parser, env);
 	else
 		path = create_path_exec(parser);

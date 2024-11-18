@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:07:51 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:08:04 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	free_env(t_env **env)
@@ -21,15 +33,10 @@ void	free_env(t_env **env)
 
 void	free_str(char **str)
 {
-	// printf("\n--------FREE STRING--------\n");
-	// printf("address: %p is being deallocated\n", (*str));
-	if (!(str)|| !(*str))
+	if (!(str) || !(*str))
 		return ;
-	// printf("string is: %s\n", *str);
 	free((*str));
 	(*str) = NULL;
-	// printf("confirm null: %s\n", *str);
-	// printf("--------END OF FREE--------\n\n");
 }
 
 void	free_str_arr(char **args)

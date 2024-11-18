@@ -1,18 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/18 01:13:10 by gabrfern          #+#    #+#             */
+/*   Updated: 2024/11/18 01:15:09 by gabrfern         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-/*redirect incomplete*/
 
 char	*get_redir_name(char	*redir)
 {
-	int	i;
-	int	file_i;
+	int		i;
+	int		file_i;
 	char	*file_name;
 
 	file_i = 0;
 	i = 0;
 	while (redir[i] != '\0')
 	{
-		if (redir[i] != '<' && redir[i] != '>' &&
-		(redir[i] != ' ' || is_between_quotes(redir, i) > 0))
+		if (redir[i] != '<' && redir[i] != '>'
+			&& (redir[i] != ' ' || is_btw_qts(redir, i) > 0))
 			file_i++;
 		i++;
 	}
@@ -21,10 +32,9 @@ char	*get_redir_name(char	*redir)
 	file_i = -1;
 	while (redir[i] != '\0')
 	{
-		if (redir[i] != '<' && redir[i] != '>' &&
-		(redir[i] != ' ' || is_between_quotes(redir, i) > 0))
+		if (redir[i] != '<' && redir[i] != '>'
+			&& (redir[i] != ' ' || is_btw_qts(redir, i) > 0))
 			file_name[++file_i] = redir[i];
-
 		i++;
 	}
 	exclude_quotes(&file_name);
@@ -35,9 +45,7 @@ void	redirect(t_parse **parser, int redir_i)
 {
 	char	*file_name;
 
-	printf("ENTREI NO REDIRECT\n");
 	file_name = get_redir_name((*parser)->redir[redir_i]);
-	printf("FD OUT É -> %d\n", (*parser)->fd_out);
 	if ((*parser)->fd_out != 1)
 		close((*parser)->fd_out);
 	(*parser)->fd_out = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0777);

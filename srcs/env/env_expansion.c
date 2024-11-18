@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:56 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/11 21:44:17 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/18 00:56:35 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ int	expansion_valid(char *text, int memory)
 {
 	if (heredoc_before(text, memory) == 0)
 		return (0);
-	if (is_between_quotes(text, memory) == 39
-		|| is_between_quotes(text, memory) == 78)
+	if (is_btw_qts(text, memory) == 39
+		|| is_btw_qts(text, memory) == 78)
 		return (0);
-	else if (is_between_quotes(text, memory))
+	else if (is_btw_qts(text, memory))
 		return (1);
 	else
 		return (1);
@@ -84,24 +84,3 @@ void	env_and_quotes(t_parse **parser, char **text, t_env **envs)
 	free_str(&quotes_hand);
 	free_str(text);
 }
-
-// char	*env_and_quotes(t_parse **parser, t_env **envs)
-// {
-// 	int		i;
-// 	char	*text;
-// 	t_parse **head;
-
-// 	head = parser;
-// 	i = 0;
-// 	while ((*parser) != NULL)
-// 	{
-// 		while ((*parser)->arguments[i] != NULL)
-// 		{
-// 			text = (*parser)->arguments[i];
-// 			hand_cipher(parser, text, i, envs);
-// 			i++;
-// 		}
-// 		(parser) = &(*parser)->next;
-// 	}
-// 	(parser) = head;
-// }

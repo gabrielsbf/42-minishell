@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:45:39 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/11 22:05:59 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/17 23:57:57 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,11 @@ char	*check_name_in_env(t_env **envs, char *name)
 	if (swap == NULL)
 		return (NULL);
 	return (swap->value);
+}
+
+int	is_env_available(char c)
+{
+	if (ft_isalnum(c) || c == '_' || c == '?')
+		return (1);
+	return (0);
 }

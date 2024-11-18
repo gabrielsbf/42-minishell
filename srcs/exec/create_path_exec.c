@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   create_path_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:23:59 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/14 10:18:23 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/18 01:06:25 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	get_execargs(char	*args, char **exec_arg, int	arr_i)
+void	get_execargs(char *args, char **exec_arg, int arr_i)
 {
 	int		i;
 
@@ -59,7 +59,7 @@ char	*create_path_exec(t_parse **parser)
 	while ((*parser)->env_path && (*parser)->env_path[i] != NULL)
 	{
 		path = ft_strjoin((*parser)->env_path[i], s);
-		if(ft_is_dir(path) == 1 || access(path, F_OK & X_OK) != 0)
+		if (ft_is_dir(path) == 1 || access(path, F_OK & X_OK) != 0)
 		{
 			free_str(&path);
 			path = NULL;
