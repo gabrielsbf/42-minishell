@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_special_fun.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:12:10 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 01:12:11 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:11:42 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	heredoc_exec(t_parse *parser, int redir_i, t_env **env)
 	waitpid(parser->pid, NULL, 0);
 } */
 
-void	run_redir(t_parse *temp, int redir_i, t_env **env)
+void	run_redir(t_parse *temp, int redir_i, t_env **env, t_parse *head)
 {
 	if (temp->redir[redir_i][0] == '>' && (temp->redir[redir_i][1] != '>'
 		&& temp->redir[redir_i][1] != '<'))
@@ -77,14 +77,16 @@ void	run_redir(t_parse *temp, int redir_i, t_env **env)
 	if (temp->redir[redir_i][0] == '>' && temp->redir[redir_i][1] == '>')
 		append(&temp, redir_i);
 	if (temp->redir[redir_i][0] == '<' && temp->redir[redir_i][1] == '<')
-		heredoc_exec(&temp, redir_i, env);
+		heredoc_exec(&temp, redir_i, env, head);
 }
 
 void	sp_char_exec(t_parse **parser, t_env **env)
 {
 	int		redir_i;
 	t_parse	*temp;
+	t_parse	*head;
 
+	head = (*parser);
 	temp = (*parser);
 	if (temp->special_char != NULL)
 		pipe_handler(parser);
@@ -100,7 +102,7 @@ void	sp_char_exec(t_parse **parser, t_env **env)
 			return ;
 		while (temp->redir[redir_i])
 		{
-			run_redir(temp, redir_i, env);
+			run_redir(temp, redir_i, env, head);
 			redir_i++;
 		}
 		temp = temp->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   function_listener.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:02:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 01:03:48 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/18 22:04:22 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,17 @@ void	closing_fd(t_parse *parser)
 	temp = parser;
 	while (temp)
 	{
+		printf("fd in -> %d\n fd out -> %d\n", temp->fd_in, temp->fd_out);
 		if (temp->fd_in != STDIN_FILENO)
+		{
+			printf("closing in-> %d\n", temp->fd_in);
 			close(temp->fd_in);
+		}
 		if (temp->fd_out != STDOUT_FILENO)
+		{
+			printf("closing out-> %d\n", temp->fd_out);
 			close(temp->fd_out);
+		}
 		temp = temp->next;
 	}
 }
@@ -49,7 +56,7 @@ void	is_forking(t_parse **parser, t_parse *head, t_env **env, char **envp)
 		{
 			signal(SIGQUIT, SIG_DFL);
 			signal(SIGINT, SIG_DFL);
-			pipe_built_ins(parser, env);
+			pipe_built_ins(parser, env, head);
 			dup_fds((*parser));
 			closing_fd(head);
 			execution(parser, env, envp);
@@ -66,15 +73,17 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 	if (!(*parser)->special_char && (built_ins_manager(parser, env) == 0
 			|| (*parser)->status != 0))
 	{
+		printf("BUiLTINS SEM FORK\n");
 		closing_fd(head);
 		return ;
 	}
 	printf("passed fork\n");
 	is_forking(parser, head, env, envp);
+	printf("in main process\n");
 	(*parser) = head;
+	closing_fd(head);
 	while ((*parser))
 	{
-		closing_fd(head);
 		waitpid((*parser)->pid, &(*parser)->status, 0);
 		update_env_status(env, WEXITSTATUS((*parser)->status));
 		throw_error(WEXITSTATUS((*parser)->status));
