@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   create_path_exec.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 18:23:59 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/18 01:06:25 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/20 01:12:18 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	get_arg_len(t_parse *parser)
+{
+	t_parse	*temp;
+	int		i;
+
+	i = 0;
+	temp = parser;
+	if (!(parser)->arguments)
+		return (0);
+	while (temp->arguments[i] != NULL)
+		i++;
+	return (i);
+}
 
 void	get_execargs(char *args, char **exec_arg, int arr_i)
 {

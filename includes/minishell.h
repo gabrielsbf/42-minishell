@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/19 18:49:15 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/20 01:08:46 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*separate_line_read(char *line_sub);
 int		expansion_valid(char *text, int memory);
 int		expand_variable(char **text, int i_cipher, t_env **envs);
 void	env_and_quotes(t_parse **parser, char **text, t_env **envs);
-void		replace_text(char **text, char *find, char *replace);
+void	replace_text(char **text, char *find, char *replace);
 // void	hand_cipher(t_parse **parser, char *text, int argument, t_env **envs);
 char	*check_name_in_env(t_env **envs, char *name);
 //------Debug Function------ To Print
