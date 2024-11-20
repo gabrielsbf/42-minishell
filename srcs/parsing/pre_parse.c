@@ -6,7 +6,7 @@
 /*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 22:26:39 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/16 23:24:01 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/19 23:33:29 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ returns (3): >> or <<
 
 if results to 0 it means it's not a special char
 */
-
 int	is_spchar(char *stretch)
 {
 	if (stretch[0] == '\0')

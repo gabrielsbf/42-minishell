@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
+/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:33:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/19 18:49:30 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 23:49:41 by gabrfern         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int	set_main_command(t_parse **parser, char *line_read)
 	i = 0;
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
-	while (!is_btw_qts(line_read, i_spc + i) && (ft_isspace(line_read[i_spc]
-				|| is_spchar(&line_read[i_spc]) >= 2)))
+	while (is_btw_qts(line_read, i_spc) == 0 && (ft_isspace(line_read[i_spc])
+				|| is_spchar(&line_read[i_spc]) >= 2))
 	{
 		if (is_spchar(&line_read[i_spc]) >= 2)
 			i_spc = get_redirect_part(parser, line_read, i_spc);
