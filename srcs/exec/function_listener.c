@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:02:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 22:04:22 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 19:05:33 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,24 @@ void	closing_fd(t_parse *parser)
 	temp = parser;
 	while (temp)
 	{
-		printf("fd in -> %d\n fd out -> %d\n", temp->fd_in, temp->fd_out);
+		if (temp->fd_hdoc != 0)
+			close(temp->fd_hdoc);
 		if (temp->fd_in != STDIN_FILENO)
-		{
-			printf("closing in-> %d\n", temp->fd_in);
 			close(temp->fd_in);
-		}
 		if (temp->fd_out != STDOUT_FILENO)
-		{
-			printf("closing out-> %d\n", temp->fd_out);
 			close(temp->fd_out);
-		}
 		temp = temp->next;
 	}
 }
 
 void	dup_fds(t_parse *parser)
 {
+	if (parser->fd_hdoc != 0)
+	{
+		close(parser->fd_in);
+		parser->fd_in = parser->fd_hdoc;
+		parser->fd_hdoc = 0;
+	}
 	if (parser->fd_in != STDIN_FILENO)
 		dup2(parser->fd_in, STDIN_FILENO);
 	if (parser->fd_out != STDOUT_FILENO)
@@ -74,6 +75,7 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 			|| (*parser)->status != 0))
 	{
 		printf("BUiLTINS SEM FORK\n");
+		printf("status = %d\n", (*parser)->status);
 		closing_fd(head);
 		return ;
 	}

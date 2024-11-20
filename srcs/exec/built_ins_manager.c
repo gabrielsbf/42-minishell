@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:02:03 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 22:32:22 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 18:58:35 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	pipe_built_ins(t_parse **parser, t_env **env, t_parse *head)
 {
 	int	status;
 
-	printf("%s\n", (*parser)->command_text);
 	status = 0;
 	if (ft_strncmp((*parser)->main_command, "echo", 5) == 0)
 		status = ft_echo(parser);

@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/18 21:06:04 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 18:49:15 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct parsing
 	char			**env_path;
 	int				fd_in;
 	int				fd_out;
+	int				fd_hdoc;
 	int				status;
 	int				pid;
 	struct parsing	*next;

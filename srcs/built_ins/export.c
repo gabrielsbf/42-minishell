@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:32:12 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/14 12:01:27 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 22:14:12 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,21 @@ t_env	*add_export(t_env **env, char **arguments)
 
 int	is_export_updated(t_env *env, char	**arguments)
 {
-	while (env && ft_strcmp(env->next->name, "?") != 0)
+	char	*name;
+
+	name = get_env_name(arguments);
+	while (env && ft_strcmp(env->name, "?") != 0)
 	{
-		if (ft_strcmp(env->name, *arguments) == 0)
+		if (ft_strcmp(env->name, name) == 0)
 		{
+			free_str(&env->value);
 			env->value = get_env_value(arguments);
+			free_str(&name);
 			return (1);
 		}
 		env = env->next;
 	}
+	free_str(&name);
 	return (0);
 }
 

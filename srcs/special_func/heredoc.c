@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:16:42 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 21:39:45 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 18:52:11 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,10 @@ void	heredoc_exec(t_parse **parser, int redir_i, t_env **env, t_parse *head)
 		free_env(env);
 		exit(0);
 	}
+	waitpid((*parser)->pid, NULL, 0);
 	close(fd_hdoc[1]);
-	if ((*parser)->fd_in != STDIN_FILENO)
-	{
-		close((*parser)->fd_in);
-		printf("fechando esse fd ->%d\n", (*parser)->fd_in);
-	}
-	(*parser)->fd_in = fd_hdoc[0];
+	if ((*parser)->fd_hdoc != 0)
+		close((*parser)->fd_hdoc);
+	(*parser)->fd_hdoc = fd_hdoc[0];
 	waitpid((*parser)->pid, NULL, 0);
 }
