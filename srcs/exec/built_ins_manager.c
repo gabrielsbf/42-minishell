@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins_manager.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:02:03 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 01:02:04 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:58:35 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	built_ins_manager(t_parse **parser, t_env **env)
 	return (0);
 }
 
-void	pipe_built_ins(t_parse **parser, t_env **env)
+void	pipe_built_ins(t_parse **parser, t_env **env, t_parse *head)
 {
 	int	status;
 
@@ -60,6 +60,7 @@ void	pipe_built_ins(t_parse **parser, t_env **env)
 		unset_from_env(env, (*parser)->arguments);
 	else
 		return ;
+	closing_fd(head);
 	free_parser(parser);
 	free_env(env);
 	exit(status);

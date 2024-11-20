@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:16:42 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 01:16:43 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:52:11 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	sig_heredoc(int sig)
 	}
 }
 
-void	heredoc_exec(t_parse **parser, int redir_i, t_env **env)
+void	heredoc_exec(t_parse **parser, int redir_i, t_env **env, t_parse *head)
 {
 	int		fd_hdoc[2];
 
@@ -71,6 +71,7 @@ void	heredoc_exec(t_parse **parser, int redir_i, t_env **env)
 	(*parser)->pid = fork();
 	if ((*parser)->pid == 0)
 	{
+		closing_fd(head);
 		close(fd_hdoc[0]);
 		signal(SIGINT, sig_heredoc);
 		read_heredoc(parser, redir_i, fd_hdoc[1], env);
@@ -79,7 +80,10 @@ void	heredoc_exec(t_parse **parser, int redir_i, t_env **env)
 		free_env(env);
 		exit(0);
 	}
+	waitpid((*parser)->pid, NULL, 0);
 	close(fd_hdoc[1]);
-	(*parser)->fd_in = fd_hdoc[0];
+	if ((*parser)->fd_hdoc != 0)
+		close((*parser)->fd_hdoc);
+	(*parser)->fd_hdoc = fd_hdoc[0];
 	waitpid((*parser)->pid, NULL, 0);
 }

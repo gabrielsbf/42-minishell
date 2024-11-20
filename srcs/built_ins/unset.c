@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:33:28 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/14 11:17:18 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 22:24:33 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,25 @@ void	envnode_sewing(t_env **env, char **splitted_instructions)
 {
 	t_env	*prev_node;
 	t_env	*node_remover;
+	t_env	*head;
 
+	head = (*env);
 	node_remover = NULL;
 	prev_node = (*env);
 	while ((*env) != NULL)
 	{
-		if (ft_strcmp((*env)->name, *splitted_instructions)
-			== 0)
+		if (ft_strcmp((*env)->name, *splitted_instructions) == 0)
 		{
 			node_remover = (*env);
-			if ((*env)->next == NULL)
-				prev_node->next = NULL;
-			else
-			{
-				(*env) = (*env)->next;
-				prev_node->next = (*env);
-			}
+			(*env) = (*env)->next;
+			prev_node->next = (*env);
 			free_env_node(node_remover);
 			break ;
 		}
 		prev_node = (*env);
 		(*env) = (*env)->next;
 	}
-	(*env) = prev_node->head;
+	(*env) = head;
 }
 
 void	define_new_head(t_env **env)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:46:46 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/17 22:53:33 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:49:15 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct parsing
 	char			**env_path;
 	int				fd_in;
 	int				fd_out;
+	int				fd_hdoc;
 	int				status;
 	int				pid;
 	struct parsing	*next;
@@ -147,7 +148,7 @@ int		export_to_env(t_env **env, char **arguments);
 void	unset_from_env(t_env **env, char **arguments);
 void	function_listener(t_parse **parser, t_env **env, char **envp);
 int		built_ins_manager(t_parse **parser, t_env **env);
-void	pipe_built_ins(t_parse **parser, t_env **env);
+void	pipe_built_ins(t_parse **parser, t_env **env, t_parse *head);
 // free utils
 void	free_str_arr(char **args);
 void	free_env(t_env **env);
@@ -162,7 +163,7 @@ void	redirect_in(t_env **env, t_parse **parser, int redir_i);
 int		pipe_handler(t_parse **parser);
 void	sp_char_exec(t_parse **parser, t_env **env);
 void	read_heredoc(t_parse **parser, int redir_i, int fd, t_env **env);
-void	heredoc_exec(t_parse **parser, int redir_i, t_env **env);
+void	heredoc_exec(t_parse **parser, int redir_i, t_env **env, t_parse *head);
 //exit utils
 void	sigquit_exit(t_env **env, t_parse **parser);
 void	non_numeric_exit(t_env **env, t_parse **parser);
@@ -174,6 +175,7 @@ void	create_execargs(t_parse **parser);
 char	*create_path_exec(t_parse **parser);
 int		get_arg_len(t_parse *parser);
 void	execution(t_parse **parser, t_env **env, char **envp);
+void	closing_fd(t_parse *parser);
 // status
 void	throw_error(int status);
 //maybe libft

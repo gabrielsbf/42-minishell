@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:33:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/18 19:55:10 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/19 18:49:30 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_parse	*init_parse(char *line_read, char *cmd_str, t_parse *head, t_env **env)
 	parser_init->special_char = NULL;
 	parser_init->head = head;
 	parser_init->status = 0;
+	parser_init->fd_hdoc = 0;
 	parser_init->pid = getpid();
 	parser_init->arguments = (char **)malloc(sizeof(char *));
 	parser_init->arguments[0] = NULL;

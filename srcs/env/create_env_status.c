@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:36:51 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/13 14:21:17 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/19 22:16:56 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	update_env_status(t_env **env, int status)
 	temp = (*env);
 	while (temp->next)
 	{
-		temp = temp->next;
 		if (temp->next == NULL)
 		{
 			free_str(&temp->value);
 			temp->value = ft_itoa(status);
 		}
+		temp = temp->next;
 	}
 }
 
