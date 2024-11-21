@@ -4,7 +4,7 @@ RM = rm -rf
 COMPILER = cc -Wall -Wextra -Werror
 
 DIR_OBJS = builds/
-DIR_SRCS = srcs/
+DIR_SRCS = srcs/final_v
 DIR_INCLUDES = includes/
 LIBFT_A = includes/libft/libft.a
 SUPP_FILE = readline.supp
