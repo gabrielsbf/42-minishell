@@ -6,7 +6,7 @@
 /*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:02:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/19 19:05:33 by bkwamme          ###   ########.fr       */
+/*   Updated: 2024/11/20 01:24:16 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	function_listener(t_parse **parser, t_env **env, char **envp)
 	}
 	printf("passed fork\n");
 	is_forking(parser, head, env, envp);
-	printf("in main process\n");
 	(*parser) = head;
 	closing_fd(head);
 	while ((*parser))
