@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 01:05:18 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/21 20:01:56 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/22 20:34:48 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,27 @@ char	*actual_path(t_parse **parser, t_env **env)
 	return (file);
 }
 
+static void	only_dot_handle(t_parse **parser, t_env **env)
+{
+	free_parser(parser);
+	free_env(env);
+	exit (2);
+}
+
+static void	realloc_path(char **main_cmd, char *path)
+{
+	free_str(main_cmd);
+	*main_cmd = ft_strdup(path);
+	free_str(&path);
+}
+
 void	execution(t_parse **parser, t_env **env, char **envp)
 {
 	char	*path;
 
-	(void)env;
 	path = NULL;
 	if (ft_strcmp((*parser)->main_command, ".") == 0)
-	{
-		free_parser(parser);
-		free_env(env);
-		exit (2);
-	}
+		only_dot_handle(parser, env);
 	create_execargs(parser);
 	if (ft_strncmp((*parser)->main_command, "./", 2) == 0
 		|| ft_strncmp((*parser)->main_command, "../", 3) == 0
@@ -76,12 +85,16 @@ void	execution(t_parse **parser, t_env **env, char **envp)
 	else
 		path = create_path_exec(parser);
 	if (access((*parser)->main_command, F_OK | X_OK) == 0)
+	{
+		free_str(&path);
 		execve((*parser)->main_command, (*parser)->exec_txt, envp);
+	}
 	if (!path)
 	{
 		free_parser(parser);
 		free_env(env);
 		exit (127);
 	}
-	execve(path, (*parser)->exec_txt, envp);
+	realloc_path(&(*parser)->main_command, path);
+	execve((*parser)->main_command, (*parser)->exec_txt, envp);
 }

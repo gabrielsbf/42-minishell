@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_parse.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 23:33:17 by gabrfern          #+#    #+#             */
-/*   Updated: 2024/11/21 19:56:02 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/22 19:34:48 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 	while (is_btw_qts(line_read, i_spc + i) > 0)
 		i++;
 	if (is_blank_substr(line_read, i_spc, i_spc + i) || i == 0)
-		return (0);
+		return (i + i_spc);
 	(*parser)->main_command = ft_substr(line_read, i_spc, i);
 	exclude_quotes(&(*parser)->main_command);
 	return (i_spc + i);
