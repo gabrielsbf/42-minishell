@@ -12,6 +12,20 @@
 
 #include "../../../includes/minishell.h"
 
+int	get_arg_len(t_parse *parser)
+{
+	t_parse	*temp;
+	int		i;
+
+	i = 0;
+	temp = parser;
+	if (!(parser)->arguments)
+		return (0);
+	while (temp->arguments[i] != NULL)
+		i++;
+	return (i);
+}
+
 void	get_execargs(char *args, char **exec_arg, int arr_i)
 {
 	int		i;

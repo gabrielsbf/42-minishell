@@ -99,7 +99,7 @@ int	set_main_command(t_parse **parser, char *line_read)
 	while (line_read[i_spc] != '\0' && ft_isspace(line_read[i_spc]))
 		i_spc++;
 	while (is_btw_qts(line_read, i_spc) == 0 && (ft_isspace(line_read[i_spc])
-				|| is_spchar(&line_read[i_spc]) >= 2))
+			|| is_spchar(&line_read[i_spc]) >= 2))
 	{
 		if (is_spchar(&line_read[i_spc]) >= 2)
 			i_spc = get_redirect_part(parser, line_read, i_spc);

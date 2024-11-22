@@ -12,20 +12,6 @@
 
 #include "../../../includes/minishell.h"
 
-int	get_arg_len(t_parse *parser)
-{
-	t_parse	*temp;
-	int		i;
-
-	i = 0;
-	temp = parser;
-	if (!(parser)->arguments)
-		return (0);
-	while (temp->arguments[i] != NULL)
-		i++;
-	return (i);
-}
-
 void	sigquit_exit(t_env **env, t_parse **parser)
 {
 	free_env(env);
@@ -50,6 +36,14 @@ void	many_args_exit(t_env **env, t_parse **parser)
 	exit(1);
 }
 
+static void	validate_exit(t_parse **parser, t_env **env)
+{
+	if (!parser)
+		sigquit_exit(env, parser);
+	if (get_arg_len((*parser)) > 1)
+		many_args_exit(env, parser);
+}
+
 void	ft_exit(t_parse **parser, t_env **env)
 {
 	int	temp;
@@ -57,10 +51,7 @@ void	ft_exit(t_parse **parser, t_env **env)
 
 	clear_history();
 	temp = 0;
-	if (!parser)
-		sigquit_exit(env, parser);
-	if (get_arg_len((*parser)) > 1)
-		many_args_exit(env, parser);
+	validate_exit(parser, env);
 	if (get_arg_len((*parser)) == 1)
 	{
 		i = 0;
