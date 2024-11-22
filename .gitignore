@@ -7,3 +7,4 @@ minishell
 readline.supp
 .nfs*supressions.supp
 supressions.supp
+*.html

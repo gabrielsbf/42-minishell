@@ -19,12 +19,12 @@ void	update_env_status(t_env **env, int status)
 	temp = (*env);
 	while (temp->next)
 	{
+		temp = temp->next;
 		if (temp->next == NULL)
 		{
 			free_str(&temp->value);
 			temp->value = ft_itoa(status);
 		}
-		temp = temp->next;
 	}
 }
 
