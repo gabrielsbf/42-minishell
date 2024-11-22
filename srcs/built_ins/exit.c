@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabrfern <gabrfern@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bkwamme <bkwamme@student.42.rio>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:31:19 by bkwamme           #+#    #+#             */
-/*   Updated: 2024/11/18 00:59:22 by gabrfern         ###   ########.fr       */
+/*   Updated: 2024/11/20 01:20:08 by bkwamme          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	get_arg_len(t_parse *parser)
-{
-	t_parse	*temp;
-	int		i;
-
-	i = 0;
-	temp = parser;
-	if (!(parser)->arguments)
-		return (0);
-	while (temp->arguments[i] != NULL)
-		i++;
-	return (i);
-}
 
 void	sigquit_exit(t_env **env, t_parse **parser)
 {
@@ -50,10 +36,23 @@ void	many_args_exit(t_env **env, t_parse **parser)
 	exit(1);
 }
 
+int	verify_num_exit(t_parse **parser, t_env **env)
+{
+	int	i;
+
+	i = 0;
+	while ((*parser)->arguments[0][i])
+	{
+		if (ft_isdigit((*parser)->arguments[0][i]) == 0)
+			non_numeric_exit(env, parser);
+		i++;
+	}
+	return (ft_atoi((*parser)->arguments[0]));
+}
+
 void	ft_exit(t_parse **parser, t_env **env)
 {
 	int	temp;
-	int	i;
 
 	clear_history();
 	temp = 0;
@@ -62,16 +61,7 @@ void	ft_exit(t_parse **parser, t_env **env)
 	if (get_arg_len((*parser)) > 1)
 		many_args_exit(env, parser);
 	if (get_arg_len((*parser)) == 1)
-	{
-		i = 0;
-		while ((*parser)->arguments[0][i])
-		{
-			if (ft_isdigit((*parser)->arguments[0][i]) == 0)
-				non_numeric_exit(env, parser);
-			i++;
-		}
-		temp = ft_atoi((*parser)->arguments[0]);
-	}
+		temp = verify_num_exit(parser, env);
 	free_env(env);
 	free_parser(parser);
 	ft_putendl_fd("exit", STDOUT_FILENO);
